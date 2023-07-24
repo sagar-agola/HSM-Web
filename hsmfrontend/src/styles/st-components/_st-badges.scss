@@ -1,0 +1,40 @@
+@import '../st-base/st-variables';
+
+.badge {
+    font-weight: 400;
+}
+
+.badge-warning {
+    background: $yellow-300;
+    color: $yellow-800;
+}
+
+.badge-info {
+    background: $blue-300;
+    color: $blue-800;
+}
+
+.badge-success {
+    background: $green-300;
+    color: $green-800;
+}
+
+.badge-danger {
+    background: $red-300;
+    color: $red-800;
+}
+
+.badge-secondary {
+    background: $gray-300;
+    color: $gray-800;
+}
+
+.badge-secondary-warning {
+    background: $purple-300;
+    color: $purple-800;
+}
+
+.badge-purple {
+    background: $purple-300;
+    color: $purple-800;
+}

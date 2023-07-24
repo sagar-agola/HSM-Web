@@ -1,0 +1,60 @@
+<div style="float: right; padding: 10px;">
+    <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import File">cloud_upload</button></mat-icon> -->
+    <button type="button" class="btn btn-primary" (click)="openDialogClass('create', null)" style="font-size: small; border-color: #005cbf; background-color: #0062cc;">Add New Class</button>
+</div>
+<!-- <div class="panel-body" style="float: right; padding: 10px;"><button type="button" class="btn btn-primary" (click)="openDialogClass()">Add</button></div> -->
+<div class="table-responsive">
+    <div><mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div>
+    <table mat-table class="table table-striped" [dataSource]="dataSource" class="mat-elevation-z8">
+              
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Taxonomy Class Id </th>
+            <td mat-cell *matCellDef="let element"><a routerLink="">{{element.id}} </a></td>
+        </ng-container>
+
+        <ng-container matColumnDef="className">
+            <th mat-header-cell *matHeaderCellDef> Taxonomy Class Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.className}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="categoryName">
+            <th mat-header-cell *matHeaderCellDef> Category</th>
+            <td mat-cell *matCellDef="let element"> {{ element.categoryName }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> Edit</th>
+            <td mat-cell *matCellDef="let element"> 
+                <button type="button" class="btn btn-link" (click)="openDialogClass('edit', element.id)">
+                    <fa-icon [icon]="['fas', 'edit']" style="color: #898888;"></fa-icon>
+                </button> 
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> Delete</th>
+            <td mat-cell *matCellDef="let element"> 
+                <button type="button" class="btn btn-link" (click)="deleteAction(element.id, element.className)">
+                    <fa-icon [icon]="['fas', 'trash-alt']" style="color: #898888;"></fa-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="noRecord">
+            <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=8>
+  
+              <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+              <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default">
+              <br>
+              <span class="text-gray-500 text-base" *ngIf="default">No records or data displayed.</span>
+              <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the search.</span>
+  
+              <!-- You have no referrals assigned to you or your referral group. -->
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

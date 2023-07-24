@@ -1,0 +1,83 @@
+/*******    COLOR VARIABLES     *******/
+
+$gray-100:      #f8f8f8;
+$gray-200:      #f4f3f2;
+$gray-300:      #e3e2e1;
+$gray-400:      #c1c0bf;
+$gray-500:      #898888;
+$gray-600:      #5b5a57;
+$gray-700:      #3f3f3d;
+$gray-800:      #2d2c2b;
+$gray-900:      #161616;
+
+$yellow-100:    #fff9eb;
+$yellow-200:    #fff0cf;
+$yellow-300:    #ffe2a1;
+$yellow-400:    #ffc655;
+$yellow-500:    #ffb000;
+$yellow-600:    #bf7600;
+$yellow-700:    #7f4909;
+$yellow-800:    #4c2906;
+$yellow-900:    #281504;
+
+$red-100:       #fff0f0;
+$red-200:       #ffcdcd;
+$red-300:       #ff8383;
+$red-400:       #fa5252;
+$red-500:       #ef3030;
+$red-600:       #c61d1d;
+$red-700:       #960f0f;
+$red-800:       #490808;
+$red-900:       #2d0b09;
+
+$blue-100:      #f5fafc;
+$blue-200:      #d6ebff;
+$blue-300:      #aad6ff;
+$blue-400:      #58afff;
+$blue-500:      #007bff;
+$blue-600:      #005ec2;
+$blue-700:      #00438b;
+$blue-800:      #002e60;
+$blue-900:      #001933;
+
+$green-100:     #f8ffef;
+$green-200:     #edffd6;
+$green-300:     #d1f8a0;
+$green-400:     #aeec66;
+$green-500:     #81d322;
+$green-600:     #5ea012;
+$green-700:     #40660e;
+$green-800:     #273f06;
+$green-900:     #0b1402;
+
+$purple-100:    #fcf3ff;
+$purple-200:    #f4d8ff;
+$purple-300:    #dda5f2;
+$purple-400:    #be5be3;
+$purple-500:    #9a14cc;
+$purple-600:    #720aa3;
+$purple-700:    #57067c;
+$purple-800:    #420b5b;
+$purple-900:    #2c0b3d;
+
+$white:         #ffffff;
+$black:         #000000;
+
+/********   TYPOGRAPHY VARIABLES  ********/
+
+$font-stack-roboto: 'Roboto', Verdana, Geneva, sans-serif;
+
+$text-xs:           11px;
+$text-small:        14px;
+$text-base:         18px;
+$text-large:        21px;
+$text-xl:           28px;
+$text-2xl:          36px;
+$text-3xl:          48px;
+$text-4xl:          60px;
+$text-5xl:          84px;
+
+$font-light:        300;
+$font-regular:      400;
+$font-semi-bold:    500;
+$font-bold:         700;

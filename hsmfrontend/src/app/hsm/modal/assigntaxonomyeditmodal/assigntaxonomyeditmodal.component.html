@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <p style="color: black;">Assign Taxonomy</p>
+      <hr>
+</div>
+<div class="modal-body">
+    <mat-dialog-content>
+        <!-- <div class="form-group">
+            <h6>Select Component Taxonomy</h6>
+            <hr>
+        </div> -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Category</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxcategory"
+                        [(ngModel)]="categoryId" (change)="categoryOnselect($event)"
+                        [ngModelOptions]="{standalone: true}">
+                        <option value=""></option>
+                        <option *ngFor="let ct of taxonomyCategoryList" [value]="ct.id">{{ ct.categoryName }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Class</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxclass" [(ngModel)]="classId"
+                        [ngModelOptions]="{standalone: true}" (change)="classOnselect($event)" [disabled]="classDisabled">
+                        <option value=""></option>
+                        <option *ngFor="let tc of taxonomyClassList" [value]="tc.id">{{ tc.className }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Type</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxtype" [(ngModel)]="typeId"
+                        [ngModelOptions]="{standalone: true}" (change)="typeOSelect($event)" [disabled]="typeDisabled">
+                        <option value=""></option>
+                        <option *ngFor="let tp of taxonomyTypeList" [value]="tp.id">{{ tp.typeName }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <!-- <button class="btn btn-outline-primary" (click)="close()">Cancel</button> -->
+            <button class="btn btn-primary lg active" (click)="Assign()"> Update </button>
+        </div>
+    </mat-dialog-content>
+</div>

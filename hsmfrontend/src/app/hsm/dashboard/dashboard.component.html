@@ -1,0 +1,243 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Dashboard</li>
+    </ol>
+  </nav>
+  <div class="row">
+    <div class="col-5">
+      <h6 class="st-label" style="margin-top: 5px; margin-left: 20px;"><fa-icon [icon]="['fas', 'chart-area']" style="color: #898888;"></fa-icon> Asset Chart Summary</h6>
+      <div class="card" style="height: 347px;">
+        <div class="card-body">
+          <ngx-charts-bar-vertical-normalized
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="multi"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)">
+          </ngx-charts-bar-vertical-normalized>
+        </div>
+      </div>
+      <div class="card" style="height: 347px;">
+        <div class="card-body">
+          <ngx-charts-heat-map
+            [view]="view3"
+            [scheme]="colorScheme3"
+            [legend]="legend"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxis]="xAxis"
+            [yAxis]="yAxis"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            [results]="multi"
+            (select)="onSelect($event)"
+            (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)"
+            >
+          </ngx-charts-heat-map>
+        </div>
+      </div>
+      <br>
+    </div>
+    <div class="col-7" style="margin-left: -50px;">
+      <h6 class="st-label" style="margin-top: 5px; margin-left: 20px;"><fa-icon [icon]="['fas', 'clipboard-check']" style="color: #898888;"></fa-icon> Workflow Approvals</h6>
+      <div class="card" style="height: 220px; overflow-y: auto; width: 100%;">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">FMEA Tasks</h6>
+          <div class="table-responsive" style="padding-top: 10px; background-color: #fff; overflow-x: hidden;">
+            <!-- <div style="margin: 10px;"><mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div> -->
+            <table mat-table [dataSource]="dataSource" matSort>
+
+              <ng-container  matColumnDef="taskIdentificationNo">
+                  <th mat-header-cell *matHeaderCellDef> Task Id </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol">
+                      <a class="btn btn-link" [routerLink]="['/main/fmea-edit/', element.id]" target="_blank" style="font-size: 11px;">{{element.taskIdentificationNo}}</a>
+                  </td>
+              </ng-container>
+
+              <ng-container matColumnDef="failureMode">
+                <th mat-header-cell *matHeaderCellDef> Failure Mode </th>
+                <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewFmeaStatus', element.id)" style="cursor: pointer;">{{element.failureMode}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="taskDescription">
+                <th mat-header-cell *matHeaderCellDef> Task Description </th>
+                <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewFmeaStatus', element.id)" style="cursor: pointer;"> {{element.taskDescription}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="failureRiskTotalScore">
+                <th mat-header-cell *matHeaderCellDef> Score </th>
+                <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewFmeaStatus', element.id)" style="cursor: pointer;"> {{element.failureRiskTotalScore}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="acceptableLimits">
+                <th mat-header-cell *matHeaderCellDef> Acceptable Limits </th>
+                <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewFmeaStatus', element.id)" style="cursor: pointer;"> {{element.acceptableLimits}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="correctiveActions">
+                <th mat-header-cell *matHeaderCellDef> Corrective Actions </th>
+                <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewFmeaStatus', element.id)" style="cursor: pointer;"> {{element.correctiveActions}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="systemStatus">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let element" class="widthCol" [ngClass]="{'td-success': element.systemStatus === 3, 'td-warning':element.systemStatus === 2, 'td-primary':element.systemStatus === 1, 'td-danger': element.systemStatus === 4}">
+                    <mat-select [(ngModel)]="element.systemStatus" (selectionChange)="fmeastatusOnSelect($event, element.id)">
+                        <mat-option [value]="option?.id" *ngFor="let option of statusList">{{option?.name}}</mat-option>
+                    </mat-select>
+                    <!-- {{mapStatusData(element.systemStatus).name}} -->
+                </td>
+            </ng-container>
+
+              <ng-container matColumnDef="noRecord">
+                <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=7>
+    
+                  <p>No data results</p>
+                </td>
+              </ng-container>
+      
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="height: 220px; overflow-y: auto; width: 100%;">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Task Group Strategies</h6>
+          <div class="table-responsive" style="padding-top: 10px; background-color: #fff; overflow-x: hidden;">
+            <!-- <div style="margin: 10px;"><mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div> -->
+            <table mat-table [dataSource]="dataSource2" matSort>
+          
+            <ng-container  matColumnDef="taskGroupStrategyId">
+              <th mat-header-cell *matHeaderCellDef> Task Group Id </th>
+              <td mat-cell *matCellDef="let element" class="widthCol">
+                <a class="btn btn-link" [routerLink]="['/main/hsm-task-group-edit/', element.id]" target="_blank" style="font-size: 11px;">{{element.taskGroupStrategyId}}</a>
+              </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="taskGroupDescription">
+              <th mat-header-cell *matHeaderCellDef> Task Group Description </th>
+              <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewTGSStatus', element.id)" style="cursor: pointer;"> {{element.taskGroupDescription}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="taskTypeName">
+              <th mat-header-cell *matHeaderCellDef> Work Instruction Type </th>
+              <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewTGSStatus', element.id)" style="cursor: pointer;"> {{element.taskTypeName}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="frequencyName">
+              <th mat-header-cell *matHeaderCellDef> Frequency </th>
+              <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewTGSStatus', element.id)" style="cursor: pointer;"> {{element.frequencyName}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="tradeTypeName">
+              <th mat-header-cell *matHeaderCellDef> Trade Type </th>
+              <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewTGSStatus', element.id)" style="cursor: pointer;"> {{element.tradeTypeName}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="operationalModeName">
+              <th mat-header-cell *matHeaderCellDef> Operational Mode </th>
+              <td mat-cell *matCellDef="let element" class="widthCol" (click)="openViewComment('ViewTGSStatus', element.id)" style="cursor: pointer;"> {{element.operationalModeName}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="systemStatus">
+              <th mat-header-cell *matHeaderCellDef> Status </th>
+              <td mat-cell *matCellDef="let element" class="widthCol" [ngClass]="{'td-success': element.systemStatus === 3, 'td-warning':element.systemStatus === 2, 'td-primary':element.systemStatus === 1, 'td-danger': element.systemStatus === 4}">
+                <mat-select [(ngModel)]="element.systemStatus" (selectionChange)="tgsstatusOnSelect($event, element.id)">
+                    <mat-option [value]="option?.id" *ngFor="let option of statusList">{{option?.name}}</mat-option>
+                </mat-select>
+                <!-- {{mapStatusData(element.systemStatus).name}} -->
+              </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="noRecord">
+              <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=7>
+          
+                <p>No data results</p>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA_2!=null && ELEMENT_DATA_2.length==0 && !loading)}"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="table-row"></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <h6 class="st-label" style="margin-top: 5px; margin-left: 20px;"><fa-icon [icon]="['fas', 'clipboard-list']" style="color: #898888;"></fa-icon> Action Management</h6>
+      <div class="card" style="height: 220px; overflow-y: auto; width: 100%;">
+        <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted">Requests need action</h6>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="dataSource3" matSort>
+                <ng-container  matColumnDef="requestCode">
+                  <th mat-header-cell *matHeaderCellDef> Request Id </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol">
+                    <a class="btn btn-link" (click)="openViewRequest('View', element.id)" style="font-size: 11px;">{{element.requestCode}}</a>
+                  </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="requestTypeId">
+                  <th mat-header-cell *matHeaderCellDef> Request Type </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol"> {{ mapRequestStatusData(element.requestTypeId)?.name}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="requestInfo">
+                  <th mat-header-cell *matHeaderCellDef> Request Description </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol"> {{element.requestInfo}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="dueDate">
+                  <th mat-header-cell *matHeaderCellDef> Due Date </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol"> {{element.dueDate | date: 'dd/MM/yyyy' }} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="assigned">
+                  <th mat-header-cell *matHeaderCellDef> Assigned </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol"> {{ assignedName}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="requested">
+                  <th mat-header-cell *matHeaderCellDef> Requested By </th>
+                  <td mat-cell *matCellDef="let element" class="widthCol"> {{ mapusersData(element.requested)?.firstName+ ' '+  mapusersData(element.requested)?.lastName}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="actionStatus">
+                  <th mat-header-cell *matHeaderCellDef> Status </th>
+                  <td mat-cell *matCellDef="let element" [ngClass]="{'td-primary': element.actionStatus === 1, 'td-success':element.actionStatus === 2}" class="widthCol">
+                    <mat-select [(ngModel)]="element.actionStatus" (selectionChange)="actionstatusOnSelect($event, element.id)">
+                      <mat-option [value]="options?.id" *ngFor="let options of actionStatusList">{{options?.name}}</mat-option>
+                    </mat-select>
+                  </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="noRecord">
+                  <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=7>
+              
+                    <p>No data results</p>
+                  </td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA_3!=null && ELEMENT_DATA_3.length==0 && !loading)}"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns3; let i = index" class="table-row"></tr>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

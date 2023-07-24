@@ -1,0 +1,99 @@
+button{
+  margin-left: 10px;
+  float: right;
+}
+
+h6{
+  text-align: center;
+}
+
+::ng-deep .mat-dialog-container{
+padding:0 !important;
+overflow: hidden !important;
+}
+
+.modal-body{
+padding:20px;
+}
+
+.modal-footer {
+border-top: none;
+justify-content: right !important;
+}
+
+.modal-header{
+height: 60px;
+background-color: #e2e2e2;
+color: #0000;
+font-size: 16px;
+margin:none  !important;
+border-bottom: none !important;
+}
+
+label.st-custom-radio-img-label {
+  position: relative;
+  display: inline-block;
+}
+
+label.st-custom-radio-img-label:hover {
+  -webkit-box-shadow: 0 0 8px rgba(0, 123, 255, 0.6) !important;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 0 0 8px rgba(0, 123, 255, 0.6) !important;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6) !important;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-color: #0069d9;
+  cursor: pointer;
+}
+
+[type=radio] { 
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* IMAGE STYLES */
+[type=radio] + img {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + img {
+  outline: 2px solid #f00;
+}
+
+/* IMAGE STYLES */
+[type=radio] + div {
+  cursor: pointer;
+  color:#007bff;
+  background: #ffffff;
+  border: #007bff solid 1px;
+  border-radius:.25rem;
+  padding:1rem;
+}
+
+/* CHECKED STYLES */
+[type=radio] + div:hover {
+  background:#f5fafc;
+  color:#007bff;
+}
+
+[type=radio]:checked + div {
+  background:#c5f2fc;
+  color:#009dbf;
+  border-color:#009dbf;
+}
+
+/* THESE STYLES COLOR THE FONT AWESOME ICON */
+ [type=radio] + div ~ .ng-fa-icon {
+     color:#ffffff;
+ }
+
+[type=radio] + div:hover ~ .ng-fa-icon {
+   color:#f5fafc;
+}
+
+[type=radio]:checked + div ~ .ng-fa-icon {
+  color:#009dbf;
+}

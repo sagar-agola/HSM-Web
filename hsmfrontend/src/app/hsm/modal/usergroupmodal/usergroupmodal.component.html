@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <p style="color: black;"> {{mode}} Group</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <form class="my-form" [formGroup]="form" (ngSubmit)="submitForm()">
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Group Name</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Group Name" formControlName="name">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="st-label">Active</label></div>
+                <div class="col-9">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="isActive">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="st-label">Holistic User?</label></div>
+                <div class="col-9">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck2" formControlName="isCoreUser">
+                    </div>
+                </div>
+            </div>
+            <hr> 
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="button" (click)="close()" style="font-size: 11px;">Cancel</button>
+                <button class="btn btn-primary lg active" type="submit" style="font-size: 11px;"> Save </button>
+            </div>
+        </form>
+    </mat-dialog-content>
+</div>

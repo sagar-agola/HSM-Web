@@ -1,0 +1,94 @@
+@import '../../../../styles/st-components/st-badges';
+
+html, body { height: 100%; }
+
+#content 
+{
+    margin: 0 auto;
+    width: 100%;
+
+    /* this is the real deal: */
+    /* background: url("img/content_left.png") top left repeat-y; */
+
+    /* this is just for the example */
+    border-left: 1px solid #eee;
+    background-color: #eeeded;
+    height: auto !important;
+    height: 100%; /* IE 6 Workaround */
+    min-height: 100%;
+}
+
+#content .wrapper
+{
+    /* this is the real deal: */
+    /* background: url("img/content_right.png") top right repeat-y; */
+
+    /* this is just for the example */
+    border-right: 1px solid #eee;
+
+    height: auto !important;
+    height: 100%; /* IE 6 Workaround */
+    min-height: 100%;
+    background-color: #eeeded;
+    padding: 0px 10px;
+}
+
+#main-container {
+  height:100vh;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  flex: 1 auto;
+  margin-bottom: auto;
+}
+
+.breadcrumb{
+  margin: 0 10px 0 10px;
+}
+
+#ui-container{
+  background-color: #eeeded;
+  overflow-x: auto;
+  // height:100vmax;
+}
+
+#criticalityInfo{
+  padding: 10px;
+  height: auto;
+  background-color: #ffff;
+}
+
+.card{
+    margin-top: 20px;
+    height: auto;
+    max-width: 100%;
+  }
+
+  table{
+    max-width: 100%;
+  }
+  
+  th{
+    font-size: 11px;
+    font-weight: 500;
+    color:#414244 ;
+  }
+
+  tr.mat-row{
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    height: 32px !important;
+  }
+  
+  td{
+    font-size: 12px;
+    color:#6c757d ;
+  }
+
+  tr:nth-child(even) {
+    background-color: #ffff;
+  }
+
+  .mat-column-delete{
+    width: 5% !important;
+  }

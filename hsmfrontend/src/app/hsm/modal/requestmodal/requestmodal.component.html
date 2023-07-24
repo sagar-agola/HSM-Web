@@ -1,0 +1,75 @@
+<div class="modal-header">
+    <p style="color: black;"> User Request</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <form [formGroup]="form" (ngSubmit)="submitForm()">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="st-label">Request Code</label>
+                        <input type="text" class="form-control" formControlName="requestCode" readonly>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label class="st-label">Status</label>
+                        <select id="requestType" class="form-control" style="font-size: 11px;" formControlName="status">
+                            <option *ngFor="let rt of actionStatus" [value]="rt.value">{{ rt.name }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label class="st-label">Request Type</label>
+                        <select id="requestType" class="form-control" style="font-size: 11px;" formControlName="type" [disabled]="isLocked">
+                            <option value=""></option>
+                            <option *ngFor="let rt of requestType" [value]="rt.value">{{ rt.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="st-label">Due Date</label> &nbsp;
+                    <input type="text" placeholder="DD/MM/YY" class="form-control" formControlName="dueDate"
+                        id="duedate" #dtEnd="bsDatepicker" name="duedate" bsDatepicker
+                        [bsConfig]="{ showWeekNumbers:false, isAnimated: true, customTodayClass: 'custom-today-class', adaptivePosition: true }"
+                        autocomplete="off" (ngModelChange)="onChangeDate($event)" [disabled]="isLocked">
+                    <mat-icon style="display:block; float: right; margin-top: -30px; color: #005493;">date_range
+                    </mat-icon>
+                    <!-- <input class="form-control" type="text" placeholder="dd-mm-yyyy" (click)="d.toggle()" readonly  name="dp" formControlName="duedate" ngbDatepicker #d="ngbDatepicker" (change)="selectDayValue()"> -->
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="st-label">Request Information</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" style="font-size:12px;" formControlName="information" [disabled]="isLocked"></textarea>
+            </div>
+            <div class="form-group" *ngIf="!isView">
+                <input class="form-control" type="file" #fileInput formControlName="fileName" style="font-size: 11px;" />
+                <!-- <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)">
+                    <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload
+                </button> -->
+            </div>
+            <div class="form-group" *ngIf="isView">
+                <div style="height: 30px; width: 100%; background-color:#eeec">
+                    <fa-icon [icon]="['fas', 'paperclip']" style="color: #898888; margin-left: 20px; margin-top: 10px; margin-bottom: 10px;"></fa-icon>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="st-label">Requested Person</label>
+                <select class="form-control" id="requestPerson" formControlName="requestedPerson" (change)="onUserSelect($event)" style="font-size: 11px;" [disabled]="isLocked">
+                    <option value=""></option>
+                    <option *ngFor="let ct of userList" [value]="ct.id">{{ ct.firstName + ' ' + ct.lastName }}</option>
+                </select>
+            </div>
+            <hr>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="button" (click)="close()" style="font-size: 11px;">Close</button>
+                <button class="btn btn-primary active" type="submit" style="font-size: 11px;">Submit</button>
+            </div>
+        </form>
+    </mat-dialog-content>
+</div>

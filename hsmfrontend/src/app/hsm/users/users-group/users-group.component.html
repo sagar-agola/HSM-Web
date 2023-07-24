@@ -1,0 +1,141 @@
+<body>
+    <div *loadingIndicator="isLoading"></div>
+    <div id="content">
+        <div class="wrapper">
+            <div style="padding-top:10px; background-color: #fff; margin: 0 -10px 0 -10px; height: 75px;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a routerLink="/main/dashboard" style="font-size: 14px;">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;"><a routerLink="/main/users-list">Users List</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Users in Groups</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- <div class="card" style="border-left: 4px solid #009dbf !important;">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Add Users to {{groupName}} Group</h6>
+                </div>
+            </div> -->
+
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Users In {{groupName}} Group</h6>
+                    <div class="table-responsive">
+                        <div><mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div>
+                        <table mat-table class="table" [dataSource]="dataSource">
+
+                            <ng-container matColumnDef="firstName">
+                                <th mat-header-cell *matHeaderCellDef> First Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="lastName">
+                                <th mat-header-cell *matHeaderCellDef> Last Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="userName">
+                                <th mat-header-cell *matHeaderCellDef> UserName</th>
+                                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="emailAddress">
+                                <th mat-header-cell *matHeaderCellDef> Email Address</th>
+                                <td mat-cell *matCellDef="let element"> {{element.emailAddress}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="userStatus">
+                                <th mat-header-cell *matHeaderCellDef> Status</th>
+                                <td mat-cell *matCellDef="let element"><span class="badge" [ngClass]="{'badge-secondary': element.userStatus === 'Inactive', 'badge-primary':element.userStatus === 'Active' }">{{ element.userStatus }} </span> </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="delete">
+                                <th mat-header-cell *matHeaderCellDef> Delete</th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    <button type="button" class="btn btn-link">
+                                        <fa-icon [icon]="['fas', 'trash-alt']" style="color: #898888;"></fa-icon>
+                                    </button> 
+                                </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="noRecord">
+                                <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=5>
+                      
+                                  <!-- <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                  <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default">
+                                  <br> -->
+                                  <span class="text-gray-500 text-base" *ngIf="default">No records or data displayed.</span>
+                                  <span class="text-gray-500 text-base" *ngIf="!default">No users in this {{ groupName}} group</span>
+                                </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Users Not In {{groupName}} Group</h6>
+                    <div class="table-responsive">
+                        <div><mat-paginator #tableOnePaginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div>
+                        <table mat-table class="table" [dataSource]="dataSource2">
+                                  
+                            <ng-container matColumnDef="isAdd">
+                                <th mat-header-cell *matHeaderCellDef> </th>
+                                <td mat-cell *matCellDef="let element"><input type="checkbox"></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="firstName">
+                                <th mat-header-cell *matHeaderCellDef> First Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="lastName">
+                                <th mat-header-cell *matHeaderCellDef> Last Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="userName">
+                                <th mat-header-cell *matHeaderCellDef> UserName</th>
+                                <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="emailAddress">
+                                <th mat-header-cell *matHeaderCellDef> Email Address</th>
+                                <td mat-cell *matCellDef="let element"> {{element.emailAddress}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="userStatus">
+                                <th mat-header-cell *matHeaderCellDef> Status</th>
+                                <td mat-cell *matCellDef="let element"><span class="badge" [ngClass]="{'badge-secondary': element.userStatus === 'Inactive', 'badge-primary':element.userStatus === 'Active' }">{{ element.userStatus }} </span> </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="noRecord">
+                                <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=5>
+                      
+                                  <!-- <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                  <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default">
+                                  <br> -->
+                                  <span class="text-gray-500 text-base" *ngIf="default">No records or data displayed.</span>
+                                  <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the search.</span>
+                                </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA_2!=null && ELEMENT_DATA_2.length==0 && !loading)}"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 5px; float: right;">
+                <button class="btn btn-primary lg active" style="font-size: 11px;"> Add User </button>&nbsp;
+                <button class="btn btn-outline-primary" style="font-size: 11px;" (click)="cancel()">Cancel</button> 
+            </div>
+        </div>
+    </div>
+</body>

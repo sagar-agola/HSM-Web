@@ -1,0 +1,118 @@
+.mat-table {
+    width: 100%;
+    &.resizing {
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: col-resize;
+    }
+    .mat-cell {
+      span {       
+        display: block; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .mat-header-cell {
+      position: relative;      
+      &:not(:last-child) {
+        .resize-holder {
+          cursor: col-resize;
+          width: 20px;
+          height: 100%;
+          position: absolute;
+          right: -10px;
+          top: 0;
+          z-index: 1;
+        }
+      }
+    }
+    .mat-cell,
+    .mat-header-cell {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      &:not(:nth-child(1)) {
+        padding: 0 10px;
+      }
+    }
+  }
+  
+  table {
+  width: 100%;
+  table-layout: fixed;
+  overflow:auto;
+  height: auto;
+  }
+  
+  th{
+      font-size: 12px;
+      font-weight: bold;
+      color:#414244 ;
+    }
+    
+    td{
+      font-size: 11px;
+      color:#6c757d ;
+    }
+  
+    tr:nth-child(even) {
+      background-color: #e9ecef;
+    }
+  
+    button{
+      border: none;
+      background-color: transparent;
+    }
+  
+    .export-icon{
+      float: right;
+      right: 195px;
+      margin-top: 15px;
+      position: relative;
+    }
+  
+    .mat-column-edit{
+      width: 10% !important;
+    }
+  
+    .mat-column-delete{
+      width: 10% !important;
+    }
+  
+    .mat-column-id{
+      width: 10% !important;
+    }
+
+    ::ng-deep tr.mat-footer-row {
+        border: 1px solid #e7e7e7;
+        font-weight: bold;
+        }
+      
+        tr.mat-footer-row,
+        tr.mat-row {
+          border: 1px solid #e7e7e7;
+          // font-weight: bold;
+          overflow: hidden;
+          height: 30px !important;
+      }
+      
+      .width-fixed {
+        border: 1px solid black;
+        overflow: hidden;
+        width: 100px;
+      }
+      
+      .fixWidth{
+        height:30px !important; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+      }
+      
+      .mat-header-row, .mat-row {
+        min-height: 30px;
+      }
+      
+      .table-row {
+        height: 30px !important;
+        overflow: hidden;
+      }

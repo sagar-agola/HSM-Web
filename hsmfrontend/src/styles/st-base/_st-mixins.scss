@@ -1,0 +1,108 @@
+﻿@mixin box-shadow($property) {
+    -webkit-box-shadow: $property !important; /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow: $property !important; /* Firefox 3.5 - 3.6 */
+    box-shadow: $property !important; /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+@mixin transform($property) {
+    -webkit-transform: $property;
+    -moz-transform: $property;
+    transform: $property;
+}
+
+@mixin animation-duration($property) {
+    -webkit-animation-duration: $property;
+    animation-duration: $property;
+}
+
+@mixin animation-fill-mode($property) {
+    -webkit-animation-fill-mode: $property;
+    animation-fill-mode: $property;
+}
+
+/* media-breakpoint-down applies to the given screen size or bigger  */
+@mixin media-breakpoint-up($breakpoint) {
+    @if $breakpoint == "sm" {
+        @media (min-width: 576px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "md" {
+        @media (min-width: 768px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "lg" {
+        @media (min-width: 992px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "xl" {
+        @media (min-width: 1200px) {
+            @content;
+        }
+    }
+}
+
+/* media-breakpoint-down applies to the given screen size or smaller  */
+@mixin media-breakpoint-down($breakpoint) {
+    @if $breakpoint == "sm" {
+        @media (max-width: 575.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "md" {
+        @media (max-width: 767.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "lg" {
+        @media (max-width: 991.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "xl" {
+        @media (max-width: 1199.98px) {
+            @content;
+        }
+    }
+}
+
+/* media-breakpoint-only applies to the given screen size  */
+@mixin media-breakpoint-only($breakpoint) {
+    @if $breakpoint == "xs" {
+        @media (max-width: 575.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "sm" {
+        @media (min-width: 576px) and (max-width: 767.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "md" {
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "lg" {
+        @media (min-width: 992px) and (max-width: 1199.98px) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint == "xl" {
+        @media (min-width: 1200px) {
+            @content;
+        }
+    }
+}

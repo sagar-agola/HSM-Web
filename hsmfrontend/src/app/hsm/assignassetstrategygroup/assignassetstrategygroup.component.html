@@ -1,0 +1,404 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;"><a routerLink="/main/eam-maintenance">EAM Maintenance Plan List</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Assign Task Strategy Group</li>
+      </ol>
+    </nav>
+    <div class="card">
+        <div class="card-body">
+            <div class="panel-body">
+                <mat-tab-group animationDuration="0ms" #tabGroup>
+                    <mat-tab label="Select Task Group Strategy Package" [(activeId)]="activeId">
+                        <div class="panel-body3">
+                            <button type="button" class="btn btn-primary" (click)="saveNext(); tabGroup.selectedIndex=1"
+                                style="font-size: 12px;">Next</button>
+                        </div>
+                        <div style="padding-top:10px; padding-bottom: 10px;">
+                            <mat-icon style="margin-right: 30px; float: right;"><button placement="left"
+                                    ngbTooltip="Multi Filter" class="iconBtn" (click)="toggleColumn()">settings</button>
+                            </mat-icon>
+                            <div class="position-absolute card shadow"
+                                style=" right:20px; width:258px; z-index: 1; padding: 10px; margin-top: 20px;" fadeInOut
+                                [hidden]="!this.displayTableColumn">
+                                <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleColumn()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                                <span style="font-size: small; font-weight: bold; margin-top: -10px;">Table Columns</span>
+                                <br>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="taskGroupid" (change)="addColumnTaskGroupId()">&nbsp; Task Group ID
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="taskGroupdesc" (change)="addColumnTaskGroupDesc()">&nbsp; Task Group Description
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="tasktype" (change)="addColumnTaskType()">&nbsp; Task Type
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="frequency" (change)="addColumnFrequency()">&nbsp; Frequency
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="tradetype" (change)="addColumnTradeType()">&nbsp; Trade Type
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="operationalmode" (change)="addColumnOperationalMode()">&nbsp; Operational Mode
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="versions" (change)="addColumnVersions()">&nbsp; Version
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox" [(ngModel)]="activities" (change)="addColumnActivities()">&nbsp; Activities
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <input type="checkbox">&nbsp; Asset Type
+                                        </div> -->
+                                    </div>
+                                    <!-- <div class="col-6">
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp;Process Function
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Asset Class
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Spec
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Asset Family
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Manufacturer
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Component Family
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Component Class
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="checkbox">&nbsp; Duration
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                            
+                            <mat-icon style="margin-right: 20px; float: right;"><button placement="left"
+                                    ngbTooltip="Multi Filter" class="iconBtn" (click)="toggleFilter()">filter_list</button>
+                            </mat-icon>
+                            <div class="position-absolute card shadow"
+                                style=" right:50px; width:550px; z-index: 1; padding: 10px; margin-top: 20px;" fadeInOut
+                                [hidden]="!this.displayMultiFilter">
+                                <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleFilter()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                                <span style="font-size: small; font-weight: bold; margin-top: -10px;">Search Filter</span>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <span class="st-label">Task Group Id</span>
+                                            <input type="text" class="form-control" id="taskGroupId" [(ngModel)]="taskGroupId">
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="st-label">Task Type</span>
+                                            <select class="form-control" id="taskType" [(ngModel)]="taskTypeId"
+                                                [ngModelOptions]="{standalone: true}" (change)="taskTypeOnSelect($event)"
+                                                style="font-size: 12px;">
+                                                <option value="0"></option>
+                                                <option *ngFor="let tk of taskTypeList" [value]="tk.id">{{
+                                                    tk.taskTypeName }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="st-label">Trade Type</span>
+                                            <select class="form-control" id="tradeTypeId" [(ngModel)]="tradeTypeId"
+                                                [ngModelOptions]="{standalone: true}" (change)="tradeTypeOnSelect($event)"
+                                                style="font-size: 12px;">
+                                                <option value="0"></option>
+                                                <option *ngFor="let tk of tradeTypeList" [value]="tk.id">{{
+                                                    tk.tradeTypeName }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <span class="st-label">Task Group Description</span>
+                                            <input type="text" class="form-control" id="taskGroupDesc" [(ngModel)]="taskGroupDesc">
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="st-label">Frequency</span>
+                                            <select class="form-control" id="frequencyId" [(ngModel)]="frequencyId"
+                                                [ngModelOptions]="{standalone: true}" (change)="frequencyOnSelect($event)"
+                                                style="font-size: 12px;">
+                                                <option value="0"></option>
+                                                <option *ngFor="let tk of frequencyList" [value]="tk.id">{{
+                                                    tk.frequencyName }}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="st-label">Operational Mode</span>
+                                            <select class="form-control" id="operationalModeId" [(ngModel)]="operationalModeId"
+                                                [ngModelOptions]="{standalone: true}" (change)="operationalModeOnSelect($event)"
+                                                style="font-size: 12px;">
+                                                <option value="0"></option>
+                                                <option *ngFor="let tk of operationModeList" [value]="tk.id">{{
+                                                    tk.operationalModeName }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group"><button class="btn btn-primary lg active"
+                                        style="float: right; font-size: 12px;" (click)="filter()"> Filter </button></div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <mat-paginator #tableOnePaginator [pageSizeOptions]="[25, 50, 100, 250, 500, 1000]"
+                                    showFirstLastButtons class="bg-gray-200" style="background-color: #e9ecef;"></mat-paginator>
+                            </div>
+                            <table mat-table [dataSource]="dataSource" #sortColA="matSort" matSort>
+                                <ng-container matColumnDef="isAdd">
+                                    <th mat-header-cell *matHeaderCellDef> </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <input type="checkbox" [checked]="element.isAdd"
+                                            (change)="addThisPackage($event, element.id, element.taskId)">
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskGroupStrategyId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Group ID </th>
+                                    <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link"
+                                            style="font-size: 11px;"
+                                            (click)="goToATGEdit(element.id)">{{element.taskGroupStrategyId}} </button></td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskGroupDescription">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Group Description </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskGroupDescription}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskTypeName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Task Type</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskTypeName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="frequencyName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Frequency</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.frequencyName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="tradeTypeName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Trade Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.tradeTypeName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="operationalModeName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Operational Mode </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.operationalModeName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="versions">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Version </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.versions}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="activities">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Activities </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.activities}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="noRecord">
+                                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=12>
+        
+                                        <img src="./../../../assets/images/search-for-records.png"
+                                            alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                        <img src="./../../../assets/images/no-records-found.png" alt="Folder with no results"
+                                            class="mb-2 mt-4" *ngIf="!default">
+                                        <br>
+                                        <span class="text-gray-500 text-base" *ngIf="default">No records or data.</span>
+                                        <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the
+                                            search filters.</span>
+        
+                                        <!-- You have no referrals assigned to you or your referral group. -->
+                                    </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-footer-row *matFooterRowDef="['noRecord']"
+                                    [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Select EAM Plan" [(activeId)]="activeId">
+                        <div class="panel-body3">
+                            <button type="button" class="btn btn-primary"
+                                (click)="saveNextPackage(); tabGroup.selectedIndex=2" style="font-size: 12px;">Next &
+                                Save</button>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <mat-paginator #tableTwoPaginator [pageSizeOptions]="[25, 50, 100, 250, 500, 1000]"
+                                    showFirstLastButtons class="bg-gray-200" style="background-color: #e9ecef;"></mat-paginator>
+                            </div>
+                            <table mat-table [dataSource]="dataSource2" #sortColB="matSort" matSort>
+                                <ng-container matColumnDef="isAdd">
+                                    <th mat-header-cell *matHeaderCellDef> </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <input type="checkbox" [checked]="element.isAdd"
+                                            (change)="addThisEamPlan($event, element.id, element.maintenancePlanId)">
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="code">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FLOC </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button type="button" class="btn btn-link"
+                                            style="font-size: 11px; color: #6C757D; pointer-events: text;">{{element.code}}</button></td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="flocDesc">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> FLOC Description </th>
+                                    <td mat-cell *matCellDef="let element">{{element.flocDesc}}</td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="maintItemText">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Task List Description </th>
+                                    <td mat-cell *matCellDef="let element">{{element.maintItemText}}</td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskId">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Task List ID </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskId}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="maintItem">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> MaintItem</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.maintItem}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="maintenancePlanName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> MaintPlan </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.maintenancePlanName}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="mainWorkCtr">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Main WorkCtr </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.mainWorkCtr}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="planningPlant">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Planner GP </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.planningPlant}} </td>
+                                </ng-container>
+        
+                                <!-- <ng-container matColumnDef="planningPlant">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Plant </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.planningPlant}} </td>
+                                </ng-container> -->
+        
+                                <ng-container matColumnDef="noRecord">
+                                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=8>
+        
+                                        <img src="./../../../assets/images/search-for-records.png"
+                                            alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                        <img src="./../../../assets/images/no-records-found.png" alt="Folder with no results"
+                                            class="mb-2 mt-4" *ngIf="!default">
+                                        <br>
+                                        <span class="text-gray-500 text-base" *ngIf="default">No records or data.</span>
+                                        <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the
+                                            search filters.</span>
+        
+                                        <!-- You have no referrals assigned to you or your referral group. -->
+                                    </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                <tr mat-footer-row *matFooterRowDef="['noRecord']"
+                                    [ngClass]="{'hide':!(ELEMENT_DATA2!=null && ELEMENT_DATA2.length==0 && !loading)}"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                            </table>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Sequence Component Tasks within Package" [(activeId)]="activeId">
+                        <div class="panel-body3">
+                            <button type="button" class="btn btn-outline-primary" (click)="close()"
+                                style="font-size: 12px;">Close</button>&nbsp; &nbsp;
+                            <button type="button" class="btn btn-primary" (click)="saveSequence()" style="font-size: 12px;">Save
+                                Changes</button>
+                        </div>
+                        <div class="table-responsive">
+                            <div>
+                                <mat-paginator #tableThreePaginator [pageSizeOptions]="[100, 250, 500, 1000]"
+                                    showFirstLastButtons class="bg-gray-200" style="background-color: #e9ecef;"></mat-paginator>
+                            </div>
+                            <table mat-table #table [dataSource]="dataSource3" cdkDropList [cdkDropListData]="dataSource3"
+                                (cdkDropListDropped)="dropTable($event)">
+        
+                                <ng-container matColumnDef="sequenceNo">
+                                    <th mat-header-cell *matHeaderCellDef> Sequence No. </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.sequenceNo}}
+                                        <!-- <mat-icon cdkDragHandle>reorder</mat-icon> -->
+                                    </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskIdentificationNo">
+                                    <th mat-header-cell *matHeaderCellDef> Task Id </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskIdentificationNo}} </td>
+                                    <!-- <td mat-cell *matCellDef="let element">
+                                        <mat-icon cdkDragHandle>reorder</mat-icon>
+                                    </td> -->
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskDescription">
+                                    <th mat-header-cell *matHeaderCellDef> Task Description </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.taskDescription}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="acceptableLimits">
+                                    <th mat-header-cell *matHeaderCellDef> Acceptable Limits </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.acceptableLimits}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="correctiveActions">
+                                    <th mat-header-cell *matHeaderCellDef> Corrective Actions </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.correctiveActions}} </td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="taskTypeName">
+                                    <th mat-header-cell *matHeaderCellDef> Task Type </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.taskTypeName}}</td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="frequencyName">
+                                    <th mat-header-cell *matHeaderCellDef> Interval </th>
+                                    <td mat-cell *matCellDef="let element">{{ element.frequencyName}}</td>
+                                </ng-container>
+        
+                                <ng-container matColumnDef="noRecord">
+                                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=8>
+        
+                                        <img src="./../../../assets/images/empty-cabinet-with-checkmark.png"
+                                            alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                        <img src="./../../../assets/images/empty-cabinet-with-checkmark.png"
+                                            alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default">
+                                        <br>
+                                        <span class="text-gray-500 text-base" *ngIf="default">No records displayed.</span>
+                                        <span class="text-gray-500 text-base" *ngIf="!default">No records displayed.</span>
+        
+                                    </td>
+                                </ng-container>
+        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                                <tr mat-footer-row *matFooterRowDef="['noRecord']"
+                                    [ngClass]="{'hide':!(ELEMENT_DATA3!=null && ELEMENT_DATA3.length==0 && !loading)}"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns3;" cdkDrag [cdkDragData]="row"></tr>
+                            </table>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>

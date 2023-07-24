@@ -1,0 +1,745 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+      <li class="breadcrumb-item active" style="font-size: 14px;"><a routerLink="/main/component-task-list">Maintainable Unit Failure Mode Tasks</a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">FMEA Details</li>
+    </ol>
+  </nav>
+  <div id="criticalityInfo">
+    <div class="row">
+      <div class="col-3">
+        <h6 style="font-size: smaller; color: #3f3f3d;">Component Name:</h6><span style="font-size: smaller; color:#005493;"><b>{{ componentTask }}</b></span>
+      </div>
+      <div class="col-2">
+        <h6 style="font-size: smaller; color: #3f3f3d;">Failure Risk Score:</h6><span style="font-size: smaller; color:#005493; margin-left: 20px;"><b>{{ failureRiskTotalScore }}</b></span>
+      </div>
+      <div class="col-2">
+        <h6 style="font-size: smaller; color: #0077ff;">View</h6><span style="font-size: smaller; color:#898888;"><b>{{user}}</b></span>
+      </div>
+      <!-- <div class="col-2">
+        <h6 style="font-size: smaller; color: #3f3f3d;">Revision</h6><span style="font-size: smaller; color:#898888;"><mat-icon title="Revision"><button class="btnTop" (click)="openRevision()">history</button></mat-icon></span>
+      </div> -->
+      <div class="col-1">
+        <h6 style="font-size: smaller; color: #3f3f3d;">Status</h6>
+        <div [ngClass]="{'td-success': this.systemStatus === 3, 'td-warning':this.systemStatus === 2, 'td-primary':this.systemStatus === 1, 'td-danger': this.systemStatus === 4}">
+          <mat-select [(ngModel)]="systemStatus" (selectionChange)="statusOnSelect($event)">
+            <mat-option [value]="option?.id" *ngFor="let option of statusList">{{option?.name}}</mat-option>
+          </mat-select>
+        </div>
+        <!-- <select class="selectpicker" id="systemStatus" [(ngModel)]="this.systemStatus" (change)="statusOnSelect($event)"  style="font-size:12px;" [ngClass]="{'badge-success': this.systemStatus === 3, 'badge-warning':this.systemStatus === 2, 'badge-primary': this.systemStatus === 1, 'badge-danger': this.systemStatus === 4 }">
+          <option value=""></option>
+          <option value="1">Created</option>
+          <option value="2">Review</option>
+          <option value="3">Approved</option>
+          <option value="4">Rejected</option>
+        </select>           -->
+        <!-- <span class="badge" [ngClass]="{'badge-secondary': this.systemStatus === 'Inactive', 'badge-success':this.systemStatus === 'Active', 'badge-primary': this.systemStatus === 'Created', 'badge-info': this.systemStatus === 'Approved', 'badge-danger': this.systemStatus === 'Rejected' }" >{{this.systemStatus}}</span> -->
+      </div>
+      <div class="col-1"></div>
+      <div class="col-3">
+        <div class="row">
+          <div class="col-2"></div>
+          <div class="col-2">
+            <button class="btn" style="margin-left: -30px; margin-top: -10px; font-weight: 600;" (click)="deleteFMEA()"><i class="fa fa-trash"></i> Delete</button>
+            <!-- <mat-icon title="Edit"><button class="btnTop" (click)="deleteFMEA()">delete</button></mat-icon>
+            <div class="row">
+              <div class="col" style="margin-top: -10px;">
+                <span style="font-size: smaller; font-weight: 700;">Delete</span>
+              </div>
+            </div> -->
+          </div>
+          <div class="col-2">
+            <button class="btn" style="margin-left: -20px; margin-top: -10px; font-weight: 600;" (click)="editFMEA()" [disabled]="!isEditable"><i class="fa fa-edit"></i> Edit</button>
+          </div>
+          <div class="col-2">
+            <button class="btn" style="margin-left: -20px; margin-top: -10px; font-weight: 600;" (click)="openDialogComment('FmeaEdit', this.currentId)"><i class="fa fa-save"></i> Save</button>
+            <!-- <mat-icon title="Save"><button class="btnTop" (click)="openDialogComment('FmeaEdit', this.currentId)">save</button></mat-icon>
+            <div class="row">
+              <div class="col" style="margin-top: -10px;">
+                <span style="font-size: smaller; font-weight: 700;">Save</span>
+              </div>
+            </div> -->
+            <!-- <img src="./../../../../assets/images/save.png" height="30px" width="30px" style="margin-top:-10px;"><br><span style="font-size: small; color: #3f3f3d;"><b>Save</b></span> -->
+          </div>
+          <div class="col-2">
+            <button class="btn" style="margin-left: -20px; margin-top: -10px; font-weight: 600; " (click)="onExit()"><i class="fa fa-close"></i> Close</button>
+            <!-- <mat-icon title="Close"><button class="btnTop" (click)="onExit()">cancel</button></mat-icon>
+            <div class="row">
+              <div class="col" style="margin-top: -10px;">
+                <span style="font-size: smaller; font-weight: 700;">Close</span>
+              </div>
+            </div> -->
+            <!-- <img src="./../../../../assets/images/close.png" height="30px" width="30px" style="margin-top:-10px; margin-left: 50px;" (click)="onFmea()"><br><span style="font-size: small; color: #3f3f3d; margin-left: 50px;" (click)="onFmea()"><b>Exit</b></span> -->
+          </div>
+          <div class="col-2"></div>
+        </div>
+        
+        <!-- <img src="./../../../../assets/images/edit.png" height="30px" width="30px" style="margin-top:-10px; margin-left: 30px;"><br><span style="font-size: small; color: #3f3f3d; margin-left: 30px;"><b>Edit</b></span> -->
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 py-3">
+      <div class="stepper-container mx-auto d-flex justify-content-center">
+        <div class="flex-grow d-flex flex-row align-items-center justify-content-start p-2">
+          <div class="stepper-step d-flex align-items-center mx-2 mx-md-4 my-3 flex-column text-center" [class.active]="isActive(1)" [class.complete]="stateBullet > 1" (click)="switchStep(1)">
+            <div class="stepper-circle flex-shrink-0 d-flex align-items-center pt-1 text-center">
+              <fa-icon [icon]="['fas', 'check']" class="m-auto text-white"></fa-icon>
+            </div>
+            <div class="stepper-text d-none d-md-block mt-2">
+              Component Taxonomy
+            </div>
+          </div>
+          <div class="stepper-hor-line d-block d-md-none"></div>
+          <div class="stepper-step d-flex align-items-center mx-2 mx-md-4 my-3 flex-column text-center" [class.active]="isActive(2)" [class.complete]="stateBullet > 2" (click)="switchStep(2)">
+            <div class="stepper-circle flex-shrink-0 d-flex align-items-center pt-1 text-center">
+              <fa-icon [icon]="['fas', 'check']" class="m-auto text-white"></fa-icon>
+            </div>
+            <div class="stepper-text d-none d-md-block mt-2">
+              Function Failure
+            </div>
+          </div>
+          <div class="stepper-hor-line d-block d-md-none"></div>
+          <div class="stepper-step d-flex align-items-center mx-2 mx-md-4 my-3 flex-column text-center" [class.active]="isActive(3)" [class.complete]="stateBullet > 3" (click)="switchStep(3)">
+            <div class="stepper-circle flex-shrink-0 d-flex align-items-center pt-1 text-center">
+              <fa-icon [icon]="['fas', 'check']" class="m-auto text-white"></fa-icon>
+            </div>
+            <div class="stepper-text d-none d-md-block mt-2">
+              Task Description
+            </div>
+          </div>
+          <div class="stepper-hor-line d-block d-md-none"></div>
+          <div class="stepper-step d-flex align-items-center mx-2 mx-md-4 my-3 flex-column text-center" [class.active]="isActive(4)" [class.complete]="stateBullet > 4" (click)="switchStep(4)">
+            <div class="stepper-circle flex-shrink-0 d-flex align-items-center pt-1 text-center">
+              <fa-icon [icon]="['fas', 'check']" class="m-auto text-white"></fa-icon>
+            </div>
+            <div class="stepper-text d-none d-md-block mt-2">
+              Failure Risk
+            </div>
+          </div>
+          <div class="stepper-hor-line d-block d-md-none"></div>
+          <div class="stepper-step d-flex align-items-center mx-2 mx-md-4 my-3 flex-column text-center" [class.active]="isActive(5)" [class.complete]="stateBullet > 5" (click)="switchStep(5)">
+            <div class="stepper-circle flex-shrink-0 d-flex align-items-center pt-1 text-center">
+              <fa-icon [icon]="['fas', 'check']" class="m-auto text-white"></fa-icon>
+            </div>
+            <div class="stepper-text d-none d-md-block mt-2">
+              Schedule Information
+            </div>
+          </div>
+          <div class="stepper-hor-line d-block d-md-none"></div>
+          <div class="stepper-step d-flex align-items-center mx-2 mx-md-4 my-3 flex-column text-center" [class.active]="isActive(6)" (click)="switchStep(6)">
+            <div class="stepper-circle flex-shrink-0 d-flex align-items-center pt-1 text-center">
+              <fa-icon [icon]="['fas', 'check']" class="m-auto text-white"></fa-icon>
+            </div>
+            <div class="stepper-text d-none d-md-block mt-2">
+              FMEA Summary
+            </div>
+          </div>
+          <div class="stepper-hor-line d-block d-md-none"></div>
+        </div>
+      </div>
+      <ng-container [ngSwitch]="stateBullet">
+        <div class="row justify-content-center p-2">
+          <div class="card col-xl-8 col-lg-6 col-md-8 px-0" *ngSwitchCase="step.First">
+            <div class="card-body">
+              <h6 style="padding-bottom: 10px;">Component Taxonomy</h6>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label"> Maintainable Unit</label>
+                    <input type="text" class="form-control" [(ngModel)]="this.componentTask" [ngModelOptions]="{standalone: true}" disabled>
+                    <!-- <span id="textarea" class="form-control" role="textbox" contenteditable ></span> -->
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label">Manufacturer</label>
+                    <!-- <input type="text" class="form-control" [(ngModel)]="manufacturerName" [ngModelOptions]="{standalone: true}" disabled> -->
+                    <select class="form-control" id="taxtype" [(ngModel)]="manufacturerTaxonomyId" [ngModelOptions]="{standalone: true}" (change)="manufacturerOnselect($event)" style="font-size: 12px;" [disabled]="isLocked">
+                      <option value=""></option>
+                      <option *ngFor="let tp of taxonomyManufacturerList" [value]="tp.id">{{ tp.componentManufacturer }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label"> Maintainable Item</label>
+                    <!-- <input type="text" class="form-control" [(ngModel)]="className" [ngModelOptions]="{standalone: true}" disabled> -->
+                    <select class="form-control" id="taxclass" [(ngModel)]="classTaxonomyId" [ngModelOptions]="{standalone: true}" (change)="classOnselect($event)" style="font-size: 12px;"  [disabled]="isLocked">
+                      <option value=""></option>
+                      <option *ngFor="let tc of taxonomyClassList" [value]="tc.id">{{ tc.componentClass }}</option>
+                  </select>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label">Build Spec</label>
+                    <!-- <input type="text" class="form-control" [(ngModel)]="buildSpecName" [ngModelOptions]="{standalone: true}" disabled> -->
+                    <select class="form-control" id="taxtype" [(ngModel)]="buildSpecTaxonomyId" [ngModelOptions]="{standalone: true}" (change)="buildSpecOnselect($event)" style="font-size: 12px;"  [disabled]="isLocked">
+                      <option value=""></option>
+                      <option *ngFor="let tp of taxonomyBuildSpecList" [value]="tp.id">{{ tp.buildSpec }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label"> Maintainable Sub Item</label>
+                    <select class="form-control" id="taxtype" [(ngModel)]="subClassTaxonomyId" [ngModelOptions]="{standalone: true}" (change)="subclassOnselect($event)" style="font-size: 12px;" [disabled]="isLocked">
+                      <option value=""></option>
+                      <option *ngFor="let tp of taxonomySubClassList" [value]="tp.id">{{ tp.subClass }}</option>
+                    </select>
+                    <!-- <input type="text" class="form-control" [(ngModel)]="subClassName" [ngModelOptions]="{standalone: true}" disabled> -->
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label">Task Identification Number</label>
+                    <input type="text" class="form-control" placeholder="Auto Generated Task Identification Number" [(ngModel)]="this.taskIdentificationNo" disabled>
+                    <!-- <label class="st-label">Component Level 2</label> -->
+                    <!-- <select class="form-control" id="comp2" [(ngModel)]="this.componentLevel2" [ngModelOptions]="{standalone: true}" disabled>
+                      <option value=""></option>
+                      <option *ngFor="let cl of componentLevel2List" [value]="cl.id">{{ cl.categoryName }}</option>
+                    </select> -->
+                    <!-- <input type="text" class="form-control" [(ngModel)]="this.componentLevel2" [ngModelOptions]="{standalone: true}" disabled> -->
+                  </div>
+                </div>
+                
+              </div>
+              <!-- <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label">Component Level 3</label>
+                    <input type="text" class="form-control" [(ngModel)]="this.componentLevel3" [ngModelOptions]="{standalone: true}" disabled>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="st-label">Component Level 4</label>
+                    <input type="text" class="form-control" [(ngModel)]="this.componentLevel4" [ngModelOptions]="{standalone: true}" disabled>
+                  </div>
+                </div>
+              </div> -->
+              <!-- <div class="form-group">
+                <label class="st-label">Task Identification Number</label>
+                <input type="text" class="form-control" placeholder="Auto Generated Task Identification Number" [(ngModel)]="this.taskIdentificationNo" disabled>
+              </div> -->
+            </div>
+          </div>
+          <div class="card col-xl-8 col-lg-6 col-md-8 px-0" *ngSwitchCase="step.Second">
+            <div class="card-body">
+              <h6 style="padding-bottom: 10px;">Function Failure</h6>
+              <div class="form-group">
+                <label class="st-label">Function Statement</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="1" [(ngModel)]="this.componentTaskFunction" (keyup)="onFunctionStatement(this.componentTaskFunction)" [disabled]="isLocked"></textarea>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="componentTaskFunction" contenteditable></span> -->
+              </div>
+              <div class="form-group">
+                <label class="st-label">Failure Mode</label>
+                <textarea class="form-control" id="exampleFormControlTextarea2" rows="1" [(ngModel)]="this.failureMode" (keyup)="onFailureMode(this.failureMode)" [disabled]="isLocked"></textarea>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="failureMode" contenteditable></span> -->
+              </div>
+              <div class="form-group">
+                <label class="st-label">Failure Effect</label>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="failureEffect" contenteditable></span> -->
+                <textarea class="form-control" id="exampleFormControlTextarea3" rows="1" [(ngModel)]="this.failureEffect" (keyup)="onFailureEffect(this.failureEffect)" [disabled]="isLocked"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="st-label">Failure Cause</label>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="failureCause" contenteditable></span> -->
+                <textarea class="form-control" id="exampleFormControlTextarea4" rows="1" [(ngModel)]="this.failureCause" (keyup)="onFailureCause(this.failureCause)" [disabled]="isLocked"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="st-label">End Effect</label>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="endEffect" contenteditable></span> -->
+                <textarea class="form-control" id="exampleFormControlTextarea5" rows="1" [(ngModel)]="this.endEffect" (keyup)="onEndEffect(this.endEffect)" [disabled]="isLocked"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="card col-xl-8 col-lg-6 col-md-8 px-0" *ngSwitchCase="step.Third">
+            <div class="card-body">
+              <h6 style="padding-bottom: 10px;">Task Description</h6>
+              <div class="form-group">
+                <label class="st-label">Task Description</label>
+                <textarea class="form-control" id="exampleFormControlTextarea5" rows="1" [(ngModel)]="this.taskDescription" (keyup)="onTaskDesc(this.taskDescription)" [disabled]="isLocked"></textarea>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="fmeaObject && fmeaObject.taskDescription" contenteditable></span> -->
+              </div>
+              <div class="form-group">
+                <label class="st-label">Acceptable Limits</label>
+                <textarea class="form-control" id="exampleFormControlTextarea5" rows="1" [(ngModel)]="this.acceptableLimits" (keyup)="onAcceptLimits(this.acceptableLimits)" [disabled]="isLocked"></textarea>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="fmeaObject && fmeaObject.acceptableLimits" contenteditable></span> -->
+              </div>
+              <div class="form-group">
+                <label class="st-label">Corrective Actions</label>
+                <textarea class="form-control" id="exampleFormControlTextarea5" rows="1" [(ngModel)]="this.correctiveActions" (keyup)="onCorrective(this.correctiveActions)" [disabled]="isLocked"></textarea>
+                <!-- <span id="textarea" class="form-control" role="textbox" [(ngModel)]="fmeaObject && fmeaObject.correctiveActions" contenteditable></span> -->
+              </div>
+              <div class="form-group">
+                <label class="st-label">Task Type</label>
+                <select class="form-control" id="taskType" [(ngModel)]="this.taskTypeId" [ngModelOptions]="{standalone: true}" (change)="taskTypeOnSelect($event)" [disabled]="isLocked" style="font-size:12px;">
+                  <option value=""></option>
+                  <option *ngFor="let ty of taskTypeList" [value]="ty.id">{{ ty.taskTypeName }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="st-label">Operational Mode</label>
+                <select class="form-control" id="operationalMode" [(ngModel)]="this.operationalModeId" [ngModelOptions]="{standalone: true}" (change)="operationalModeOnSelect($event)" [disabled]="isLocked" style="font-size:12px;">
+                  <option value=""></option>
+                  <option *ngFor="let op of operationModeList" [value]="op.id">{{ op.operationalModeName }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card col-lg-10" *ngSwitchCase="step.Fourth">
+            <div class="row">
+              <div class="col">
+                <div class="card-body">
+                  <!-- <button type="button" (click)="computeScore()">Failure Score</button> -->
+                  <div class="row">
+                    <mat-tab-group mat-align-tabs="center" #tabGroup>
+                      <mat-tab label="Likelihood">
+                        <div class="row">
+                          <div class="col">
+                            <table class="table" style="width:700px; margin-top: 20px;">
+                              <thead>
+                                <tr>
+                                  <th rowspan="2" style="background-color: rgb(255, 124, 2); color:#ffff">Likelihood</th>
+                                  <th colspan="7" style="background-color: rgb(255, 124, 2); color:#ffff">Severity Level</th></tr>
+                                <tr>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(1)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>1</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(3)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>3</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(10)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>10</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(30)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>30</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(100)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>100</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(300)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>300</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(1000)" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>1000</button></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="clickLikelihood(3); tabGroup.selectedIndex=1" style="border: none; background-color: transparent; width: 100%; height: 100%;">3</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);">3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">9</td>
+                                  <td style="background-color: rgb(120, 230, 120);">30</td>
+                                  <td style="background-color: red;">90</td>
+                                  <td style="background-color: red;">300</td>
+                                  <td style="background-color: red;">900</td>
+                                  <td style="background-color: red;">3000</td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="clickLikelihood(1); tabGroup.selectedIndex=1" style="border: none; background-color: transparent; width: 100%; height: 100%;">1</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);">1</td>
+                                  <td style="background-color: rgb(120, 230, 120);">3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">10</td>
+                                  <td style="background-color: rgb(120, 230, 120);">30</td>
+                                  <td style="background-color: red;">100</td>
+                                  <td style="background-color: red;">300</td>
+                                  <td style="background-color: red;">1000</td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="clickLikelihood(0.3); tabGroup.selectedIndex=1" style="border: none; background-color: transparent; width: 100%; height: 100%;">0.3</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.9</td>
+                                  <td style="background-color: rgb(120, 230, 120);">3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">9</td>
+                                  <td style="background-color: rgb(120, 230, 120);">30</td>
+                                  <td style="background-color: red;">90</td>
+                                  <td style="background-color: red;">300</td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="clickLikelihood(0.1); tabGroup.selectedIndex=1" style="border: none; background-color: transparent; width: 100%; height: 100%;">0.1</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.1</td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">1</td>
+                                  <td style="background-color: rgb(120, 230, 120);">3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">10</td>
+                                  <td style="background-color: rgb(120, 230, 120);">30</td>
+                                  <td style="background-color: red;">100</td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="clickLikelihood(0.03); tabGroup.selectedIndex=1" style="border: none; background-color: transparent; width: 100%; height: 100%;">0.03</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.03</td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.09</td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">0.9</td>
+                                  <td style="background-color: rgb(120, 230, 120);">3</td>
+                                  <td style="background-color: rgb(120, 230, 120);">9</td>
+                                  <td style="background-color: rgb(120, 230, 120);">30</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                            <h6 style="text-align: center;">Likelihood</h6>
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Likelihood Factor</th>
+                                  <th>Likelihood Level</th>
+                                  <th>Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>3</td>
+                                  <td>Highly Likely</td>
+                                  <td>Likely to occur within a 1 year period.</td>
+                                </tr>
+                                <tr>
+                                  <td>1</td>
+                                  <td>Likely</td>
+                                  <td>Likely to occur within a 1 – 5 year period.</td>
+                                </tr>
+                                <tr>
+                                  <td>0.3</td>
+                                  <td>Probable</td>
+                                  <td>Likely to occur within a 5 – 20 year period.</td>
+                                </tr>
+                                <tr>
+                                  <td>0.1</td>
+                                  <td>Unlikely</td>
+                                  <td>Likely to occur within a 20 – 50 year period.</td>
+                                </tr>
+                                <tr>
+                                  <td>0.03</td>
+                                  <td>Highly Unlikely</td>
+                                  <td>Not likely to occur within a 50 year period.</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </mat-tab>
+                      <mat-tab label="Consequences">
+                        <div class="row">
+                          <div class="col">
+                            <table class="table" style="width:700px; margin-top: 20px;">
+                              <thead>
+                                <tr>
+                                  <th rowspan="2" style="background-color: rgb(255, 124, 2); color:#ffff">Likelihood</th>
+                                  <th colspan="7" style="background-color: rgb(255, 124, 2); color:#ffff">Severity Level</th></tr>
+                                <tr>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(1)" style="border: none; background-color: transparent; width: 100%; height: 100%;">1</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(3)" style="border: none; background-color: transparent; width: 100%; height: 100%;">3</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(10)" style="border: none; background-color: transparent; width: 100%; height: 100%;">10</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(30)" style="border: none; background-color: transparent; width: 100%; height: 100%;">30</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(100)" style="border: none; background-color: transparent; width: 100%; height: 100%;">100</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(300)" style="border: none; background-color: transparent; width: 100%; height: 100%;">300</button></th>
+                                  <th style="background-color: rgb(252, 192, 80);"><button type="button" (click)="computeAll(1000)" style="border: none; background-color: transparent; width: 100%; height: 100%;">1000</button></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="onClick1()" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>3</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square1">3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square1"><b>3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square2">9</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square2"><b>9</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square3">30</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square3"><b>30</b></td>
+                                  <td style="background-color: red;" *ngIf="!square4">90</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square4"><b>90</b></td>
+                                  <td style="background-color: red;" *ngIf="!square5">300</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square5"><b>300</b></td>
+                                  <td style="background-color: red;" *ngIf="!square6">900</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square6"><b>900</b></td>
+                                  <td style="background-color: red;" *ngIf="!square7">3000</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square7"><b>3000</b></td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="onClick1()" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>1</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square8">1</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square8"><b>1</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square9">3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square9"><b>3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square10">10</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square10"><b>10</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square11">30</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square11"><b>30</b></td>
+                                  <td style="background-color: red;" *ngIf="!square12">100</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square12"><b>100</b></td>
+                                  <td style="background-color: red;" *ngIf="!square13">300</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square13"><b>300</b></td>
+                                  <td style="background-color: red;" *ngIf="!square14">1000</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square14"><b>1000</b></td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="onClick1()" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>0.3</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square15">0.3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square15"><b>0.3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square16">0.9</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square16"><b>0.9</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square17">3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square17"><b>3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square18">9</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square18"><b>9</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square19">30</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square19"><b>30</b></td>
+                                  <td style="background-color: red;" *ngIf="!square20">90</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square20"><b>90</b></td>
+                                  <td style="background-color: red;" *ngIf="!square21">300</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square21"><b>300</b></td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="onClick1()" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>0.1</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square22">0.1</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square22"><b>0.1</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square23">0.3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square23"><b>0.3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square24">1</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square24"><b>1</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square25">3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square25"><b>3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square26">10</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square26"><b>10</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square27">30</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square27"><b>30</b></td>
+                                  <td style="background-color: red;" *ngIf="!square28">100</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square28"><b>100</b></td>
+                                </tr>
+                                <tr>
+                                  <td style="background-color: rgb(252, 192, 80); font-weight: bold;"><button type="button" (click)="onClick1()" style="border: none; background-color: transparent; width: 100%; height: 100%;" disabled>0.03</button></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square29">0.03</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square29"><b>0.03</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square30">0.09</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square30"><b>0.09</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square31">0.3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square31"><b>0.3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square32">0.9</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square32"><b>0.9</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square33">3</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square33"><b>3</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square34">9</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square34"><b>9</b></td>
+                                  <td style="background-color: rgb(120, 230, 120);" *ngIf="!square35">30</td>
+                                  <td style="background-color: rgb(245, 255, 109); font-size: 14px;" *ngIf="square35"><b>30</b></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <h6 style="text-align: center;">Consequences</h6>
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th>Severity Level</th>
+                                  <th>Description</th>
+                                  <th>Severity Factor</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>5</td>
+                                  <td>6 or more fatalities or 6 or more life shortening illnesses; or 
+                                    Severe impact to the environment and where recovery of ecosystem function takes 10 years or more; or 
+                                    Severe impact on community lasting more than 12 months or a substantiated human rights violation impacting 6 or more people; or 
+                                    Severe impact on company reputation, investment attractiveness, legal rights or compliance, social value proposition or ability to access opportunities at a global level; or US$2 billion or more. </td>
+                                  <td>1000</td>
+                                </tr>
+                                <tr>
+                                  <td>4</td>
+                                  <td>1-5 fatalities or 1-5 life shortening illnesses; or 
+                                    Serious impact to the environment, where recovery of ecosystem function takes between 3 and up to 10 years; or 
+                                    Serious impact on community lasting 6-12 months or a substantiated human rights violation impacting 1-5 persons; or 
+                                    Serious impact on company reputation, investment attractiveness, legal rights or compliance, social value proposition or ability to access opportunities at a national level; or 
+                                    Between US$250 million and up to US$2 billion.</td>
+                                  <td>300</td>
+                                </tr>
+                                <tr>
+                                  <td>3</td>
+                                  <td>Life altering or long term/permanent disabling injury or illness to one or more persons; or 
+                                    Substantial impact to the environment, where recovery of ecosystem function takes between 1 and up to 3 years; or 
+                                    Substantial impact on community lasting 2-6 months; or 
+                                    Substantial impact on company reputation, legal rights or compliance, social value proposition, or ability to access opportunities at a sub national level (state, territory, province); or 
+                                    Between US$50 million and up to US$250 million. </td>
+                                  <td>100</td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td>Non-life altering or short-term disabling injury or illness to one or more persons; or 
+                                    Measureable but limited impact to the environment, where recovery of ecosystem function takes less than 1 year; or 
+                                    Measureable but limited community impact lasting less than one month; or 
+                                    Measureable but limited impact on company reputation, legal rights or compliance, or social value proposition at a local level (region, city, town); or 
+                                    Between US$2 million and up to US$50 million. </td>
+                                  <td>30</td>
+                                </tr>
+                                <tr>
+                                  <td>1</td>
+                                  <td>Low level impact resulting in first aid only; or 
+                                    Minor, temporary impact to the environment, where the ecosystem recovers with little intervention; or 
+                                    Minor, temporary community impact that recovers with little intervention; or 
+                                    Minor, temporary impact on company reputation, legal rights or compliance, or social value proposition; or 
+                                    Less than US$2 million. </td>
+                                  <td>10</td>
+                                </tr>
+                                <tr>
+                                  <td>1b</td>
+                                  <td>Negligible impact on health and safety, environment, reputation, or legal.
+                                    Between US$25,000 and up to US$250,000.</td>
+                                  <td>10</td>
+                                </tr>
+                                <tr>
+                                  <td>1c</td>
+                                  <td>Zero impact on health and safety, environment, reputation, or legal.
+                                    Below US$25,000</td>
+                                  <td>10</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </mat-tab>
+                    </mat-tab-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card col-xl-8 col-lg-6 col-md-8 px-0" *ngSwitchCase="step.Fifth">
+            <div class="card-body">
+              <h6 style="padding-bottom: 10px;">Schedule Information</h6>
+              <div class="form-group">
+                <label class="st-label">Frequency</label>
+                <select class="form-control" id="frequency" [(ngModel)]="this.intervalId" [ngModelOptions]="{standalone: true}" (change)="frequencyOnSelect($event)" [disabled]="isLockInfo" style="font-size:12px;">
+                  <option value=""></option>
+                  <option *ngFor="let fl of frequencyList" [value]="fl.id">{{ fl.frequencyName }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="st-label">Duration</label>
+                <select class="form-control" id="duration" [(ngModel)]="this.durationId" [ngModelOptions]="{standalone: true}" (change)="durationOnSelect($event)" [disabled]="isLockInfo" style="font-size:12px;">
+                  <option value=""></option>
+                  <option *ngFor="let dr of durationList" [value]="dr.id">{{ dr.durationName }}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="st-label">Resource Quantity</label>
+                <input type="text" class="form-control" placeholder="Resource Quantity" [(ngModel)]="this.resourceQuantity" (keyup)="onResource(this.resourceQuantity)" [disabled]="isLockInfo">
+              </div>
+              <div class="form-group">
+                <label class="st-label">Trade Type</label>
+                <select class="form-control" id="tradetype" [(ngModel)]="this.tradeTypeId" [ngModelOptions]="{standalone: true}" (change)="tradeTypeOnSelect($event)" [disabled]="isLockInfo" style="font-size:12px;">
+                  <option value=""></option>
+                  <option *ngFor="let tt of tradeTypeList" [value]="tt.id">{{ tt.tradeTypeName }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="card col-xl-8 col-lg-6 col-md-8 px-0" *ngSwitchCase="step.Last">
+            <div class="card-body">
+              <div style="float: right;">
+              </div>
+              <h6>FMEA Summary</h6>
+              <div class="summaryDetail">
+                <label class="st-label">Maintainable Unit: </label>
+                <span class="fmSummaryTxt"><b>{{ componentTask }}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Maintainable Item: </label>
+                <span class="fmSummaryTxt"><b>{{ className }}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Sub Maintainable Item: </label>
+                <span class="fmSummaryTxt"><b>{{ subClassName }}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">BuildSpec: </label>
+                <span class="fmSummaryTxt"><b>{{ buildSpecName }}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Manufacturer: </label>
+                <span class="fmSummaryTxt"><b>{{ manufacturerName }}</b></span>
+              </div>
+              <hr>
+              <div class="summaryDetail">
+                <label class="st-label">Function State: </label>
+                <span class="fmSummaryTxt"><b>{{componentTaskFunction}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Failure Mode: </label>
+                <span class="fmSummaryTxt"><b>{{failureMode}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Failure Cause: </label>
+                <span class="fmSummaryTxt"><b>{{failureEffect}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Failure Effect: </label>
+                <span class="fmSummaryTxt"><b>{{failureCause}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">End Effect: </label>
+                <span class="fmSummaryTxt"><b>{{endEffect}}</b></span>
+              </div>
+              <hr>
+              <div class="summaryDetail">
+                <label class="st-label">Task Description: </label>
+                <span class="fmSummaryTxt"><b>{{taskDescription}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Acceptable Limits: </label>
+                <span class="fmSummaryTxt"><b>{{acceptableLimits}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Corrective Actions: </label>
+                <span class="fmSummaryTxt"><b>{{correctiveActions}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Task Type: </label>
+                <span class="fmSummaryTxt"><b>{{mapTaskTypeData(taskTypeId)?.taskTypeName}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Operational Mode: </label>
+                <span class="fmSummaryTxt"><b>{{mapOperationalModeData(operationalModeId)?.operationalModeName}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Failure Risk Score: </label>
+                <span class="fmSummaryTxt"><b>{{failureRiskTotalScore}}</b></span>
+              </div>
+              <hr>
+              <div class="summaryDetail">
+                <label class="st-label">Interval: </label>
+                <span class="fmSummaryTxt"><b>{{mapFrequencyData(intervalId)?.frequencyName}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Duration: </label>
+                <span class="fmSummaryTxt"><b>{{mapDurationData(durationId)?.durationName}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Resource Quantity: </label>
+                <span class="fmSummaryTxt"><b>{{resourceQuantity}}</b></span>
+              </div>
+              <div class="summaryDetail">
+                <label class="st-label">Trade Type: </label>
+                <span class="fmSummaryTxt"><b>{{mapTradeTypeData(tradeTypeId)?.tradeTypeName}}</b></span>
+              </div>
+            </div>
+          </div>
+          <div class="card col-xl-8 col-lg-6 col-md-8 px-0 mt-2" *ngSwitchCase="step.Last">
+            <div class="card-body">
+              <div class="summaryDetail">
+                <label class="st-label">Comment: </label>
+                <span class="fmSummaryTxt"><b>{{comment}}</b></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <div class="mt-4 mx-auto d-flex justify-content-center">
+        <button type="button" class="btn btn-link" (click)="previous()" *ngIf="stateBullet < 6 && stateBullet > 1 ">Previous</button>
+        <button type="button" class="btn btn-primary" (click)="next();" *ngIf="stateBullet < 5 ">Next</button>
+        <button type="button" class="btn btn-primary" (click)="next();" *ngIf="stateBullet === 5" [disabled]="loading"><spinner color="white" size="xs" *ngIf="loading"></spinner>  View FMEA Summary</button>
+        <!-- <button type="button" class="btn btn-primary" (click)="switchStep(4)" *ngIf="stateBullet < 4 && forReview " >Save</button> -->
+      </div>
+    </div>
+  </div>
+</div>

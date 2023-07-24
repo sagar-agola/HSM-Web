@@ -1,0 +1,154 @@
+@import '../../../styles/st-components/st-badges';
+
+html, body { height: 100%;}
+
+#content 
+{
+    margin: 0 auto;
+    width: 100%;
+
+    /* this is the real deal: */
+    /* background: url("img/content_left.png") top left repeat-y; */
+
+    /* this is just for the example */
+    border-left: 1px solid #eee;
+    background-color: #eeeded;
+    height: auto !important;
+    height: 100%; /* IE 6 Workaround */
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+#content .wrapper
+{
+    /* this is the real deal: */
+    /* background: url("img/content_right.png") top right repeat-y; */
+
+    /* this is just for the example */
+    border-right: 1px solid #eee;
+
+    height: auto !important;
+    height: 100%; /* IE 6 Workaround */
+    min-height: 100%;
+    background-color: #eeeded;
+    padding: 0px 10px;
+}
+
+#main-container {
+  height:100vh;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  flex: 1 auto;
+  margin-bottom: auto;
+}
+
+.breadcrumb{
+  margin: 0 10px 0 10px;
+}
+
+#ui-container{
+  background-color: #eeeded;
+  overflow-x: auto;
+  // height:100vmax;
+}
+
+#criticalityInfo{
+  padding: 10px;
+  height: auto;
+  background-color: #ffff;
+}
+
+.st-tab.active {
+    color: #2d2c2b;
+    border-bottom: 3px solid #007bff;
+  }
+  
+  .st-tab{
+    // padding-right: 100px;
+    font-weight:500;
+    font-size: small;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: black !important;
+  }
+
+  ::ng-deep .mat-ink-bar {
+    border-bottom: 2px solid #007bff !important;
+    background-color: #fff !important;
+    z-index: 2;
+  }
+  
+  ::ng-deep .mat-tab-header {
+    background-color: #fff;
+    margin: 0 -10px 0 -10px;
+  }
+  
+  ::ng-deep .mat-tab-group {
+    font-size: 12px !important;
+    padding-top: -10px !important;
+    margin-top: -15px !important;
+  }
+  
+  ::ng-deep .mat-tab-label {
+    font-size: 12px !important;
+    width: auto !important;
+  }
+  
+  ::ng-deep .mat-tab-body-content{
+    overflow: hidden !important;
+    background-color: #eeeded !important;
+    margin-top: -15px;    
+    // #f3f2f1
+    // #e9ecef
+  }
+
+  table{
+    max-width: 100%;
+  }
+  
+  th{
+    font-size: 11px;
+    font-weight: 500;
+    color:#414244 ;
+  }
+  
+  td{
+    font-size: 12px;
+    color:#6c757d ;
+  }
+
+  tr:nth-child(even) {
+    background-color: #ffff;
+  }
+
+  .card{
+    margin-top: 20px;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .mat-column-edit{
+    width: 5% !important;
+  }
+
+  .mat-column-delete{
+    width: 5% !important;
+  }
+
+  .mat-column-add{
+    width: 8% !important;
+  }
+
+  .mat-column-adduser{
+    width: 8% !important;
+  }
+
+  .mat-column-editGp{
+    width: 8% !important;
+  }
+
+  .mat-column-deleteGp{
+    width: 8% !important;
+  }
+
+ 

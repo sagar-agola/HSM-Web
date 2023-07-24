@@ -1,0 +1,200 @@
+<div class="bg-gray-200 min-vh-150" id="ui-container">
+    <div class="border-bottom view-header"></div>
+    <div class="panel panel-default">
+        <div class="panel-body" id="criticalityInfo">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/main/dashboard" style="font-size: 14px;">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Assign Taxonomy</li>
+                </ol>
+            </nav>
+        </div>
+        <div id="parent">
+            <div class="LeftCol" [ngClass]="status ? 'sidebar' : 'sibeBarCollapse'">
+                <!-- <input type="text" class="form-control" placeholder="Search"> -->
+                <!-- <mat-icon style="display:block; float: right; margin-top: -30px;">search</mat-icon> -->
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;" (click)="clickEvent()" *ngIf="!status" placement="right" ngbTooltip="Minimize display">
+                    <fa-icon [icon]="['fas', 'caret-square-left']" style="color: #000000;"></fa-icon>
+                </button>
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;" (click)="clickEvent()" *ngIf="status" placement="right" ngbTooltip="Maximize display">
+                    <fa-icon [icon]="['fas', 'caret-square-right']" style="color: #000000;"></fa-icon>
+                </button>
+                <div class="hierarchyClass" [ngClass]="status ? 'tableHide' : 'tableShow'">
+                    <table class="mat-table" style="margin-bottom: 10px;">
+                        <thead class="mat-header-row" fxLayoutAlign=" center">
+                        <th class="mat-header-cell" fxFlex>
+                            Asset Hierarchy
+                        </th>
+                        <th class="mat-header-cell" fxFlex="20">
+                            Description
+                        </th>
+                        </thead>
+                        <spinner *ngIf="this.loading" class="d-flex h-100 w-100 align-items-center justify-content-center my-5">
+                        </spinner>
+                    </table>
+                    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                        <!-- This is the tree node template for leaf nodes -->
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+                        <li class="mat-tree-node">
+                            <!-- use a disabled button to provide padding for tree leaf -->
+                            <button mat-icon-button disabled></button>
+                            <div class="container-fluid">
+                            <div class="row">
+                                <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)"
+                                    style=" color: black; font-size: 12px;">{{node.Code}}</button></div>
+                                <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)"
+                                    style=" color: #111111; font-size: 12px;">{{node.Description}}</button></div>
+                            </div>
+                            </div>
+                        </li>
+                        </mat-tree-node>
+                        <!-- This is the tree node template for expandable nodes -->
+                        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                        <li>
+                            <div class="mat-tree-node ">
+                            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.Code">
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                </mat-icon>
+                            </button>
+                            <div class="container-fluid">
+                                <div class="row">
+                                <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)"
+                                    style=" color: black; font-size: 12px;">{{node.Code}}</button></div>
+                                <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)"
+                                    style=" color: #111111; font-size: 12px;">{{node.Description}}</button></div>
+                                </div>
+                            </div>
+                            </div>
+                            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                            <ng-container matTreeNodeOutlet></ng-container>
+                            </ul>
+                        </li>
+                        </mat-nested-tree-node>
+                    </mat-tree>
+                </div>
+            </div>
+            <div class="RightCol">
+                <div class="row g-3 align-items-center ml-2">
+                    <div class="col-auto">
+                      <label for="filter" class="st-label">Search</label>
+                    </div>
+                    <div class="col-auto" style="width: 60%;">
+                      <input type="text" id="searchtxt" class="form-control" placeholder="Ex. asset code, description, category, class or type" (keyup)="applyFilter($event)" #input>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary" style="font-size: small; border-color: #005cbf; background-color: #0062cc;" (click)="openDialogHierarchy()" [disabled]="disabledAssign">
+                            Assign Hierarchy
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-primary" style="font-size: small; border-color: #005cbf; background-color: #0062cc;" (click)="openDialogAssign()" [disabled]="disabledAssign">
+                            Assign Taxonomy
+                        </button>
+                    </div>
+                  </div>
+                <!-- <div class="row" style="margin-left:20px;">
+                    <div class="col-1">
+                        <p>Filter</p>
+                    </div>
+                    <div class="col-7">
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-primary" style="font-size: small; border-color: #005cbf; background-color: #0062cc;">
+                            Search
+                        </button>
+                    </div>
+                </div> -->
+                <div class="table-responsive" style="padding-top: 10px;">
+                    <div>
+                        <mat-paginator [pageSizeOptions]="[25, 50, 100, 500, 1000]" showFirstLastButtons
+                            style="background-color: #e9ecef;"></mat-paginator>
+                    </div>
+                    <table id="excel-table" mat-table [dataSource]="dataSource2" matSort>
+                        <ng-container matColumnDef="code">
+                            <th mat-header-cell *matHeaderCellDef> Asset Hierarchy Code </th>
+                            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="description">
+                            <th mat-header-cell *matHeaderCellDef> Description </th>
+                            <td mat-cell *matCellDef="let element">{{element.description}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="industryName">
+                            <th mat-header-cell *matHeaderCellDef> Industry </th>
+                            <td mat-cell *matCellDef="let element">{{element.industryName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="businessType">
+                            <th mat-header-cell *matHeaderCellDef> Business Type </th>
+                            <td mat-cell *matCellDef="let element">{{element.businessType}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="assetType">
+                            <th mat-header-cell *matHeaderCellDef> Asset Type </th>
+                            <td mat-cell *matCellDef="let element">{{element.assetType}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="processFunction">
+                            <th mat-header-cell *matHeaderCellDef> Process Function </th>
+                            <td mat-cell *matCellDef="let element">{{element.processFunction}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="className">
+                            <th mat-header-cell *matHeaderCellDef> Class </th>
+                            <td mat-cell *matCellDef="let element">{{element.className}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="specification">
+                            <th mat-header-cell *matHeaderCellDef> Spec </th>
+                            <td mat-cell *matCellDef="let element">{{element.specification}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="componentFamilies">
+                            <th mat-header-cell *matHeaderCellDef> Family </th>
+                            <td mat-cell *matCellDef="let element">{{element.componentFamilies}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="assetManufacturer">
+                            <th mat-header-cell *matHeaderCellDef> Manufacturer </th>
+                            <td mat-cell *matCellDef="let element">{{element.assetManufacturer}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="assign">
+                            <th mat-header-cell *matHeaderCellDef> Assign Taxonomy </th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <button type="button" class="btn btn-link" style="font-size: small;" (click)="openDialogAssignEdit(element.id)" *ngIf="element.categoryName !== null">
+                                    Edit
+                                </button> -->
+                                <input type="checkbox" [checked]="element.isAdd" style="margin-left: 16px;" (change)="addtoAssign($event, element.id)">
+                            </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="noRecord">
+                            <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=12>
+            
+                                <img src="./../../../../../../assets/images/search-for-records.png"
+                                    alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                <img src="./../../../../../../assets/images/no-records-found.png" alt="Folder with no results"
+                                    class="mb-2 mt-4" *ngIf="!default">
+                                <br>
+                                <span class="text-gray-500 text-base" *ngIf="default">No record to display. Please select in the hierarchy or search above</span>
+                                <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the Asset FLOC or
+                                    Description.</span>
+            
+                                <!-- You have no referrals assigned to you or your referral group. -->
+                            </td>
+                        </ng-container>
+            
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['noRecord']"
+                            [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+button{
+    margin-left: 10px;
+    float: right;
+}
+
+h6{
+    text-align: center;
+}
+
+.example-tree-invisible {
+    display: none;
+  }
+  
+  .example-tree ul,
+  .example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+  .example-tree-node {
+    display: block;
+  }
+  
+  .example-tree-node .example-tree-node {
+    padding-left: 40px;
+  }
+
+  .example-tree-invisible {
+    display: none;
+  }
+
+  .mat-table th{
+    text-align: justify;
+    font-weight: 500;
+  }
+
+  th{
+    text-align: center;
+    padding-left: 100px;
+    font-size: 14px;
+    font-weight: normal;
+    color:#414244 ;
+  }

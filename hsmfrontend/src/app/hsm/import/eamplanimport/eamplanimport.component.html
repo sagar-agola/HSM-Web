@@ -1,0 +1,20 @@
+<h4 style="font-size: medium; margin: 10px;">Import EAM Plan</h4>
+<div class="panel-body" style="float: left; padding: 10px; margin-bottom: 20px;">
+    <div class="row">  
+        <div class="col-lg-8">  
+            <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" />  
+        </div>  
+        <div class="col-lg-4">  
+            <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)">
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload</button>
+        </div>  
+    </div>
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <!-- <p> {{ message }} </p> -->
+    <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import File">cloud_upload</button></mat-icon> -->
+</div>

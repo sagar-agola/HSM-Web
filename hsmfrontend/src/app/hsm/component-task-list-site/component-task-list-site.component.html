@@ -1,0 +1,392 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Site Maintainable Unit Failure Mode Tasks</li>
+      </ol>
+    </nav>
+    <div id="parent">
+        <div id="LeftCol" *ngIf="isMax">
+            <button type="button" class="btn btn-link" style="float: right; margin-left: -5px; margin-top: -10px;" (click)="toggleMin()" placement="right" ngbTooltip="Minimize display">
+                <fa-icon [icon]="['fas', 'caret-square-left']" style="color: #000000;"></fa-icon>
+            </button>
+            <h6 class="st-label">Site Maintainable Unit Failure Mode Tasks</h6>
+            <div>
+                <!-- <ul class="list-group list-group-flush" *ngFor="let list of componentTaskList">
+                    <li class="list-group-item list-group-item-action"><button type="button" style="border: none;" (click)="fmDataClick(list.id, list.componentTaskName)">{{ list.componentTaskName }}</button></li>
+                </ul> -->
+                <div class="list-group" *ngFor="let list of componentTaskList">
+                    <button type="button" class="list-group-item list-group-item-action" (click)="fmDataClick(list.id, list.componentTaskName)">{{ list.componentTaskName }}</button>
+                </div>
+            </div>
+        </div>
+        <div id="LeftCol2" *ngIf="isMin">
+            <button type="button" class="btn btn-link" style="margin-left: -5px; margin-bottom: 10px;" (click)="toggleMax()" placement="right" ngbTooltip="Maximize display">
+              <fa-icon [icon]="['fas', 'caret-square-right']" style="color: #000000;"></fa-icon>
+            </button>
+        </div>
+        <div id="RightCol">
+            <div class="card">
+                <div class="card-body">
+                    <div style="position: relative;display: block; float: left; margin-left: 10px; color:#007bff; font-weight: 500;"><p>{{ componentFailureMode }}</p></div>
+                    <div class="panel-body2">
+                        <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import Hierarchy">cloud_upload</button></mat-icon> -->
+                        <mat-icon style="margin-right: 30px;"><button placement="left" ngbTooltip="Multi Filter" (click)="toggleFilter()" #multiFilter>filter_list</button></mat-icon>
+                        <div class="position-absolute card shadow" style=" right:20px; width:550px; z-index: 4; padding: 10px; margin-top: -10px;"
+                            fadeInOut [hidden]="!this.displayMultiFilter">
+                            <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleFilter()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                            <span style="font-size: small; font-weight: bold;">Search Filter</span>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label">Task ID</span>
+                                        <input class="form-control" type="text" [(ngModel)]="taskId"
+                                        [ngModelOptions]="{standalone: true}" (keyup)="onKeyupTask(taskId)" [matAutocomplete]="auto">
+                                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                            <mat-option *ngFor="let emp of taskIdList" [value]="emp.dropName" style="font-size: 11px;">
+                                            {{emp.dropName}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Task Type</span>
+                                        <select class="form-control" id="tasktypeId" [(ngModel)]="tasktypeId" [ngModelOptions]="{standalone: true}"
+                                        (change)="taskTypeOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.taskTypeList.length === 0">No data result</option>
+                                        <option *ngFor="let tt of taskTypeList" [value]="tt.id">{{ tt.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Frequency</span>
+                                        <select class="form-control" id="frequencyId" [(ngModel)]="frequencyId" [ngModelOptions]="{standalone: true}"
+                                        (change)="frequencyOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.frequencyList.length === 0">No data result</option>
+                                        <option *ngFor="let fr of frequencyList" [value]="fr.id">{{ fr.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Variant Type</span>
+                                        <select class="form-control" id="variantid" [(ngModel)]="variantid" [ngModelOptions]="{standalone: true}"
+                                        (change)="variantOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option *ngFor="let cv of componentVariantList" [value]="cv.id">{{ cv.variantName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Maint Item</span>
+                                        <select class="form-control" id="classTaxonomyid" [(ngModel)]="classTaxonomyid" [ngModelOptions]="{standalone: true}"
+                                        (change)="classOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.classTaxonomyList.length === 0">No data result</option>
+                                        <option *ngFor="let cl of classTaxonomyList" [value]="cl.id">{{ cl.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    <span class="st-label">Build Spec</span>
+                                    <select class="form-control" id="buildSpecTaxonomyid" [(ngModel)]="buildSpecTaxonomyid" [ngModelOptions]="{standalone: true}"
+                                        (change)="buildSpecOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.buildSpecTaxonomyList.length === 0">No data result</option>
+                                        <option *ngFor="let bs of buildSpecTaxonomyList" [value]="bs.id">{{ bs.dropName }}</option>
+                                        </select>
+                                </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label">Failure Mode</span>
+                                        <input type="text" class="form-control" id="failureMode" [(ngModel)]="failuremode">
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Trade</span>
+                                        <select class="form-control" id="tradetypeId" [(ngModel)]="tradetypeId" [ngModelOptions]="{standalone: true}"
+                                        (change)="tradeTypeOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.tradeTypeList.length === 0">No data result</option>
+                                        <option *ngFor="let ty of tradeTypeList" [value]="ty.id">{{ ty.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Duration</span>
+                                        <select class="form-control" id="durationid" [(ngModel)]="durationid" [ngModelOptions]="{standalone: true}"
+                                        (change)="durationOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.durationList.length === 0">No data result</option>
+                                        <option *ngFor="let dr of durationList" [value]="dr.id">{{ dr.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Maintainable Unit</span>
+                                        <select class="form-control" id="familyTaxonomyid" [(ngModel)]="familyTaxonomyid" [ngModelOptions]="{standalone: true}"
+                                        (change)="familyOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.familyTaxonomyList.length === 0">No data result</option>
+                                        <option *ngFor="let ft of familyTaxonomyList" [value]="ft.id">{{ ft.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                    <span class="st-label"> Sub Maint Item</span>
+                                    <select class="form-control" id="subClassTaxonomyid" [(ngModel)]="subClassTaxonomyid" [ngModelOptions]="{standalone: true}"
+                                        (change)="subClassOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.subClassTaxonomyList.length === 0">No data result</option>
+                                        <option *ngFor="let sc of subClassTaxonomyList" [value]="sc.id">{{ sc.dropName }}</option>
+                                        </select>
+                                </div>
+                                <div class="form-group">
+                                    <span class="st-label"> Manufacturer</span>
+                                    <select class="form-control" id="manufacturerTaxonomyid" [(ngModel)]="manufacturerTaxonomyid" [ngModelOptions]="{standalone: true}"
+                                        (change)="manufacturerOnSelect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.manufacturerTaxonomyList.length === 0">No data result</option>
+                                        <option *ngFor="let cm of manufacturerTaxonomyList" [value]="cm.id">{{ cm.dropName }}</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <div class="form-group"><button class="btn btn-primary lg active" style="float: right; font-size: 12px;" (click)="searchFilter()"> Filter </button></div>
+                        </div>
+                        <mat-icon style="margin-right: 30px;"><button placement="left" ngbTooltip="Create Variant" [disabled]="!isChecked">file_copy</button></mat-icon>
+                        <!-- <button><mat-icon>settings</mat-icon>Column Display</button> -->
+                        <mat-icon style="margin-right: 20px;"><button (click)="toggleColumn()" placement="left" ngbTooltip="Custom Table Display" #tableColumn>settings</button></mat-icon>
+                        <div class="position-absolute card shadow" style=" right:20px; width:408px; z-index: 4; padding: 10px; margin-top: -10px;"
+                        fadeInOut [hidden]="!this.displayTableColumn">
+                        <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleColumn()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                        <span style="font-size: small; font-weight: bold;">Table Columns</span>
+                        <br>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableTaskId" (change)="addColumnTaskId()">&nbsp; Task Id
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableParent" (change)="addColumnParent()">&nbsp; Parent
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableFamily" (change)="addColumnFamily()">&nbsp; Maint Unit
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableClass" (change)="addColumnClass()">&nbsp; Maint Item
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableSubClass" (change)="addColumnSubClass()">&nbsp; Sub Maint Item
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableBuildSpec" (change)="addColumnBuildSpec()">&nbsp; Build Spec
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableManufacturer" (change)="addColumnManufacturer()">&nbsp; Manufacturer
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableFailureMode" (change)="addColumnFailureMode()">&nbsp; Failure Mode
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableTaskDesc" (change)="addColumnTaskDesc()">&nbsp; Task Description
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableFailureRiskScore" (change)="addColumnFailureRiskScore()">&nbsp; Risk Score
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableAcceptableLimits" (change)="addColumnAcceptableLimits()">&nbsp; Acceptable Limits
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableCorrective" (change)="addColumnCorrectiveActions()">&nbsp; Corrective Action
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableTaskType" (change)="addColumnTaskType()">&nbsp; Task Type
+                                </div>
+                                <div class="form-group check-column" style="font-size: 12px;">
+                                <input type="checkbox" [(ngModel)]="tableInterval" (change)="addColumnFrequency()">&nbsp; Frequency
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <mat-icon style="margin-right: 30px;"><button (click)="openDialogCreateFMEA('CreateSiteFMEA')" placement="left" ngbTooltip="Create New FMEA" [disabled]="!isClicked">note_add</button></mat-icon>
+                    </div>
+                    <div class="table-responsive" style="background-color: #fff; overflow-x: auto;">
+                        <div>
+                            <div class="form-group-inline" style="margin-left: 10px; margin-top: 10px; position: absolute;" *ngIf="isAdmin && isHSMUser">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="customerId" [(ngModel)]="customerId" (change)="customerOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;">
+                                    <option value="0" disabled selected>Select your Customers</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let cm of customerList" [value]="cm.id">{{ cm.customerName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 10px; margin-top: 10px; position: absolute;" *ngIf="!isHSMUser">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="customerId" [(ngModel)]="customerId" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" disabled>
+                                    <option *ngFor="let cm of customerList" [value]="cm.id">{{ cm.customerName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 200px; margin-top: 10px; position: absolute;" *ngIf="isHSMUser && isAdmin">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" [disabled]="!isCustomerSelect">
+                                    <option value="0" disabled selected>Select your Sites</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 200px; margin-top: 10px; position: absolute;" *ngIf="!isHSMUser && isAdmin">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;">
+                                    <option value="0" disabled selected>Select your Sites</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 200px; margin-top: 10px; position: absolute;" *ngIf="!isAdmin">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="siteId" [(ngModel)]="siteId" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" disabled>
+                                    <option value="0" disabled selected>Select your Sites</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+                                </select>
+                            </div>
+                            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator>
+                        </div>
+                        <table mat-table [dataSource]="dataSource2" matSort>
+                            
+                            <ng-container matColumnDef="isAdd">
+                                <th mat-header-cell *matHeaderCellDef> </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                <span *ngIf="element.parentCode === '' || element.parentCode === null"><input type="checkbox" [checked]="element.isAdd" (change)="checkThis($event, element.id)"></span>
+                                <span *ngIf="element.parentCode !== '' && element.parentCode !== null"><input type="checkbox" [checked]="element.isAdd" disabled></span>
+                                </td>
+                            </ng-container>
+                
+                            <ng-container  matColumnDef="taskIdentificationNo">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task ID </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    <a class="btn btn-link" (click)="goToFMEAEdit(element.id)" style="font-size: 11px;">{{element.taskIdentificationNo}}</a>
+                                </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="parentCode">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Parent </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.parentCode}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="familyComponent">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Maint Unit </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.familyComponent}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="componentClass">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Maint Item </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.componentClass}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="subClass">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Sub Maint Item </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.subClass}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="buildSpec">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> BuildSpec </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.buildSpec}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="componentManufacturer">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Manufacturer </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.componentManufacturer}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="failureMode">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Failure Mode </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{element.failureMode}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="taskDescription">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Description </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.taskDescription}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="failureRiskTotalScore">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Risk Score </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.failureRiskTotalScore}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="acceptableLimits">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Acceptable Limits </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.acceptableLimits}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="correctiveActions">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Corrective Action </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.correctiveActions}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="taskTypeName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Type </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.taskTypeName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="frequencyName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Frequency </th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> {{element.frequencyName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="systemStatus">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Status </th>
+                                <td mat-cell *matCellDef="let element" [ngClass]="{'td-success': element.systemStatus === 3, 'td-warning':element.systemStatus === 2, 'td-primary':element.systemStatus === 1, 'td-danger': element.systemStatus === 4}">
+                                    <!-- <mat-select [(ngModel)]="element.systemStatus" (selectionChange)="statusOnSelect($event, element.id)">
+                                        <mat-option [value]="option.id" *ngFor="let option of statusList">{{option?.statusName}}</mat-option>
+                                    </mat-select> -->
+                                    <span class="statusReview" *ngIf="element.systemStatus !== 3" (click)="goToFMEAReview(element.id)">{{mapStatusData(element.systemStatus).statusName}}</span>
+                                    <span *ngIf="element.systemStatus === 3">{{mapStatusData(element.systemStatus).statusName}}</span>
+                                </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="variantName" *ngIf="tableVariant">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Variant Type</th>
+                                <td mat-cell *matCellDef="let element" style="height:30px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{element.variantName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="deleteFM">
+                                <th mat-header-cell *matHeaderCellDef> </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button (click)="deleteFMEA(element.id, element.taskIdentificationNo)"><fa-icon [icon]="['fas', 'trash-alt']" style="color: #c0392b; font-size: 14px; justify-content: center;"></fa-icon></button>
+                                </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="noRecord">
+                                <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=15>
+
+                                <span class="text-gray-500 text-base" *ngIf="default">No data results</span>
+                                <span class="text-gray-500 text-base" *ngIf="!default">No data results</span>
+                    
+                                </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

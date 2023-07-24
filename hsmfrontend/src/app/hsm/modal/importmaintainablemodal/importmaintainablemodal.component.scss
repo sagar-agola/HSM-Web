@@ -1,0 +1,92 @@
+button{
+    margin-left: 10px;
+    float: right;
+}
+
+h6{
+    text-align: center;
+}
+
+::ng-deep .mat-dialog-container{
+  padding:0 !important;
+  overflow: hidden !important;
+}
+
+.modal-body{
+  padding:20px;
+   background-color: #ffff !important;
+}
+
+.modal-footer {
+  border-top: none;
+  justify-content: right !important;
+  background-color: #ffff !important;
+}
+
+.modal-header{
+  height: 60px;
+  background-color: #e2e2e2;
+  color: #0000;
+  font-size: 16px;
+  margin:none  !important;
+  border-bottom: none !important;
+}
+
+.st-label{
+  font-size: 11px;
+}
+
+input[type="text"]
+{
+    font-size:11px;
+}
+
+input[type="password"]
+{
+    font-size:11px;
+}
+
+.upload-body{
+  border: 2px #dbe5f0 dashed;
+  align-items: center;
+  display: flex;
+  padding: 50px;
+}
+
+.notice-right-p{
+  border-left: 1px solid #d0dbd8;
+  flex: 2;
+  font-size: 16px;
+  margin-bottom: 0;
+  margin-left: 32px;
+  padding-left: 20px;
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.inputfile + label {
+  font-size: 16px;
+  font-weight: 500;
+  padding:10px;
+  color: white !important;
+  background-color: #17a2b8 !important;
+  display: inline-block;
+  cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+  background-color: #17a2b8 !important;
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #fff !important;
+	outline: -webkit-focus-ring-color auto 5px;
+}

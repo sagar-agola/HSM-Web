@@ -1,0 +1,68 @@
+<div class="modal-header">
+    <h5>Asset Hierarchy</h5>
+      <hr>
+</div>
+<mat-dialog-content>
+    <div class="assetHierarchy">
+        <div class="form-group">
+            <h6>Select Asset Hierarchy</h6>
+            <hr>
+            <input type="text" class="form-control" placeholder="  Search" style="padding-left: 10px;"><mat-icon style="display:block; margin-top: -30px;">search</mat-icon>
+            <table class="mat-table" style="margin-top: 10px; margin-bottom: 10px; margin-left: 200px;">
+              <thead class="mat-header-row" fxLayoutAlign=" center" style="text-align: center;">
+                  <th class="mat-header-cell" fxFlex>
+                     Asset Hierarchy
+                  </th>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <th class="mat-header-cell" fxFlex="20">
+                     Description
+                  </th>
+              </thead>
+            </table>
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+              <!-- This is the tree node template for leaf nodes -->
+              <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+                <li class="mat-tree-node" style="text-align: justify;">
+                  <!-- use a disabled button to provide padding for tree leaf -->
+                  <button mat-icon-button disabled></button>
+                  <div class="container-fluid">
+                      <div class="row">
+                          <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)" style=" color: black; font-size: 12px;">{{node.Code}}</button></div>
+                          <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)" style=" color: #111111; font-size: 12px;">{{node.Description}}</button></div>
+                      </div>
+                    </div>
+                </li>
+              </mat-tree-node>
+              <!-- This is the tree node template for expandable nodes -->
+              <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                <li>
+                  <div class="mat-tree-node ">
+                    <button mat-icon-button matTreeNodeToggle
+                            [attr.aria-label]="'toggle ' + node.Code">
+                      <mat-icon class="mat-icon-rtl-mirror">
+                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                      </mat-icon>
+                    </button>
+                    <div class="container-fluid">
+                      <div class="row">
+                          <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)" style=" color: black; font-size: 12px;">{{node.Code}}</button></div>
+                          <div class="col"><button type="button" class="btn btn-link" (click)="nodeClick(node.Code)" style=" color: #111111; font-size: 12px;">{{node.Description}}</button></div>
+                      </div>
+                    </div>
+                  </div>
+                  <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                    <ng-container matTreeNodeOutlet></ng-container>
+                  </ul>
+                </li>
+              </mat-nested-tree-node>
+            </mat-tree>
+        </div>
+    </div>
+</mat-dialog-content>
+<div class="modal-footer" style="float: right;">
+    <hr>
+    <div class="form-group">
+      <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+      <button class="btn btn-primary lg active" (click)="saveChanges()"> Save </button>
+    </div>
+</div>

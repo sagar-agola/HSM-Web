@@ -1,0 +1,259 @@
+.card{
+  // border-left: 4px solid #009dbf !important;
+  -webkit-box-shadow: 0 1px 2px #888888 !important;
+  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow: 0 1px 2px #888888 !important;
+  /* Firefox 3.5 - 3.6 */
+  box-shadow: 0 1px 2px #888888 !important;
+  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+  border-radius: .2rem;
+  height: auto;
+  margin: 10px 20px 10px 20px;
+}
+
+.breadcrumb{
+  margin: 0 10px 0 10px;
+}
+
+.material-icons{
+  color: #005493;
+  font-size: 16px;
+}
+
+.mat-table {
+  width: 100%;
+  &.resizing {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: col-resize;
+  }
+  .mat-cell {
+    span {       
+      display: block; 
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  .mat-header-cell {
+    position: relative;      
+    &:not(:last-child) {
+      .resize-holder {
+        cursor: col-resize;
+        width: 20px;
+        height: 100%;
+        position: absolute;
+        right: -10px;
+        top: 0;
+        z-index: 1;
+      }
+    }
+  }
+  .mat-cell,
+  .mat-header-cell {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    &:not(:nth-child(1)) {
+      padding: 0 10px;
+    }
+  }
+}
+
+table {
+width: 100%;
+table-layout: fixed;
+overflow-x: auto;
+}
+
+.st-tab.active {
+  color: #2d2c2b;
+  border-bottom: 3px solid #007bff;
+}
+
+.st-tab{
+  padding-right: 100px;
+  font-weight:500;
+  font-size: small;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: black !important;
+}
+form{
+  height: 40px;
+}
+.panel-body{
+  height: 40px;
+  padding-left: 10px;
+}
+
+.panel-body3{
+  height: 40px;
+  padding: 10px;
+  // margin-top: -20px;
+}
+
+.panel-body2{
+  height: 40px;
+  padding: 5px;
+}
+
+.panel-body2 span{
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.panel-body4{
+  height: 25px;
+  float: right;
+  margin-top: -30px;
+  // position: relative;
+}
+
+.eam-table{
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.panel-default{
+  margin-bottom: -20px;
+}
+
+#taxonomylbl{
+  font-size: 14px;
+}
+
+th{
+  font-size: 12px;
+  font-weight: normal;
+  text-align: center;
+  color:#414244 ;
+  border-bottom: 1px solid #6c757d;
+}
+
+td{
+  font-size: 11px;
+  color:#6c757d ;
+}
+
+tr:nth-child(even) {
+  background-color: #e9ecef;
+}
+
+button{
+  border: none;
+  background-color: transparent;
+}
+
+.count{
+  margin-top: 10px;
+  margin-right: 20px;
+  float: right;
+}
+
+input[type="text"]
+{
+    font-size:12px;
+}
+
+.export-icon{
+  float: right;
+  right: 195px;
+  margin-top: 15px;
+  position: relative;
+}
+
+optgroup { font-size:12px; }
+
+.form-group{ font-size: small;}
+
+.mat-table th{
+  text-align: justify;
+  font-weight: 500;
+}
+
+// .mat-column-taskPackage{
+//   width: 5% !important;
+// }
+
+// .mat-column-code{
+//   width: 10% !important;
+// }
+
+// .mat-column-flocDesc{
+//   width: 10% !important;
+// }
+
+// .mat-column-maintItemText{
+//   width:19% !important;
+// }
+
+// .mat-column-maintItem{
+//   width: 8% !important;
+// }
+
+// .mat-column-maintenancePlanName{
+//   width: 8% !important;
+// }
+
+// .mat-column-taskId{
+//   width: 8% !important;
+// }
+
+// .mat-column-mainWorkCtr{
+//   width: 8% !important;
+// }
+
+// .mat-column-planningPlant{
+//   width: 8% !important;
+// }
+
+// .mat-column-attach{
+//   width: 7% !important;
+// }
+
+// .mat-column-systemStatus{
+//   width: 9% !important;
+// }
+
+::ng-deep tr.mat-footer-row {
+  border: 1px solid #e7e7e7;
+  font-weight: bold;
+  }
+
+  tr.mat-footer-row,
+  tr.mat-row {
+    border: 1px solid #e7e7e7;
+    // font-weight: bold;
+    overflow: hidden;
+    height: 30px !important;
+}
+
+.width-fixed {
+  border: 1px solid black;
+  overflow: hidden;
+  width: 100px;
+}
+
+.mat-header-row, .mat-row {
+  min-height: 30px;
+}
+
+.table-row {
+  height: 30px !important;
+  overflow: hidden;
+}
+
+.card{
+  margin-bottom: 10px;
+}
+
+.card-body{
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.widthCol{
+  height:30px !important; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}

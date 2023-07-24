@@ -1,0 +1,147 @@
+<div class="modal-header">
+    <p style="color: black;"> {{mode}} User</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">First Name</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter First Name" [(ngModel)]="firstName">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Last Name</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Last Name" [(ngModel)]="lastName">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">User Name</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter User Name" [(ngModel)]="userName">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Password</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Enter Password" [(ngModel)]="password">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Email Address</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Email Address" [(ngModel)]="emailAddress">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Phone Number</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Enter Phone Number" [(ngModel)]="phoneNo">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Group</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <select class="form-control" id="groupId" [(ngModel)]="groupId" style="font-size: 12px;" (change)="onGroupChange($event)">
+                            <option value=""></option>
+                            <option *ngFor="let g of groups" [value]="g.id">[{{ g.isCoreUser ? 'Holistic' : 'Customer' }}] {{ g.name }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Customer</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <select class="form-control" id="customerId" [(ngModel)]="customerId" style="font-size: 12px;" (change)="onCustomerChange()" [disabled]="!isGroupSelected">
+                            <option value="" *ngIf="isSelectedGroupCore">Holistic</option>
+                            <option *ngFor="let c of customers" [value]="c.id">[{{ c.isCoreUser ? 'Holistic' : 'Customer' }}] {{ c.customerName }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="st-label">Site</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="form-group">
+                        <select class="form-control" id="siteId" [(ngModel)]="this.siteId" [ngModelOptions]="{standalone: true}" style="font-size: 12px;" (change)="siteOnSelect($event)" [disabled]="!isCustomerSelected">
+                            <option value=""></option>
+                            <option *ngFor="let st of sites" [value]="st.id"> {{ st.siteName }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3"><label class="st-label">Active</label></div>
+                <div class="col-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="isActive">
+                    </div>
+                </div>
+                <div class="col-3"><label class="st-label">Admin</label></div>
+                <div class="col-3">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="isAdmin">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <button class="btn btn-outline-primary" type="button" (click)="close()" style="font-size: 11px;">Cancel</button>
+                <button class="btn btn-primary lg active" type="button" (click)="submitForm()" style="font-size: 11px;" *ngIf="!isEdit"> Save </button>
+                <button class="btn btn-primary lg active" type="button" (click)="updateForm()" style="font-size: 11px;" *ngIf="isEdit"> Update </button>
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>

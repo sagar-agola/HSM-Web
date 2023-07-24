@@ -1,0 +1,17 @@
+
+.modal-header {
+    background: $gray-800;
+    color: #fff;
+    border-bottom:4px solid $yellow-500;
+    border-top-left-radius: .2rem;
+    border-top-right-radius: .2rem;
+}
+
+.modal-title {
+    font-weight: 300;
+}
+
+.modal-close-icon {
+    width:20px;
+    height:20px;
+}

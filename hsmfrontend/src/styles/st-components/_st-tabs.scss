@@ -1,0 +1,7 @@
+@import '../st-base/st-variables';
+
+.st-tab.active {
+    color: $gray-800;
+    border-bottom: 3px solid $blue-500;
+}
+

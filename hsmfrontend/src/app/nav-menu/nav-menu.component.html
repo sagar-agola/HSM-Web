@@ -1,0 +1,391 @@
+<div class="ui-container">
+  <div id="sidebar" class="ui-sidebar scrollbar d-flex flex-column" *ngIf="isMax">
+    <mat-toolbar>
+      <div style="background-color: #fff; margin:0;">
+        <img src="./../../assets/images/Holistic Asset Management Logo .png" height="60" width="180">
+      </div>
+      <button style="margin-left: -5px; border:none; background-color:transparent;" (click)="onClickMin()"
+        *ngIf="isMax && !isMobile && isHidden"><i class="fa fa-fw fa-bars"></i></button>
+    </mat-toolbar>
+    <nav class="navbar navbar-dark mb-auto">
+      <ul class="nav">
+        <ng-container>
+          <li expandMenu>
+            <a style="cursor: pointer; font-size: 13px;">
+              <i class="fa fa-fw fa-television"></i>
+              <span>&nbsp;Interactive Reporting</span>
+              <span>&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></span>
+            </a>
+          </li>
+          <ul class="nav submenu" style="margin-left: 5px;">
+            <li *ngIf="this.canAccess('ViewDashboard')">
+              <a [routerLink]="['/main/dashboard']"><i class="fa fa-fw fa-dashboard" [routerLinkActive]="'active'"
+                  style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Dashboard View</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewAssetHierarchy')">
+              <a [routerLink]="['/main/asset-hierarchy']"><i class="fa fa-fw fa-paste" [routerLinkActive]="'active'"
+                  style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Asset Hierarchy View</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewAssetCriticality')">
+              <a [routerLink]="['/main/asset-criticality']"><i class="fa fa-fw fa-file-pdf-o"
+                  [routerLinkActive]="'active'" style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Asset
+                  Criticality View </span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewAssetStrategy')">
+              <a [routerLink]="['/main/asset-strategy']"><i class="fa fa-fw fa-file-excel-o" [routerLinkActive]="'active'"
+                  style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Asset Strategy View </span></a>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container>
+          <li expandMenu>
+            <a style="cursor: pointer; font-size: 13px;">
+              <i class="fa fa-fw fa-object-group"></i>
+              <span>&nbsp;Site Strategy Development</span>
+              <span>&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></span>
+            </a>
+          </li>
+          <ul class="nav submenu2" style="margin-left: 5px;">
+            <li *ngIf="this.canAccess('ViewSiteMUFMT')">
+              <a [routerLink]="['/main/site-component-task-list']"><i class="fa fa-fw fa-calendar-check-o"
+                  [routerLinkActive]="'active'" style="font-size: 13px;"></i> <span [routerLinkActive]="'active'">Maint
+                  Unit Failure Mode Tasks</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewSiteAssetClass')">
+              <a [routerLink]="['/main/fmea-site']"><i class="fa fa-fw fa-list-ul" [routerLinkActive]="'active'"
+                  style="font-size: 13px;"></i> <span [routerLinkActive]="'active'">Site Asset Class Tasks</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewSiteTGS')">
+              <a [routerLink]="['/main/asset-task-group-strategy']"><i class="fa fa-fw fa-address-card"
+                  [routerLinkActive]="'active'" style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Site
+                  Task Group Strategies</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewEAM')">
+              <a [routerLink]="['/main/eam-maintenance']"><i class="fa fa-fw fa-calendar-check-o"
+                  [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'" style="font-size: 13px;"> EAM Maintenance Plan
+                  List</span></a>
+            </li>
+            <!-- <li>
+              <a [routerLink]="['/main/assign-asset-strategygroup']"><i class="fa fa-fw fa-list-ul"
+                  [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'" style="font-size: 13px;"> Assign TGS to EAM Maintenance
+                  Plan</span></a>
+            </li> -->
+            <li *ngIf="this.canAccess('ViewEAMRoute')">
+              <a [routerLink]="['/main/eamplan-route-management']"><i class="fa fa-fw fa-address-card"
+                  [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'" style="font-size: 13px;"> EAM Maint Plan Route
+                  Management</span></a>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="isHSMUser">
+          <li expandMenu>
+            <a style="cursor: pointer; font-size: 13px;">
+              <i class="fa fa-fw fa-object-ungroup"></i>
+              <span>&nbsp;Hsm Strategy Development</span>
+              <span>&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></span>
+            </a>
+          </li>
+          <ul class="nav submenu3" style="margin-left: 5px;">
+            <li *ngIf="this.canAccess('ViewMUFMT')">
+              <a [routerLink]="['/main/component-task-list']"><i class="fa fa-fw fa-calendar-check-o"
+                  [routerLinkActive]="'active'" style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Maint Unit Failure Mode
+                  Tasks</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewAssetClass')">
+              <a [routerLink]="['/main/fmea']"><i class="fa fa-fw fa-list-ul" [routerLinkActive]="'active'"></i> <span
+                  [routerLinkActive]="'active'" style="font-size: 13px;"> Hsm Asset Class Tasks</span></a>
+            </li>
+            <li *ngIf="this.canAccess('ViewTGS')">
+              <a [routerLink]="['/main/hsm-task-group-strategy']"><i class="fa fa-fw fa-address-card"
+                  [routerLinkActive]="'active'" style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> HsM Task Group
+                  Strategies</span></a>
+            </li>
+          </ul>
+        </ng-container>
+        <!-- <li expandMenu>
+          <a style="cursor: pointer; font-size: 13px;">
+            <i class="fa fa-fw fa-cubes"></i>
+            <span>&nbsp;EAM</span>
+            <span>&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></span>
+          </a>
+        </li>
+        <ul class="nav submenu4" style="margin-left: 5px;">
+          
+        </ul> -->
+        <ng-container>
+          <li expandMenu>
+            <a style="cursor: pointer; font-size: 13px;">
+              <i class="fa fa-fw fa-tasks"></i>
+              <span>&nbsp;Report & Publish</span>
+              <span>&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></span>
+            </a>
+          </li>
+          <ul class="nav submenu5" style="margin-left: -5px;">
+            <li *ngIf="this.canAccess('ViewWorkInstructionList')">
+              <a [routerLink]="['/main/work-instruction-list']"><i class="fa fa-fw fa-calendar-check-o"
+                  [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'" style="font-size: 13px;"> Work Instruction List</span></a>
+            </li>
+            <li *ngIf="this.canAccess('PublishWorkInstruction')">
+              <a [routerLink]="['/main/publish-work-instruction']"><i class="fa fa-fw fa-list-ul"
+                  [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'" style="font-size: 13px;"> Publish Work Instruction
+                  Document</span></a>
+            </li>
+            <li *ngIf="this.canAccess('PublishWorkInstruction')">
+              <a [routerLink]="['/main/publish-eam-masterdata']"><i class="fa fa-fw fa-address-card"
+                  [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'" style="font-size: 13px;"> Publish EAM Master Data Load
+                  Sheet</span></a>
+            </li>
+            <li style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Generate Report POC">
+              <a [routerLink]="['/main/reports-poc']">
+                <i class="fa fa-fw fa-file-pdf-o" [routerLinkActive]="'active'"></i>
+                <span [routerLinkActive]="'active'"></span>
+                Report POC
+              </a>
+            </li>
+          </ul>
+        </ng-container>
+        <ng-container *ngIf="isAdmin">
+          <li expandMenu>
+              <a style="cursor: pointer; font-size: 13px;">
+                <i class="fa fa-fw fa-gears"></i>
+                <span>&nbsp;Admin</span>
+                <span>&nbsp;&nbsp;<i class="fa fa-chevron-down"></i></span>
+              </a>
+            </li>
+            <ul class="nav submenu6" style="margin-left: 10px;">
+              <li *ngIf="this.canAccess('ImportFMEA')">
+                <a [routerLink]="['/main/import-page']"><i class="fa fa-fw fa-file-pdf-o" [routerLinkActive]="'active'"></i>
+                  <span [routerLinkActive]="'active'" style="font-size: 13px;"> Bulk Load Master Data</span></a>
+              </li>
+              <li *ngIf="this.canAccess('ImportSiteFMEA')">
+                <a [routerLink]="['/main/import-site-page']"><i class="fa fa-fw fa-file-pdf-o" [routerLinkActive]="'active'"></i>
+                  <span [routerLinkActive]="'active'" style="font-size: 13px;"> Site Bulk Load Master Data</span></a>
+              </li>
+              <li>
+                <a [routerLink]="['/main/setup-taxonomy']"><i class="fa fa-fw fa-list-ul" [routerLinkActive]="'active'"></i>
+                  <span [routerLinkActive]="'active'" style="font-size: 13px;"> Asset Classification Master Data</span></a>
+              </li>
+              <li>
+                <a [routerLink]="['/main/setup-page']"><i class="fa fa-fw fa-paste" [routerLinkActive]="'active'"></i> <span
+                    [routerLinkActive]="'active'" style="font-size: 13px;"> Maint Unit/Item/Master Data</span></a>
+              </li>
+              <li>
+                <a [routerLink]="['/main/asset-class-setup']"><i class="fa fa-fw fa-archive"
+                    [routerLinkActive]="'active'" style="font-size: 13px;"></i> <span [routerLinkActive]="'active'"> Manual Asset Class
+                    Setup</span></a>
+              </li>
+              <li>
+                <a [routerLink]="['/main/users-list']"><i class="fa fa-fw fa-user-plus" [routerLinkActive]="'active'"></i>
+                  <span [routerLinkActive]="'active'" style="font-size: 13px;"> Users</span></a>
+              </li>
+            </ul>
+          </ng-container>
+      </ul>
+    </nav>
+
+    <div class="position-sticky pb-2" #userMenu>
+      <div class="user-bubble d-flex rounded" (click)="toggleUserMenu()"
+        style="text-align: center; cursor: pointer; margin-left: 10px;">
+        <div>
+          <span class="material-icons" style="color: #fff; font-size: 32px; cursor: pointer;">account_circle</span>
+        </div>
+        <div class="text-white text-small">
+          Signed in as<br>
+          <span style="color: #00b8d4; cursor: pointer;">{{ user }}</span>
+        </div>
+      </div>
+      <div class="position-absolute card shadow" style="top:-250px; width:200px" fadeInOut *ngIf="this.displayUserMenu">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><a (click)="openRequestModal()" style="cursor: pointer;"><i
+                class="fa fa-fw fa-user-plus" [routerLinkActive]="'active'"></i> <span
+                [routerLinkActive]="'active'">User Request</span></a></li>
+          <li class="list-group-item"><a (click)="openDialog()" style="cursor: pointer;"><i class="fa fa-fw fa-gear"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'">Settings</span></a></li>
+          <li class="list-group-item"><a (click)="gotoUserProfile()" style="cursor: pointer;"><i
+                class="fa fa-fw fa-user" [routerLinkActive]="'active'"></i> <span
+                [routerLinkActive]="'active'">Profile</span></a></li>
+          <li class="list-group-item"><a (click)="onLogOut()" style="cursor: pointer;"><i
+                class="fa fa-fw fa-sign-out"></i> Log out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-min" class="ui-sidebar-min scrollbar d-flex flex-column" *ngIf="!isMax && isMobile">
+    <div style="background-color: #fff; margin:0;">
+      <img src="./../../assets/images/Small Icon HsM Logo.png" height="50" width="60">
+    </div>
+    <button style="border:none; background-color:transparent; color: white;" (click)="onClickMax()" *ngIf="!isHidden"><i
+        class="fa fa-fw fa-bars"></i></button>
+    <nav class="navbar navbar-dark mb-auto">
+      <ul class="nav" style="margin-left: 5px; color: #898888; margin-bottom: 20px;">
+        <li style="margin-bottom: 20px;" expandMenu data-toggle="tooltip" data-placement="left"
+            title="Interactive Reporting">
+            <a><i class="fa fa-fw fa-television" [routerLinkActive]="'active'"></i> <span
+                [routerLinkActive]="'active'"></span></a>
+        </li>
+        <ul class="nav submenu-mini" style="margin-top:30px">
+          <li *ngIf="this.canAccess('ViewDashboard')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Dashboard">
+            <a [routerLink]="['/main/dashboard']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewAssetHierarchy')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Asset Hierarchy View">
+            <a [routerLink]="['/main/asset-hierarchy']"><i class="fa fa-fw fa-paste" [routerLinkActive]="'active'"></i>
+              <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewAssetCriticality')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Asset Criticality View">
+            <a [routerLink]="['/main/asset-criticality']"><i class="fa fa-fw fa-file-pdf-o"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewAssetStrategy')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Asset Strategy View">
+            <a [routerLink]="['/main/asset-strategy']"><i class="fa fa-fw fa-file-excel-o"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+        </ul>
+        <li style="margin-bottom: 20px;" expandMenu data-toggle="tooltip" data-placement="left"
+              title="Site Strategy Development">
+              <a><i class="fa fa-fw fa-object-group" [routerLinkActive]="'active'"></i> <span
+                  [routerLinkActive]="'active'"></span></a>
+        </li>
+        <ul class="nav submenu-mini2" style="margin-top:30px">
+          <li *ngIf="this.canAccess('ViewSiteMUFMT')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Maintainable Unit Failure Mode">
+            <a [routerLink]="['/main/site-component-task-list']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewSiteAssetClass')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Site Asset Class Tasks">
+            <a [routerLink]="['/main/fmea-site']"><i class="fa fa-fw fa-paste" [routerLinkActive]="'active'"></i>
+              <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewSiteTGS')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Site Task Group Strategies">
+            <a [routerLink]="['/main/asset-task-group-strategy']"><i class="fa fa-fw fa-file-pdf-o"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewEAM')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="EAM Maintenance Plan List">
+            <a [routerLink]="['/main/eam-maintenance']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <!-- <li style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Assign TGS to EAM Maintenance Plan">
+            <a [routerLink]="['/main/assign-asset-strategygroup']"><i class="fa fa-fw fa-paste"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li> -->
+          <li *ngIf="this.canAccess('ViewEAMRoute')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="EAM Maintenance Plan Route Management">
+            <a [routerLink]="['/main/eamplan-route-management']"><i class="fa fa-fw fa-file-pdf-o"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+        </ul>
+        <li style="margin-bottom: 20px;" expandMenu data-toggle="tooltip" data-placement="left" title="HSM Strategy Development">
+            <a><i class="fa fa-fw fa-object-ungroup" [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+        </li>
+        <ul class="nav submenu-mini3" style="margin-top:30px">
+          <li *ngIf="this.canAccess('ViewMUFMT')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Maintainable Unit Failure Mode">
+            <a [routerLink]="['/main/component-task-list']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewAssetClass')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Hsm Asset Class Tasks">
+            <a [routerLink]="['/main/fmea']"><i class="fa fa-fw fa-paste"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ViewTGS')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Hsm Task Group Strategies">
+            <a [routerLink]="['/main/hsm-task-group-strategy']"><i class="fa fa-fw fa-file-pdf-o"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+        </ul>
+        <!-- <li style="margin-bottom: 20px;" expandMenu data-toggle="tooltip" data-placement="left" title="EAM">
+          <a><i class="fa fa-fw fa-cubes" [routerLinkActive]="'active'"></i> <span
+              [routerLinkActive]="'active'"></span></a>
+        </li>
+        <ul class="nav submenu-mini4" style="margin-top:30px">
+          
+        </ul> -->
+        <li style="margin-bottom: 20px;" expandMenu data-toggle="tooltip" data-placement="left" title="Report & Publish">
+          <a><i class="fa fa-fw fa-tasks" [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+        </li>
+        <ul class="nav submenu-mini5" style="margin-top:30px">
+          <li *ngIf="this.canAccess('ViewWorkInstructionList')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Work Instruction List">
+            <a [routerLink]="['/main/work-instruction-list']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('PublishWorkInstruction')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Publish Work Instruction Document">
+            <a [routerLink]="['/main/publish-work-instruction']"><i class="fa fa-fw fa-paste"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('PublishWorkInstruction')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Publish EAM Master Data Load Sheet">
+            <a [routerLink]="['/main/publish-eam-masterdata']"><i class="fa fa-fw fa-file-pdf-o"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+        </ul>
+        <li style="margin-bottom: 20px;" expandMenu data-toggle="tooltip" data-placement="left" title="Admin">
+          <a><i class="fa fa-fw fa-gears" [routerLinkActive]="'active'"></i> <span
+              [routerLinkActive]="'active'"></span></a>
+        </li>
+        <ul class="nav submenu-mini6" style="margin-top:30px">
+          <li *ngIf="this.canAccess('ImportFMEA')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Bulk Load Master Data">
+            <a [routerLink]="['/main/import-page']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li *ngIf="this.canAccess('ImportSiteFMEA')" style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Site Bulk Load Master Data">
+            <a [routerLink]="['/main/import-site-page']"><i class="fa fa-fw fa-file-text"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Asset Classification Master">
+            <a [routerLink]="['/main/setup-taxonomy']"><i class="fa fa-fw fa-list-ul"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Maint Unit/Item/Master Data">
+            <a [routerLink]="['/main/setup-page']"><i class="fa fa-fw fa-paste"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left"
+            title="Manual Asset Class Setup">
+            <a [routerLink]="['/main/asset-class-setup']"><i class="fa fa-fw fa-archive"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+          <li style="margin-bottom: 20px;" data-toggle="tooltip" data-placement="left" title="Users">
+            <a [routerLink]="['/main/users-list']"><i class="fa fa-fw fa-user-plus"
+                [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a>
+          </li>
+        </ul>
+      </ul>
+    </nav>
+    <div class="position-sticky pb-2" #userMenu>
+      <div class="user-bubble d-flex rounded" (click)="toggleUserMenu()"
+        style="text-align: center; cursor: pointer; margin-left: 10px;" data-toggle="tooltip" data-placement="left"
+        title="{{user}}">
+        <div>
+          <span class="material-icons"
+            style="color: #fff; font-size: 24px; cursor: pointer; margin-left: 7px;">account_circle</span>
+        </div>
+      </div>
+      <div class="position-absolute card shadow" style="top:-200px; width:40px; margin-left: 10px;" fadeInOut *ngIf="this.displayUserMenu">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><a (click)="openRequestModal()" style="cursor: pointer; margin-left: -5px;"><i class="fa fa-fw fa-user-plus" [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a></li>
+          <li class="list-group-item"><a (click)="openDialog()" style="cursor: pointer; margin-left: -5px;"><i class="fa fa-fw fa-gear" [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a></li>
+          <li class="list-group-item"><a (click)="gotoUserProfile()" style="cursor: pointer; margin-left: -5px;"><i class="fa fa-fw fa-user" [routerLinkActive]="'active'"></i> <span [routerLinkActive]="'active'"></span></a></li>
+          <li class="list-group-item"><a (click)="onLogOut()" style="cursor: pointer; margin-left: -5px;"><i class="fa fa-fw fa-sign-out"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <main class="ui-body">
+    <router-outlet #outlet="outlet"></router-outlet>
+    <footer
+      style="height: 40px; color:#76838f; font-weight: 300; font-size: 14px; padding-left: 20px; padding-top: 10px;">
+      Copyright ©2022 <span style="color:#005493; font-weight: 500; font-size: 14px;">Holistic Strategy Management
+        </span> | All Rights Reserved <span style="color:#76838f; font-weight: 500; font-size: 12px; float:right; padding-right: 10px;">Version 2.3.2 [20230208]</span></footer>
+  </main>
+</div>

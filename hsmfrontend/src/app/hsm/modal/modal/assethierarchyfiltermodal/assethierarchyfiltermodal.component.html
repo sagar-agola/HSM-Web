@@ -1,0 +1,107 @@
+<div class="modal-header">
+    <h5>Filtering Criteria</h5>
+    <hr>
+</div>
+<div class="modal-body">
+    <mat-dialog-content>
+        <div class="form-group">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="st-label">FLOC Name</label>
+                    <input type="text" class="form-control" id="floc" [(ngModel)]="floc"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label class="st-label">FLOC Description</label>
+                    <input type="text" class="form-control" id="flocDesc" [(ngModel)]="flocDesc"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!-- <div class="form-group">
+                    <label class="st-label">FLOC Description</label>
+                    <input type="text" class="form-control" id="flocDesc" [(ngModel)]="flocDesc" [ngModelOptions]="{standalone: true}">
+                </div> -->
+                <div class="form-group">
+                    <label class="st-label">PM Description</label>
+                    <input type="text" class="form-control" id="pmDesc" [(ngModel)]="pmDesc"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="isCheckExtreme"
+                        (change)="checkValue1(isCheckExtreme?'A':'')">&nbsp; <small>Extreme</small>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="veryHigh" (change)="checkValue2(veryHigh?'B':'')">&nbsp;
+                    <small>Very High</small>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="high" (change)="checkValue3(high?'C':'')">&nbsp;
+                    <small>High</small>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="medium" (change)="checkValue4(medium?'D':'')">&nbsp;
+                    <small>Medium</small>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="low" (change)="checkValue5(low?'E':'')">&nbsp;
+                    <small>Low</small>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="veryLow" (change)="checkValue6(veryLow?'F':'')">&nbsp;
+                    <small>Very Low</small>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="undefinedStatus"
+                        (change)="checkValue7(undefinedStatus?'G':'')">&nbsp; <small>Undefined</small>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <!-- <div class="form-check">
+                    <input class="form-check-input" type="radio" value="1" [(ngModel)]="systemStatusId" (change)="checkRadio1($event)">
+                    <label class="form-check-label" for="flexRadioDefault1">
+                        CRTD
+                    </label>
+                </div> -->
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="crtdStatus"
+                        (change)="checkValue8(crtdStatus?'CRTD':'')">&nbsp; <small>CRTD</small>
+                </div>
+            </div>
+            <div class="col-3">
+                <!-- <input class="form-check-input" type="radio" value="2"  [(ngModel)]="systemStatusId" (change)="checkRadio2($event)">
+                <label class="form-check-label" for="flexRadioDefault2">
+                    CRTD INAC
+                </label> -->
+                <div class="form-group">
+                    <input type="checkbox" [(ngModel)]="crtdInactStatus"
+                        (change)="checkValue9(crtdInactStatus?'CRTD INAC':'')">&nbsp; <small>CRTD INAC</small>
+                </div>
+            </div>
+            <div class="col-3"></div>
+            <div class="col-3"></div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <!-- <button class="btn btn-outline-primary" (click)="close()">Cancel</button> -->
+            <button class="btn btn-primary lg active" (click)="filter()"> Filter </button>
+        </div>
+    </mat-dialog-content>
+</div>

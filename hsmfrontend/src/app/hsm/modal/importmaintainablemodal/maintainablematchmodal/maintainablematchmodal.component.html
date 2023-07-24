@@ -1,0 +1,98 @@
+<div *loadingIndicator="loading"></div>
+<div class="modal-body">   
+    <mat-dialog-content>
+        <div class="header-import">
+            <h6 style="text-align: left;">Import from CSV/Excel file</h6>
+            <ul class="step-import">
+                <li class="agkmv success-color"><fa-icon [icon]="['fas', 'check-circle']" style="color: #4EC862;"></fa-icon> Upload</li>
+                <li class="agkmv progress-current">Match</li>
+                <li class="agkmv progress-incomplete">Review</li>
+            </ul>
+        </div>
+        <div class="main-body">
+            <div class="row">
+                <div class="col-4">
+                    <h6 style="color: #667D8D; font-size: 14px;">Imported Maintainable Data</h6>
+                </div>
+                <div class="col-4">
+                    <h6 style="color: #667D8D; font-size: 14px;">HSM Maintainable Data Mapping</h6>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2"></div>
+            </div>
+            <div class="card" *ngFor="let column of columnOptions; let i = index">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="col-body-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 30%;" class="agkmv progress-current">{{ column.name}}</th>
+                                        <th style="width: 30%;">
+                                            <div class="dp-container">
+                                                <select [disabled]="column.disabled" class="form-control" id="exampleFormControlSelect1" (change)="columnOnSelect($event, i)" style="font-weight: 500;">
+                                                    <option value="0">Lookup matching fields</option>
+                                                    <option *ngFor="let opt of dbColumns" [value]="opt.value" style="font-weight: 500;">{{opt.name}}</option>
+                                                 </select>
+                                            </div>
+                                        </th>
+                                        <th style="border-left: 1px solid #667D8D; width: 20%;">
+                                            <!-- <button class="btn btn-primary btn-sm active" style="font-size: 14px;" (click)="confirmColumn(headname)">Confirm mapping</button> -->
+                                            <!-- <span *ngIf="this.columnId === 0">
+                                                <button class="btn btn-primary btn-sm active" style="font-size: 14px;" disabled>Confirm mapping</button>
+                                            </span> -->
+                                            <span *ngIf="column.ignoreDisabled">
+                                                <span style="font-size: 14px;"><fa-icon [icon]="['fas', 'eye-slash']" style="color: #3C4151;"></fa-icon> Ignored</span>
+                                            </span>
+                                            <span *ngIf="column.disabled && column.buttonState === 'Edit' && !column.ignoreDisabled">
+                                                <span style="font-size: 14px;"><fa-icon [icon]="['fas', 'check-circle']" style="color: #4EC862;"></fa-icon> Confirm mapping</span>
+                                            </span>
+                                            <span *ngIf="!column.disabled && !column.ignoreDisabled">
+                                                <button [disabled]="column.buttonDisabled" class="btn btn-primary btn-sm active" style="font-size: 14px;" (click)="confirmColumn(column.name, this.optionName, i, column.buttonState)">{{ column.buttonState }}</button>
+                                            </span>
+                                        </th>
+                                        <th style="width: 20%;">
+                                            <span *ngIf="!column.disabled">
+                                                <button type="button" class="btn btn-secondary" style="font-size: 14px;" (click)="ignoreColumn(column.name, this.optionName, i, column.ignorebuttonState)">{{column.ignorebuttonState}}</button>
+                                            </span>
+                                            <span *ngIf="column.disabled && !column.ignoreDisabled">
+                                                <button type="button" class="btn btn-secondary" style="font-size: 14px;" (click)="confirmColumn(column.name, this.optionName, i, column.buttonState)">Edit</button>
+                                            </span>
+                                            <span *ngIf="column.ignoreDisabled">
+                                                <button type="button" class="btn btn-secondary" style="font-size: 14px;" (click)="ignoreColumn(column.name, this.optionName, i, column.ignorebuttonState)">Edit</button>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table style="width: 100%;">
+                                                <tr *ngFor="let d of getSampleData(column.name)" style="border: 2px solid #cee4f2;">
+                                                    <td colspan="2" style="color: #495057; font-size: 13px;">{{d}}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <!-- <td>
+                                            <table style="width: 100%;">
+                                                <tr *ngFor="let d of getSampleData(column.name);" style="border: 2px solid #cee4f2;">
+                                                    <td colspan="2" style="color: #495057; font-size: 13px;" *ngIf="isConfirm">{{d}}</td>
+                                                </tr>
+                                            </table>
+                                        </td> -->
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <div style="float: left;">
+            <button type="button" mat-button mat-dialog-close style="font-size: 14px;" (click)="close()">Cancel</button>
+        </div>
+        <div style="float: right; margin-right: 10px; position: relative;">
+            <button class="btn btn-primary btn-md active" style="font-size: 14px;" (click)="review()">Review</button>
+        </div>
+    </mat-dialog-actions>
+</div>

@@ -1,0 +1,58 @@
+button{
+    margin-left: 10px;
+    float: right;
+}
+
+h6{
+    text-align: center;
+}
+
+::ng-deep .mat-dialog-container{
+  padding:0 !important;
+  background-color: #ffff !important;
+  overflow-x: hidden;
+  height: 90vh;
+}
+
+.modal-body{
+  padding:20px;
+  background-color: #ffff !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+.modal-footer {
+  border-top: none;
+  justify-content: right !important;
+  background-color: #ffff !important;
+}
+
+.modal-header{
+  height: 60px;
+  background-color: #e2e2e2;
+  color: #0000;
+  font-size: 16px;
+  margin:none  !important;
+  border-bottom: none !important;
+}
+
+.st-label{
+  font-size: 11px;
+}
+
+input[type="text"]
+{
+    font-size:11px;
+}
+
+input[type="password"]
+{
+    font-size:11px;
+}
+
+.square {
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  // background-color: #555;
+}

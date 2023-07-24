@@ -1,0 +1,32 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="modal-header">
+    <p style="color: black;"> Select to site to clone the tasks</p>
+    <hr>
+</div>
+<div class="modal-body">
+  <mat-dialog-content>
+    <div class="panel-body">    
+          <div class="form-group">
+              <div class="row">
+                  <div class="col col-sm-3">
+                      <label for="taxcategory" class="st-label">Site Name</label>
+                  </div>
+                  <div class="col col-lg-9">
+                      <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnselect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 12px;">
+                          <option value=""></option>
+                          <option *ngFor="let ct of sitesList" [value]="ct.id">{{ ct.siteName }}</option>
+                      </select>
+                  </div>
+              </div>
+          </div>
+    </div>
+    </mat-dialog-content>
+</div>
+
+<div class="modal-footer" style="float: right;">
+  <hr>
+  <div class="form-group">
+    <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary lg active" (click)="saveChanges()"> Assign </button>
+  </div>
+</div>

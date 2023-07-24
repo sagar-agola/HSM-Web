@@ -1,0 +1,164 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Provide sufficient contrast against white background */
+
+@import 'bootstrap';
+@import './styles/st-core.scss';
+
+@import "../node_modules/@syncfusion/ej2/material.css";
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-lists/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-dropdowns/styles/material.css';
+@import '../node_modules/@syncfusion/ej2-angular-documenteditor/styles/material.css';
+
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+#main-container {
+  height:100vh;
+  padding:20px;
+}
+
+html, body { height: 100%; width: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small; }
+
+.table td, .table thead th {
+  vertical-align: middle;
+  font-family: Roboto, "Helvetica Neue", sans-serif; font-size: small;
+}
+
+::ng-deep .mat-ink-bar {
+  border-bottom: 2px solid #007bff !important;
+  background-color: #fff !important;
+  
+}
+
+::ng-deep .mat-tab-body-content{
+  height: auto;
+}
+
+tr.mat-row, tr.mat-footer-row{
+  height: 20px !important;
+}
+
+.mat-paginator-range-label {
+  background: $gray-500;
+  color: $white;
+  padding: 2px 4px;
+  border-radius: .25rem;
+}
+
+// Custom color for datepicker
+.theme-green .bs-datepicker-head {
+  background-color: #005493 !important;
+}
+
+.bs-datepicker-head button {
+  background-color: #00ade7 !important;
+}
+
+.bs-datepicker-body table td {
+  color: #000 !important;
+}
+
+.bs-datepicker-head button:hover {
+  background-color: #007bff !important;
+}
+
+.bs-datepicker-body table th {
+  color: #005493 !important;
+}
+
+.theme-green .bs-datepicker-body table td span.selected, .theme-green
+.bs-datepicker-body table td.selected span,
+.theme-green .bs-datepicker-body table td span[class*="select-"]::before,
+.theme-green .bs-datepicker-body table td[class*="select-"] span::before {
+  background-color: #85a1b1 !important;
+}
+
+.theme-green .bs-datepicker-body table td span.selected, .theme-green
+.bs-datepicker-body table td.selected span,
+.theme-green .bs-datepicker-body table td span[class*="select-"]:after,
+.theme-green .bs-datepicker-body table td[class*="select-"] span:after {
+  background-color: #007bff !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 5px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray; 
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(182, 181, 181); 
+}
+
+/* Error Snackbar */
+.error-snackbar {
+  background-color: #bb5858 !important;
+  padding: 14px;
+  color: #fff;
+}
+.error-snackbar-component {
+  width: 500px;
+  padding: 0px !important;
+  background-color: #fff !important;
+  p {
+    margin-bottom: 0;
+  }
+  .upper {
+    background-color: #bb5858 !important;
+    padding: 14px;
+    color: #fff;
+  }
+  .lower {
+    padding: 14px;
+    background-color: #fff;
+  }
+  h1 {
+    border-bottom: 1px solid #e9ecef;
+    font-size:2rem;
+    padding-bottom:10px;
+  }
+  .upper {
+    background-color: #bb5858 !important;
+    padding: 14px;
+    color: #fff;
+    //  background-image: url(https://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-error-icon.png);
+    background-size: contain;
+    background-position: 121% ​-77px;
+    min-height: 135px;
+    background-repeat: no-repeat;
+  }
+}
+
+$warn: #bb5858;

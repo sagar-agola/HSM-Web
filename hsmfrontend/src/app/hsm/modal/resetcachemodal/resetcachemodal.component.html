@@ -1,0 +1,12 @@
+<div class="modal-body">   
+    <mat-dialog-content>
+        <p style="font-size: 70px; text-align: center;"><mat-icon inline="true" style="height: 50px; font-size: 70px; color: #92A9BD;">help_outline</mat-icon></p>
+        <p style="font-size: 16px; text-align: center; font-weight: 600; color: #92A9BD;">Reset App Data</p>
+        <p style="font-size: 14px; text-align: center; color: #92A9BD; font-weight: 400;">Clearing app data will also log you out.</p>
+        <p style="border: 3px solid #FFC900; font-size: 13px; text-align: center; color: #92A9BD;">Clear app installation related cache to resolve any issues (safe)</p>
+    </mat-dialog-content>
+</div>
+<div class="form-group" style="text-align: center;">
+    <button class="btn btn-primary lg active" (click)="clearCache()" style="font-size: 12px;"> Proceed </button> &nbsp; &nbsp;
+    <button class="btn btn-secondary" (click)="close()" style="font-size: 12px;">Cancel</button>
+</div>

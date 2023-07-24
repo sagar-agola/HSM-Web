@@ -1,0 +1,88 @@
+button{
+    margin-left: 10px;
+    float: right;
+}
+
+h6{
+    text-align: center;
+}
+
+.assetHierarchy{
+  // border: 0.25px solid rgb(182, 182, 182);
+  width: 100%;
+  flex-grow: 3;
+  padding: 15px;
+  overflow: auto;
+}
+
+.example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+    padding: 20px;
+  }
+
+  .example-radio-group {
+    display: flex;
+    flex-direction: row;
+    margin: 15px 0;
+  }
+  
+  .example-radio-button {
+    margin: 5px;
+  }
+
+  //mat checkbox 
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #005493!important;
+  }
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #005493;
+  }
+
+   //static tree view
+   .example-tree-invisible {
+    display: none;
+  }
+  
+  .example-tree ul,
+  .example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    // text-align: left;
+  }
+
+  ::ng-deep .mat-dialog-container{
+    padding:0 !important;
+    overflow: hidden !important;
+  }
+
+  .modal-body{
+    padding:20px;
+  }
+  
+  .modal-footer {
+    border-top: none;
+    justify-content: right !important;
+  }
+  
+  .modal-header{
+    height: 60px;
+    background-color: #e2e2e2;
+    color: #0000;
+    font-size: 16px;
+    margin:none  !important;
+    border-bottom: none !important;
+  }
+
+  .st-label{
+    font-size: 12px;
+  }
+
+  th{
+      font-size: 12px;
+  }

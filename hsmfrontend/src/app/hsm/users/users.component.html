@@ -1,0 +1,261 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Users List</li>
+      </ol>
+    </nav>
+    <div style="margin-top: 20px;">
+        <mat-tab-group animationDuration="0ms" #tabGroup style="padding-top: -10px;">
+            <mat-tab label="Users" [(activeId)]="activeId">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">HSM Users</h6>
+                        <div><button type="button" class="btn btn-primary active" style="font-size: 11px; border-color: #cfcccc; margin-bottom: 5px;" (click)="openDialogUser('Add', null)">Add New User</button></div>
+                        <div class="table-responsive">
+                            <div><mat-paginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div>
+                            <table mat-table [dataSource]="dataSource">
+                                      
+                                <!-- <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                                    <td mat-cell *matCellDef="let element"><a>{{element.id}} </a></td>
+                                </ng-container> -->
+    
+                                <ng-container matColumnDef="firstName">
+                                    <th mat-header-cell *matHeaderCellDef> First Name</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="lastName">
+                                    <th mat-header-cell *matHeaderCellDef> Last Name</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="userName">
+                                    <th mat-header-cell *matHeaderCellDef> UserName</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="emailAddress">
+                                    <th mat-header-cell *matHeaderCellDef> Email Address</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.emailAddress}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="phoneNo">
+                                    <th mat-header-cell *matHeaderCellDef> Phone No.</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.phoneNo}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="groupName">
+                                    <th mat-header-cell *matHeaderCellDef> Group</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.group?.name }} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="siteName">
+                                    <th mat-header-cell *matHeaderCellDef> Site</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.site?.siteName || 'N/A'}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="userStatus">
+                                    <th mat-header-cell *matHeaderCellDef> Status</th>
+                                    <td mat-cell *matCellDef="let element" [ngClass]="{'td-secondary': !element.isActive, 'td-primary':element.isActive }"><span>{{ element.isActive? 'Active' : 'Inactive' }} </span> </td>
+                                    <!-- <td mat-cell *matCellDef="let element"> {{element.isActive}} </td> -->
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="edit">
+                                    <th mat-header-cell *matHeaderCellDef> Edit</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="openDialogUser('Edit', element.id)">
+                                            <fa-icon [icon]="['fas', 'edit']" style="color: #898888;"></fa-icon>
+                                        </button> 
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="delete">
+                                    <th mat-header-cell *matHeaderCellDef> Delete</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="deleteUser(element.id, element.firstName + element.lastName)">
+                                            <fa-icon [icon]="['fas', 'trash-alt']" style="color: #898888;"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="noRecord">
+                                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=10>
+<!--                           
+                                      <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                      <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default"> -->
+                                      <br>
+                                      <span class="text-gray-500 text-base" *ngIf="default">No records or data displayed.</span>
+                                      <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the search.</span>
+                          
+                                      <!-- You have no referrals assigned to you or your referral group. -->
+                                    </td>
+                                </ng-container>
+                        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab *ngIf="isHSMAdmin" label="Groups" [(activeId)]="activeId">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Groups</h6>
+                        <div><button type="button" class="btn btn-primary active" style="font-size: 11px; border-color: #cfcccc; margin-bottom: 5px;" (click)="openDialogUserGroup('Add', null)">Add New Groups</button></div>
+                        <div class="table-responsive">
+                            <div><mat-paginator #tableOnePaginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div>
+                            <table mat-table [dataSource]="dataSource2">
+                                
+                                <ng-container matColumnDef="owner">
+                                    <th mat-header-cell *matHeaderCellDef> User Group Type </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.isCoreUser ? 'Holistic' : 'Customer'}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="name">
+                                    <th mat-header-cell *matHeaderCellDef style="width: 50% !important;"> Group Name</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                                </ng-container>
+    
+                                <ng-container matColumnDef="isActive">
+                                    <th mat-header-cell *matHeaderCellDef> Status</th>
+                                    <td mat-cell *matCellDef="let element" [ngClass]="{'td-secondary': element.isActive === false, 'td-primary':element.isActive === true }">
+                                        <span *ngIf="element.isActive === true">Active</span> 
+                                        <span *ngIf="element.isActive === false">Inactive </span> 
+                                    </td>
+                                    <!-- <td mat-cell *matCellDef="let element"> {{element.isActive}} </td> -->
+                                </ng-container>
+
+                                <!-- <ng-container matColumnDef="adduser">
+                                    <th mat-header-cell *matHeaderCellDef> Add Users</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="goToUserGroup(element.id)">
+                                            <fa-icon [icon]="['fas', 'user-plus']" style="color: #898888;"></fa-icon>
+                                        </button> 
+                                    </td>
+                                </ng-container> -->
+
+                                <ng-container matColumnDef="add">
+                                    <th mat-header-cell *matHeaderCellDef> Add Roles</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="goToUserRole(element.id)">
+                                            <fa-icon [icon]="['fas', 'user-lock']" style="color: #898888;"></fa-icon>
+                                        </button> 
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="editGp">
+                                    <th mat-header-cell *matHeaderCellDef> Edit</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="openDialogUserGroup('Edit', element.id)">
+                                            <fa-icon [icon]="['fas', 'edit']" style="color: #898888;"></fa-icon>
+                                        </button> 
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="deleteGp">
+                                    <th mat-header-cell *matHeaderCellDef> Delete</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="deleteGroup(element.id, element.name)">
+                                            <fa-icon [icon]="['fas', 'trash-alt']" style="color: #898888;"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="noRecord">
+                                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=5>
+                          
+                                      <!-- <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                      <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default"> -->
+                                      <br>
+                                      <span class="text-gray-500 text-base" *ngIf="default">No records or data displayed.</span>
+                                      <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the search.</span>
+                          
+                                      <!-- You have no referrals assigned to you or your referral group. -->
+                                    </td>
+                                </ng-container>
+                        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA_2!=null && ELEMENT_DATA_2.length==0 && !loading)}"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="table-row"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab *ngIf="isHSMAdmin" label="Customers" [(activeId)]="activeId">
+                <div class="card">
+                    <div class="card-body">
+                        <customer-table></customer-table>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Sites" [(activeId)]="activeId">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Sites</h6>
+                        <div><button type="button" class="btn btn-primary active" (click)="openDialogUserSite('Create', null)" style="font-size: 11px; border-color: #cfcccc; margin-bottom: 5px;">Add New Site</button></div>
+                        <div class="table-responsive">
+                            <div><mat-paginator #tableTwoPaginator [pageSizeOptions]="[50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div>
+                            <table mat-table [dataSource]="dataSource3">
+                                <ng-container matColumnDef="id">
+                                    <th mat-header-cell *matHeaderCellDef> Id</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="siteName">
+                                    <th mat-header-cell *matHeaderCellDef style="width: 40% !important;"> Site Name</th>
+                                    <td mat-cell *matCellDef="let element"> {{element.siteName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="customerId">
+                                    <th mat-header-cell *matHeaderCellDef> Customer</th>
+                                    <td mat-cell *matCellDef="let element"> {{ mapCustomerData(element.customerId)?.customerName}} </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="edit">
+                                    <th mat-header-cell *matHeaderCellDef> Edit</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link">
+                                            <fa-icon [icon]="['fas', 'edit']" (click)="openDialogUserSite('Edit', element.id)" style="color: #898888;"></fa-icon>
+                                        </button> 
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="delete">
+                                    <th mat-header-cell *matHeaderCellDef> Delete</th>
+                                    <td mat-cell *matCellDef="let element"> 
+                                        <button type="button" class="btn btn-link" (click)="deleteSite(element.id, element.siteName)">
+                                            <fa-icon [icon]="['fas', 'trash-alt']" style="color: #898888;"></fa-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                        
+                                <ng-container matColumnDef="noRecord">
+                                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=5>
+                          
+                                      <!-- <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                      <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default"> -->
+                                      <br>
+                                      <span class="text-gray-500 text-base" *ngIf="default">No records or data displayed.</span>
+                                      <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the search.</span>
+                          
+                                      <!-- You have no referrals assigned to you or your referral group. -->
+                                    </td>
+                                </ng-container>
+                        
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                                <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA_3!=null && ELEMENT_DATA_3.length==0 && !loading)}"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns3;" class="table-row"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

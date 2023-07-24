@@ -1,0 +1,22 @@
+<div class="upper" style="background-color: #005493; color:#fff">
+    <h1>{{ header }}</h1>
+    <p class="details">{{ errorMessage }}</p>
+    <p (click)="callServiceToCopy()" *ngIf="operationID">Operation ID: {{ operationID }}</p>
+  </div>
+  <div class="lower pull-right">
+    <button *ngIf="operationID" mat-raised-button class="dialog-close" (click)="callServiceToCopy()">
+      {{ buttonText }}
+    </button>
+  
+    <button
+      type="button"
+      mat-raised-button
+      class="btn-size white-text"
+      style="background-color: #005493; color:#fff"
+      class="dialog-close"
+      (click)="dismiss()"
+    >
+      Close
+    </button>
+  </div>
+  

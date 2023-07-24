@@ -1,0 +1,220 @@
+// @import '~handsontable/dist/handsontable.full.css';
+
+button{
+    margin-left: 10px;
+    float: right;
+}
+
+h6{
+    text-align: center;
+}
+
+::ng-deep .mat-dialog-container{
+  padding:0 !important;
+  overflow: hidden !important;
+  min-height: 80vh;
+}
+
+::ng-deep .mat-dialog-content{
+  max-height: 80vh !important;
+}
+
+.modal-body{
+  padding:20px;
+  background-color:#f0f0f0 !important;
+  min-height: 80vh;
+}
+
+.modal-footer {
+  border-top: none;
+  justify-content: right !important;
+  background-color: #ffff !important;
+}
+
+.modal-header{
+  height: 60px;
+  background-color: #e2e2e2;
+  color: #0000;
+  font-size: 16px;
+  margin:none  !important;
+  border-bottom: none !important;
+}
+
+.st-label{
+  font-size: 11px;
+}
+
+input[type="text"]
+{
+    font-size:11px;
+}
+
+input[type="password"]
+{
+    font-size:11px;
+}
+
+.upload-body{
+  border: 2px #dbe5f0 dashed;
+  align-items: center;
+  display: flex;
+  padding: 50px;
+}
+
+.main-body{
+  padding: 10px;
+  width: 100%;
+}
+
+.header-import{
+  padding: 0 20px 0 20px;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  position: relative;
+}
+
+.step-import{
+  list-style-type: none;
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  align-items: center;
+  line-height: 1;
+  margin: 0px;
+  padding: 0px;
+}
+
+.agkmv{
+  position: relative;
+  margin: 0px 0px 0px 48px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.success-color{
+  color: #4EC862;
+}
+
+.progress-current{
+  color: #3C4151
+}
+
+.progress-incomplete{
+  color:#667D8D;
+}
+
+.agkmv:not(:first-of-type)::before{
+  content: "";
+  position: absolute;
+  left: -38px;
+  top: 45%;
+  transform: rotate(45deg) translateY(-50%);
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  border-width: 1px 1px 0px 0px;
+  border-style: solid;
+  border-color: rgb(198, 209, 221);
+  border-image: initial;
+}
+
+.right-pane{
+  width: 50%;
+  border-left: 1px solid #d0dbd8;
+}
+
+.left-pane{
+  width: 50%;
+}
+
+.notice-right-p{
+  border-left: 1px solid #d0dbd8;
+  flex: 2;
+  font-size: 16px;
+  margin-bottom: 0;
+  margin-left: 32px;
+  padding-left: 20px;
+}
+
+.col-body-table{
+  width: 100%;
+  border-collapse: collapse;
+  box-sizing: border-box;
+  table-layout: fixed;
+}
+
+.dp-container{
+  position: relative;
+  box-sizing: border-box;
+}
+
+.col-body-table th{
+  font-weight: 500;
+    background-color: #f5f8fa;
+    padding: 0.75em 2em 8px 1em;
+}
+
+.manual-input-table{
+  margin: 30px -1px;
+  position: relative;
+  width: 100%;
+}
+
+table{
+  width: auto;
+  min-width: 100%;
+  border: 1px solid #d0dbd8;
+  table-layout: fixed;
+}
+
+.revtable-container{
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Open Sans","Helvetica Neue",sans-serif;
+}
+
+//reviwe excel
+.ExcelTableFormationCol {
+width: auto;
+height: 20px;
+text-align: center;
+font-family: Arial Narrow;
+font-size: 14px;
+}
+
+.ExcelTableFormationRow {
+background-color: #fff;
+// text-align: center;
+font-family: Calibri;
+font-size: 12px;
+height: 20px;
+text-overflow: ellipsis; 
+white-space: nowrap;
+}
+
+#LastRow td {
+border-bottom-width: 0px;
+}
+
+.LastCol {
+border-right-width: 0px;
+}
+
+#ExcelCursorOuter {
+position: relative;
+}
+
+#ExcelCursor {
+position: absolute;
+top: 8px;
+right: -5px;
+background: #000;
+width: 5px;
+height: 5px;
+border: 1px solid #fff;
+border-right: 0px;
+border-bottom: 0px;
+}
+
+
+

@@ -1,0 +1,414 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Site Task Group Strategies</li>
+      </ol>
+    </nav>
+    <div id="parent">
+        <div id="LeftCol">
+            <button type="button" class="btn btn-outline-secondary" style="font-size: 11px; font-weight: 700; border: 2px solid #e9ecef; width: 100%;" (click)="getDataSource()">All Task Group Strategies</button>
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                  <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node)">{{node.name}}</button>
+                </mat-tree-node>
+                <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                  <button mat-icon-button matTreeNodeToggle
+                          [attr.aria-label]="'Toggle ' + node.name">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                  </button>
+                  <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node)">{{node.name}}</button>
+                </mat-tree-node>
+            </mat-tree>
+        </div>
+        <div id="RightCol">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        <button type="button" class="btn btn-primary active" style="font-size: 11px; font-weight: 700; border: 2px solid #e9ecef; margin-bottom: 5px;" (click)="routeCreate()">Create Site Task Group Strategy</button>
+                    </div>
+                    <div class="panel-body2">
+                        <mat-icon style="margin-right: 30px; font-size: 20px;"><button (click)="toggleFilter()" placement="left"
+                            ngbTooltip="Multi Filter">filter_list</button></mat-icon>
+                        <div class="position-absolute card shadow"
+                            style=" right:20px; width:550px; z-index: 4; padding: 10px; margin-top: -10px;" fadeInOut
+                            [hidden]="!this.displayMultiFilter">
+                            <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleFilter()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                            <span style="font-size: small; font-weight: bold; margin-top: -10px;">Search Filter</span>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label">Task Group Id</span>
+                                        <input class="form-control" type="text" [(ngModel)]="taskGroupId"
+                                        [ngModelOptions]="{standalone: true}" (keyup)="onKeyupTask(taskGroupId)" [matAutocomplete]="auto">
+                                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                            <mat-option *ngFor="let emp of taskIdList" [value]="emp.dropName" style="font-size: 11px;">
+                                            {{emp.dropName}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Work Instruction Task Type</span>
+                                        <select class="form-control" id="taskType" [(ngModel)]="taskTypeId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="taskTypeOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.taskTypeList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of taskTypeList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Trade Type</span>
+                                        <select class="form-control" id="tradeTypeId" [(ngModel)]="tradeTypeId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="tradeTypeOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.tradeTypeList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of tradeTypeList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Industry</span>
+                                        <select class="form-control" id="industryId" [(ngModel)]="industryId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="industryOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option *ngFor="let tk of industryList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Asset Class</span>
+                                        <select class="form-control" id="assetClassTaxonomyId"
+                                            [(ngModel)]="this.assetClassTaxonomyId"
+                                            [ngModelOptions]="{standalone: true}" (change)="assetClassOnSelect($event)"
+                                            style="font-size: 12px;">
+                                            <option value=""></option>
+                                            <option *ngFor="let tk of assetClassTaxonomyList" [value]="tk.id">{{
+                                                tk.categoryName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Asset Specification</span>
+                                        <select class="form-control" id="assetSpecId"
+                                            [(ngModel)]="this.assetSpecId"
+                                            [ngModelOptions]="{standalone: true}" (change)="assetSpecOnSelect($event)"
+                                            style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.specTaxonomyList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of specTaxonomyList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label">Task Group Description</span>
+                                        <input type="text" class="form-control" id="taskGroupDesc" [(ngModel)]="taskGroupDesc">
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Frequency</span>
+                                        <select class="form-control" id="frequencyId" [(ngModel)]="frequencyId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="frequencyOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.frequencyList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of frequencyList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Operational Mode</span>
+                                        <select class="form-control" id="operationalModeId" [(ngModel)]="operationalModeId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="operationalModeOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.operationalModeList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of operationalModeList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Business Type</span>
+                                        <select class="form-control" id="businessTypeId" [(ngModel)]="businessTypeId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="businessTypeOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.businessTypeList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of businessTypeList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Process Function</span>
+                                        <select class="form-control" id="processFunctionId" [(ngModel)]="processFunctionId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="processFunctionOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option value="0" *ngIf="this.processFunctionList.length === 0">No data result</option>
+                                            <option *ngFor="let tk of processFunctionList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="st-label">Asset Manufacturer</span>
+                                        <select class="form-control" id="manufactureId" [(ngModel)]="manufactureId"
+                                            [ngModelOptions]="{standalone: true}"
+                                            (change)="assetManufacturerOnSelect($event)" style="font-size: 12px;">
+                                            <option value="0"></option>
+                                            <option *ngFor="let tk of manufacturerTaxonomyList" [value]="tk.id">{{
+                                                tk.dropName }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group"><button class="btn btn-primary lg active" (click)="filterAsset()"
+                                    style="float: right; font-size: 12px;"> Filter </button></div>
+                        </div>
+                        <mat-icon style="margin-right: 20px; font-size: 20px;"><button (click)="toggleColumn()" placement="left"
+                                ngbTooltip="Table Display">settings</button></mat-icon>
+                        <div class="position-absolute card shadow"
+                            style=" right:20px; width:408px; z-index: 1; padding: 10px; margin-top: -10px;" fadeInOut
+                            [hidden]="!this.displayTableColumn">
+                            <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleColumn()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                            <span style="font-size: small; font-weight: bold; margin-top: -10px;">Table Columns</span>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tabletaskGroupid" (change)="addColumnTaskGroupId()">&nbsp; Task Group ID
+                                    </div>                                    
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tableindustry" (change)="addColumnIndustry()">&nbsp; Industry
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tablebusinesstype" (change)="addColumnBusinessType()">&nbsp; Business
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tableassetclass" (change)="addColumnAssetClass()">&nbsp; Asset Class
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tableprocessfunction" (change)="addColumnProcessFunction()">&nbsp;Process Function
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tableassetspec" (change)="addColumnAssetSpec()">&nbsp; Spec
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <!-- <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="assetfamily" (change)="addColumnAssetFamily()">&nbsp; Asset Family
+                                    </div> -->
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tableassetmanufacturer" (change)="addColumnAssetManufacturer()">&nbsp; Manufacturer
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tabletaskGroupdesc" (change)="addColumnTaskGroupDesc()">&nbsp; Task Group Description
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tabletasktype" (change)="addColumnTaskType()">&nbsp; Work Instruction Type
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tablefrequency" (change)="addColumnFrequency()">&nbsp; Frequency
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tabletradetype" (change)="addColumnTradeType()">&nbsp; Trade Type
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="checkbox" [(ngModel)]="tableoperationalmode" (change)="addColumnOperationalMode()">&nbsp; Operational Mode
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="margin-top: 10px;">
+                        <div>
+                            <div class="form-group-inline" style="margin-left: 10px; margin-top: 10px; position: absolute;" *ngIf="isAdmin && isHSMUser">
+                                <!-- <span class="st-label2">Customers</span> -->
+                            <select class="form-control" id="customerId" [(ngModel)]="customerId" (change)="customerOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;">
+                                <option value="0" disabled selected>Select your Customers</option>
+                                <option value="0">All</option>
+                                <option *ngFor="let cm of customerList" [value]="cm.id">{{ cm.customerName }}</option>
+                            </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 10px; margin-top: 10px; position: absolute;" *ngIf="!isHSMUser">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="customerId" [(ngModel)]="customerId" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" disabled>
+                                    <option *ngFor="let cm of customerList" [value]="cm.id">{{ cm.customerName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 200px; margin-top: 10px; position: absolute;" *ngIf="isHSMUser && isAdmin">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" [disabled]="!isCustomerSelect">
+                                    <option value="0" disabled selected>Select your Sites</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 200px; margin-top: 10px; position: absolute;" *ngIf="!isHSMUser && isAdmin">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;">
+                                    <option value="0" disabled selected>Select your Sites</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group-inline" style="margin-left: 200px; margin-top: 10px; position: absolute;" *ngIf="!isAdmin">
+                                <!-- <span class="st-label2">Customers</span> -->
+                                <select class="form-control" id="siteId" [(ngModel)]="siteId" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" disabled>
+                                    <option value="0" disabled selected>Select your Sites</option>
+                                    <option value="0">All</option>
+                                    <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+                                </select>
+                            </div>
+                            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons
+                                style="background-color: #e9ecef;"></mat-paginator>
+                        </div>
+                        <table mat-table [dataSource]="dataSource2" matSort>
+        
+                            <ng-container matColumnDef="uploadTGS">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth">
+                                    <button (click)="downloadWorkIns(element.id, element.assetHierarchyId, element.taskGroupDescription)"><i class="fa fas fa-file-word-o" style="font-size: 16px; color: #2980b9;"></i></button>
+                                    <!-- <button><mat-icon style="color: green; font-size: 16px;" (click)="downloadWorkIns(element.id, element.assetHierarchyId, element.taskGroupDescription)">cloud_upload</mat-icon></button> -->
+                                </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="taskGroupStrategyId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Group ID </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth">
+                                    <a class="btn btn-link" (click)="openDialogTgs(element.id)" style="font-size: 11px;">{{element.taskGroupStrategyId}}</a>
+                                    <!-- <a class="btn btn-link" (click)="openDialogTgs(element.id, element.assetHierarchyId)" style="font-size: 11px;">{{element.taskGroupStrategyId}}</a> -->
+                                    <!-- <a class="btn btn-link" (contextmenu)="onRightClick($event, element.id)" (click)="clickEvent($event)" style="font-size: 11px;">{{element.taskGroupStrategyId}}</a> -->
+                                </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="className">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Asset Class </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.className}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="specification">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Spec </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.specification}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="assetManufacturer">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Manufacturer </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.assetManufacturer}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="taskGroupDescription">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Group Description </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.taskGroupDescription}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="taskTypeName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Work Instruction Type </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.taskTypeName}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="frequencyName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Frequency </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.frequencyName}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="tradeTypeName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Trade Type </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.tradeTypeName}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="operationalModeName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Operational Mode </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.operationalModeName}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="systemStatus">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Status </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth" [ngClass]="{'td-success': element.systemStatus === 3, 'td-warning':element.systemStatus === 2, 'td-primary':element.systemStatus === 1, 'td-danger': element.systemStatus === 4}">
+                                    <!-- <mat-select [(ngModel)]="element.systemStatus" (selectionChange)="statusOnSelect($event, element.id)">
+                                        <mat-option [value]="option.id" *ngFor="let option of statusList">{{option?.name}}</mat-option>
+                                    </mat-select> goToATGEdit-->
+                                    <!-- {{mapStatusData(element.systemStatus).name}} -->
+                                    <span class="statusReview" (click)="goToATGEdit(element.id)">{{mapStatusData(element.systemStatus).name}}</span>
+                                    <!-- <span *ngIf="element.systemStatus === 3">{{mapStatusData(element.systemStatus).name}}</span> -->
+                                </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="industryName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Industry</th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.industryName}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="businessType">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Business</th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.businessType}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="processFunction">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Process Function </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.processFunction}} </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="deleteTGS">
+                                <th mat-header-cell *matHeaderCellDef> </th>
+                                <td mat-cell *matCellDef="let element" style="justify-content: center;">
+                                    <button (click)="deleteAction(element.id, element.taskGroupStrategyId, element.assetHierarchyId)" style="justify-content: center;"><fa-icon [icon]="['fas', 'trash-alt']" style="color: #c0392b; font-size: 14px; justify-content: center;"></fa-icon></button>
+                                    <!-- <button (click)="deleteAction(element.id, element.taskGroupStrategyId, element.assetHierarchyId)"><mat-icon style="color: red; font-size: 16px;">delete</mat-icon></button> -->
+                                </td>
+                            </ng-container>
+        
+                            <ng-container matColumnDef="noRecord">
+                                <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=14>
+        
+                                    <!-- <img src="./../../../../../../assets/images/search-for-records.png"
+                                        alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                    <img src="./../../../../../../assets/images/no-records-found.png"
+                                        alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default"> -->
+                                    <br>
+                                    <span class="text-gray-500 text-base" *ngIf="default">No records or data.</span>
+                                    <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the
+                                        search filters.</span>
+        
+                                    <!-- You have no referrals assigned to you or your referral group. -->
+                                </td>
+                            </ng-container>
+        
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['noRecord']"
+                                [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" class="table-row"></tr>
+                        </table>
+                    </div>
+                    <div class="position-absolute card shadow" style="top:160px; right:10px; width:208px; z-index: 4;" fadeInOut [hidden]="!this.displayStatusMenu">        
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item"><button class="btn btn-a-link" style="font-size: 12px; color:#007bff;">Created</button></li>
+                          <li class="list-group-item" *ngIf="canAccess('SendRequest')"><button class="btn btn-a-link" style="font-size: 12px; color:#007bff;">Review</button></li>
+                          <li class="list-group-item"><button class="btn btn-a-link" style="font-size: 12px; color:#007bff;">Approved</button></li>
+                          <li class="list-group-item"><button class="btn btn-a-link" style="font-size: 12px; color:#007bff;">Rejected</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

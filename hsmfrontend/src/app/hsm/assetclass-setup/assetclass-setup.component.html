@@ -1,0 +1,195 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container"
+  style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Manual Asset Class Setup</li>
+    </ol>
+  </nav>
+  <div style="margin-top: 20px;">
+    <mat-tab-group animationDuration="0ms" #tabGroup style="padding-top: -10px;">
+      <mat-tab label="HsM Asset Class" [(activeId)]="activeId">
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-2"></div>
+          <div class="col-8">
+            <div class="card">
+              <div class="card-body">
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;"
+                  (click)="clickAdd()" placement="right" ngbTooltip="Add Component">
+                  <fa-icon [icon]="['fas', 'plus-circle']" style="color: #000000;"></fa-icon>
+                </button>
+                
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;"
+                  (click)="clickEvent()" placement="right" ngbTooltip="Delete Component" >
+                  <fa-icon [icon]="['fas', 'minus-circle']" style="color: #000000;"></fa-icon>
+                </button>
+                
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;"
+                  (click)="clickEdit()" placement="right" ngbTooltip="Edit Component" >
+                  <fa-icon [icon]="['fas', 'edit']" style="color: #000000;"></fa-icon>
+                </button>
+                <div class="hierarchyClass">
+                  <h6 class="st-label">HsM Asset Class Hierarchy</h6>
+                  <button mat-icon-button (click)="addLevel1()" style="font-size:18px;">
+                    <mat-icon inline="true">add</mat-icon>
+                  </button>
+                  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+
+                      <button mat-icon-button disabled></button>
+                      <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;"
+                        (click)="nodeClick(node)">{{node.name}}</button>
+                      <button mat-icon-button (click)="addNewItem(node)" style="font-size:18px;" *ngIf="isAdd">
+                        <mat-icon inline="true">add</mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" (click)="deleteComponent(node.id, node.name)"
+                        style="font-size: 12px;" *ngIf="isDelete">
+                        <fa-icon [icon]="['fas', 'minus']" style="color: #000000;"></fa-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" (click)="editItem(node)"
+                        style="font-size: 12px;" *ngIf="isEdit">
+                        <fa-icon [icon]="['fas', 'edit']" style="color: #000000;"></fa-icon>
+                      </button>
+                    </mat-tree-node>
+
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror">
+                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;"
+                        (click)="nodeClick(node)">{{node.name}}</button>
+                      <button mat-icon-button (click)="addNewItem(node)" style="font-size:18px;" *ngIf="isAdd">
+                        <mat-icon inline="true">add</mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" (click)="deleteComponent(node.id, node.name)"
+                        style="font-size: 12px;" *ngIf="isDelete">
+                        <fa-icon [icon]="['fas', 'minus']" style="color: #000000;"></fa-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" (click)="editItem(node)"
+                        style="font-size: 12px;" *ngIf="isEdit">
+                        <fa-icon [icon]="['fas', 'edit']" style="color: #000000;"></fa-icon>
+                      </button>
+                    </mat-tree-node>
+                  </mat-tree>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-2"></div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Site Asset Class" [(activeId)]="activeId">
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-3"></div>
+          <div class="col-6">
+            <div class="card">
+              <div class="card-body">
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;"
+                  (click)="clickEvent()" placement="right" ngbTooltip="Delete Component" *ngIf="isAdd">
+                  <fa-icon [icon]="['fas', 'minus-circle']" style="color: #000000;"></fa-icon>
+                </button>
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;"
+                  (click)="clickAdd()" placement="right" ngbTooltip="Add Component" *ngIf="isDelete">
+                  <fa-icon [icon]="['fas', 'plus-circle']" style="color: #000000;"></fa-icon>
+                </button>
+                <div class="hierarchyClass">
+                  <h6 class="st-label">Site Asset Class Hierarchy</h6>
+                  <button mat-icon-button (click)="addLevel1Site()" style="font-size:18px;">
+                    <mat-icon inline="true">add</mat-icon>
+                  </button>
+                  <mat-tree [dataSource]="dataSource2" [treeControl]="treeControl">
+
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+
+                      <button mat-icon-button disabled></button>
+                      <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;"
+                        (click)="nodeClick(node)">{{node.name}}</button>
+                      <button mat-icon-button (click)="addNewItemSite(node)" style="font-size:18px;" *ngIf="isAdd">
+                        <mat-icon inline="true">add</mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" (click)="deleteComponentSite(node.id, node.name)"
+                        style="font-size: 12px;" *ngIf="isDelete">
+                        <fa-icon [icon]="['fas', 'minus']" style="color: #000000;"></fa-icon>
+                      </button>
+                    </mat-tree-node>
+
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                      <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror">
+                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;"
+                        (click)="nodeClick(node)">{{node.name}}</button>
+                      <button mat-icon-button (click)="addNewItemSite(node)" style="font-size:18px;" *ngIf="isAdd">
+                        <mat-icon inline="true">add</mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" (click)="deleteComponentSite(node.id, node.name)"
+                        style="font-size: 12px;" *ngIf="isDelete">
+                        <fa-icon [icon]="['fas', 'minus']" style="color: #000000;"></fa-icon>
+                      </button>
+                    </mat-tree-node>
+                  </mat-tree>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" style="float: right; margin-top:10px; margin-right: 20px;">
+              <button type="button" class="btn btn-primary active" (click)="saveSiteAssetClass()" style="font-size: 12px;">Save</button>
+            </div>
+          </div>
+          <div class="col-3"></div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Clone Tasks to Site" [(activeId)]="activeId">
+        <div id="parent">
+          <div id="LeftCol">
+            <h5 class="st-label" style="font-size: 16px;">HSM Task Group Strategy Tasks</h5>
+            <mat-selection-list #taskSelection [multiple]="false">
+              <div class="singlet" *ngFor="let t of tgsTaskTree">
+                <h6 class="selection-header" style="font-size: 14px;">{{ t.CategoryName }}</h6>
+                <mat-list-option *ngFor="let c of t.Children, let i = index" [selected]="c.classId && i == 0" [value]="c" (click)="checkThisTGS(c)" style="font-size: 12px;">
+                    {{ c.CategoryName }}
+                </mat-list-option>
+              </div>
+            </mat-selection-list>
+          </div>
+          <div id="RightCol">
+            <div class="card">
+              <div class="card-body">
+                <h6 style="color:#007bff; font-weight: 500;">{{AssetManufacName}}</h6>
+                <br>
+                <div class="row">
+                  <div class="col-2"></div>
+                  <div class="col-8">
+                    <div class="form-group">
+                      <label>Customer</label>
+                      <select class="form-control" id="customerId" [(ngModel)]="customerId" (change)="customerOnselect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let ct of customerList" [value]="ct.id">{{ ct.customerName }}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Site</label>
+                      <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 12px;" [disabled]="!isSelect">
+                        <option value=""></option>
+                        <option *ngFor="let ct of siteList" [value]="ct.id">{{ ct.siteName }}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary active" (click)="cloneTask()" style="float:right; font-size: 11px; font-weight: 700;">Clone Tasks</button>
+                    </div>
+                  </div>
+                  <div class="col-2"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<h4 style="font-size: medium; margin: 10px;">Maintenance Plan Import</h4>
+<div class="panel-body" style="float: left; padding: 10px;">
+    <div class="row">  
+        <div class="col-lg-8">  
+            <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" />  
+        </div>  
+        <div class="col-lg-4">  
+            <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)" >
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload</button>
+        </div>  
+    </div>
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <div style="padding-top: 20px;">
+        <button type="button" class="btn btn-light" (click)="exportToExcel()" style="font-size: 14px;"><spinner color="white" size="xs" *ngIf="loading"></spinner><img src="./../../../../assets/images/excel.png" height="30" width="30"/>Download Import MaintPlan Template</button>
+    </div>
+    <!-- <p> {{ message }} </p> -->
+    <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import File">cloud_upload</button></mat-icon> -->
+</div>
+<div class="table-responsive" #table hidden>
+    <table id="import-table">
+        <tbody>
+            <tr>
+                <td>MaintenancePlan</td>
+                <td>MaintPlanText</td>
+                <td>Strategy</td>
+                <td>AuthorizGroup</td>
+                <td>No. items</td>
+                <td>System status</td>
+                <td>Sort field</td>
+                <td>CycModifFactor</td>
+                <td>SchedPeriod</td>
+                <td>SchedIntUnit</td>
+                <td>EarlyCompletion</td>
+                <td>Tolerance (-)</td>
+                <td>Late Completion</td>
+                <td>Tolerance (+)</td>
+                <td>Call horizon</td>
+                <td>Call Number</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

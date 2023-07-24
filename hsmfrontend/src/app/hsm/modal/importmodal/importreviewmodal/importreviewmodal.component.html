@@ -1,0 +1,43 @@
+<div *loadingIndicator="loading"></div>
+<div class="modal-body">   
+    <mat-dialog-content>
+        <div class="header-import">
+            <h6 style="text-align: left;">Import from CSV/Excel file</h6>
+            <ul class="step-import">
+                <li class="agkmv success-color"><fa-icon [icon]="['fas', 'check-circle']" style="color: #4EC862;"></fa-icon> Upload</li>
+                <li class="agkmv success-color"><fa-icon [icon]="['fas', 'check-circle']" style="color: #4EC862;"></fa-icon> Match</li>
+                <li class="agkmv progress-current">Review</li>
+            </ul>
+        </div>
+        <div class="manual-input-table">
+            <!-- <table class="table table-bordered">
+                <thead style="background-color: gray; color: #fff;">
+                    <th style="font-size:12px;" *ngFor="let head of headerList">{{head.mappedName}}</th>
+                </thead>
+                <tr *ngFor="let d of tableList">
+                    <td *ngFor="let head of headerList">{{ d[head.mappedName] }}</td>
+                </tr>
+            </table> -->
+            <table border="" style="border-collapse: collapse;">
+                <thead style="background-color: #EEEEEE;">
+                  <th style="width: 25px;"></th>
+                  <th class="ExcelTableFormationCol" *ngFor="let head of headerList">{{head.displayName}}</th>
+                </thead>
+                <tr *ngFor="let d of tableList; let i= index">
+                  <td style="background-color: #EEEEEE; font-size: 12px; text-align: center;">{{i+1}}</td>
+                  <td class="ExcelTableFormationRow" *ngFor="let head of headerList">{{ d[head.displayName] }}</td>
+                </tr>
+            </table>
+            <!-- <hot-table [data]="this.tableList" [colHeaders]="true" [rowHeaders]="true" [width]="600" [height]="300"></hot-table> -->
+        </div>
+        
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <div style="float: left;">
+            <button type="button" mat-button mat-dialog-close style="font-size: 14px;" (click)="goBack()">Go back</button>
+        </div>
+        <div style="float: right; margin-right: 10px;">
+            <button class="btn btn-primary btn-sm active" style="font-size: 14px;" (click)="saveChanges()" [disabled]="loading"><spinner color="white" size="xs" *ngIf="loading"></spinner> Submit</button>
+        </div>
+    </mat-dialog-actions>
+</div>

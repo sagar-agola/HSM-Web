@@ -1,0 +1,52 @@
+<mat-dialog-content>
+  <div class="form-group">
+    <h6>Select Fields to Display</h6>
+    <hr>
+  </div>       
+  <div class="row">
+    <div class="col col-sm-1">
+    </div>
+    <div class="col-5" style="margin-left: -20px;">
+      <div class="form-group">
+        <label class="st-label">Add Fields to display</label>
+        <select name="removeFields" class="form-control" size="30" style="height: 250px;"  multiple>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+          <option> </option>
+        </select>
+      </div>
+    </div>
+    <div class="col col-sm-1" style="margin-top: 30px;">
+      <mat-icon>chevron_left</mat-icon>
+      <mat-icon>chevron_right</mat-icon>
+    </div>
+    <div class="col-5">
+      <div class="form-group">
+        <label class="st-label">Available Fields</label>
+        <select name="removeFields" class="form-control" size="30" style="height: 250px;"  multiple>
+          <option>Ref Task Type</option>
+          <option>Failure</option>
+          <option>Failure Mode</option>
+          <option>Task Description</option>
+          <option>Acceptable Limits</option>
+          <option>Corrective Actions</option>
+          <option>Trade</option>
+          <option>Interval</option>
+          <option>Duration</option>
+          <option>Unique Task ID</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+    <button class="btn btn-primary lg active"> Save </button>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,73 @@
+<div class="modal-header">
+    <p style="color: black;">Assign Taxonomy</p>
+      <hr>
+</div>
+<div class="modal-body">
+    <mat-dialog-content>
+        <!-- <div class="form-group">
+            <h6>Select Component Taxonomy</h6>
+            <hr>
+        </div> -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Class</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxcategory"
+                        [(ngModel)]="classId" (change)="classOnselect($event)"
+                        [ngModelOptions]="{standalone: true}" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let ct of taxonomyClassList" [value]="ct.id">{{ ct.className }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Family</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxclass" [(ngModel)]="familyId"
+                        [ngModelOptions]="{standalone: true}" (change)="familyOnSelect($event)" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let tc of taxonomyFamilyList" [value]="tc.id">{{ tc.componentFamilies }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Spec</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxtype" [(ngModel)]="specId"
+                        [ngModelOptions]="{standalone: true}" (change)="specOnSelect($event)" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let tp of taxonomySpecList" [value]="tp.id">{{ tp.specification }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Manufacturer</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxtype" [(ngModel)]="manufacturerId"
+                        [ngModelOptions]="{standalone: true}" (change)="manufactureOnSelect($event)" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let tp of taxonomyManufacturerList" [value]="tp.id">{{ tp.assetManufacturer }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <!-- <button class="btn btn-outline-primary" (click)="close()">Cancel</button> -->
+            <button class="btn btn-primary lg active" (click)="Assign()"> Assign </button>
+        </div>
+    </mat-dialog-content>
+</div>

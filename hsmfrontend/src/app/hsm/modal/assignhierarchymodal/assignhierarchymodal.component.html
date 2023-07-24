@@ -1,0 +1,73 @@
+<div class="modal-header">
+    <p style="color: black;">Assign Hierarchy</p>
+      <hr>
+</div>
+<div class="modal-body">
+    <mat-dialog-content>
+        <!-- <div class="form-group">
+            <h6>Select Component Taxonomy</h6>
+            <hr>
+        </div> -->
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Industry</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxcategory"
+                        [(ngModel)]="industryId" (change)="industryOnSelect($event)"
+                        [ngModelOptions]="{standalone: true}" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let ct of industryList" [value]="ct.id">{{ ct.industryName }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Business Type</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxclass" [(ngModel)]="businessTypeId"
+                        [ngModelOptions]="{standalone: true}" (change)="businessTypeOnSelect($event)" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let tc of businessTypeList" [value]="tc.id">{{ tc.businessType }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Asset Type</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxtype" [(ngModel)]="assetTypeId"
+                        [ngModelOptions]="{standalone: true}" (change)="assetTypeOnSelect($event)" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let tp of assetTypeList" [value]="tp.id">{{ tp.assetType }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col col-sm-2">
+                    <label class="st-label">Process Function</label>
+                </div>
+                <div class="col col-lg-10">
+                    <select class="form-control" id="taxtype" [(ngModel)]="processFunctionId"
+                        [ngModelOptions]="{standalone: true}" (change)="processOnSelect($event)" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let tp of processFunctionList" [value]="tp.id">{{ tp.processFunction }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="margin-top: 20px;">
+            <!-- <button class="btn btn-outline-primary" (click)="close()">Cancel</button> -->
+            <button class="btn btn-primary lg active" (click)="Assign()"> Assign </button>
+        </div>
+    </mat-dialog-content>
+</div>

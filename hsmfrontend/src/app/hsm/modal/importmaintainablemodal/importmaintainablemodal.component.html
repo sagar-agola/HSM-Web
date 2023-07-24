@@ -1,0 +1,19 @@
+<div class="modal-body">   
+    <mat-dialog-content>
+        <h6 style="text-align: left;">Import from CSV/Excel file <span *ngIf="this.mode === 'MaintUnit'">Maintainable Unit</span><span *ngIf="this.mode === 'MaintItem'">Maintainable Item</span><span *ngIf="this.mode === 'MaintSubItem'">Maintainable Sub Item</span>
+        </h6>
+        <div class="upload-body">
+            <div>
+                <!-- <button class="btn btn-primary">Upload data from file</button><br> -->
+                <input type="file" name="file" id="file" class="inputfile" (change)="onUploadMaintUnit($event)" accept=".xls,.xlsx" *ngIf="this.mode === 'MaintUnit'" />
+                <input type="file" name="file" id="file" class="inputfile" (change)="onUploadMaintItem($event)" accept=".xls,.xlsx" *ngIf="this.mode === 'MaintItem'" />
+                <input type="file" name="file" id="file" class="inputfile" (change)="onUploadMaintSubItem($event)" accept=".xls,.xlsx" *ngIf="this.mode === 'MaintSubItem'" />
+                <label for="file">Upload data from file</label>
+                <!-- <p>.csv, .tsv, .xls, .xlsx, .xml, .txt spreadsheets accepted.</p> -->
+            </div>
+            <div class="notice-right-p">
+                You can upload any .csv, .xls, .xlsx file with any set of columns as long as it has 1 record per row. The next step will allow you to match your spreadsheet columns to the right data points. You'll be able to clean up or remove any corrupted data before finalizing your report.
+            </div>
+        </div>
+    </mat-dialog-content>
+</div>

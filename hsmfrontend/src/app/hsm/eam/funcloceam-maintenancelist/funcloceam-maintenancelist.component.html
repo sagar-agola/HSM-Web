@@ -1,0 +1,48 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="panel-body2">
+    <mat-icon style="margin-right: 30px;"><button (click)="openDialogFilter()" placement="left" ngbTooltip="Multi Filter">filter_list</button></mat-icon>
+    <mat-icon style="margin-right: 20px;"><button (click)="openDialog()" placement="left" ngbTooltip="Custom Table Display">settings</button></mat-icon>
+</div>
+<div class="table-responsive" style="padding-top: 10px;">
+    <table mat-table class="table table-striped" [dataSource]="dataSource" class="mat-elevation-z8">
+              
+        <ng-container matColumnDef="taskId">
+            <th mat-header-cell *matHeaderCellDef> Task Group ID </th>
+            <td mat-cell *matCellDef="let element"><a routerLink="">{{element.taskId}} </a></td>
+        </ng-container>
+
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> FLOC </th>
+            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="maintItemText">
+            <th mat-header-cell *matHeaderCellDef> PM Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.maintItemText}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="maintItem">
+            <th mat-header-cell *matHeaderCellDef> MaintItem </th>
+            <td mat-cell *matCellDef="let element"> {{element.maintItem}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="maintenancePlanName">
+            <th mat-header-cell *matHeaderCellDef> MaintPlan </th>
+            <td mat-cell *matCellDef="let element"> {{element.maintenancePlanName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mainWorkCtr">
+            <th mat-header-cell *matHeaderCellDef> MainWorkCtr </th>
+            <td mat-cell *matCellDef="let element"> {{element.mainWorkCtr}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="plannerGroup">
+            <th mat-header-cell *matHeaderCellDef> PlannerGP </th>
+            <td mat-cell *matCellDef="let element"> {{element.plannerGroup}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100, 500, 1000]" showFirstLastButtons></mat-paginator>
+</div>

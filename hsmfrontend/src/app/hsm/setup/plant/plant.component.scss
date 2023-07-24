@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+  }
+  
+th{
+    font-size: 12px;
+    font-weight: bold;
+    color:#414244 ;
+  }
+  
+  td{
+    font-size: 11px;
+    color:#6c757d ;
+  }
+
+  tr:nth-child(even) {
+    background-color: #e9ecef;
+  }
+
+  button{
+    border: none;
+    background-color: transparent;
+  }

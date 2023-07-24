@@ -1,0 +1,114 @@
+@import '../../../../styles/st-components/st-badges';
+
+html, body { height: 100%; }
+
+#content 
+{
+    margin: 0 auto;
+    width: 100%;
+
+    /* this is the real deal: */
+    /* background: url("img/content_left.png") top left repeat-y; */
+
+    /* this is just for the example */
+    border-left: 1px solid #eee;
+    height: auto !important;
+    height: 100%; /* IE 6 Workaround */
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+#content .wrapper
+{
+    /* this is the real deal: */
+    /* background: url("img/content_right.png") top right repeat-y; */
+
+    /* this is just for the example */
+    border-right: 1px solid #eee;
+
+    height: auto !important;
+    height: 100%; /* IE 6 Workaround */
+    min-height: 100%;
+    padding: 0px 10px;
+}
+
+#main-container {
+  height:100vh;
+  padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  flex: 1 auto; 
+  margin-bottom: auto;
+}
+
+.breadcrumb{
+  margin: 0 10px 0 10px;
+}
+
+#ui-container{
+  background-color: #eeeded;
+  overflow-x: auto;
+  // height:100vmax;
+}
+
+#criticalityInfo{
+  padding: 10px;
+  height: auto;
+  background-color: #ffff;
+}
+
+.card{
+    margin-top: 10px;
+    height: auto;
+    max-width: 100%;
+  }
+
+  .st-label{
+    font-size: 13px;
+  }
+
+  .form-check-label{
+    font-size: 11px;
+  }
+
+.mat-list-text {
+  font-size:14px;
+}
+
+#parent{
+  display: flex;
+  // border: 0.25px solid rgb(182, 182, 182);
+  height: 100vh;
+  width: 100%;
+}
+#LeftCol{
+  flex-grow: 1;
+  width: 40%;
+  resize: both;
+  overflow: auto;
+  padding: 15px;
+  height: 95vh;
+  margin-left: 10px;
+  background-color: #fff;
+  margin-top: 10px;
+}
+
+#LeftCol2{
+  width: 25px;
+  height: 80vh;
+  margin-left: 10px;
+  background-color: #fff;
+  margin-top: 10px;
+}
+#RightCol{
+  // border: 0.25px solid rgb(182, 182, 182);
+  width: 60%;
+  flex-grow: 3;
+  margin: 0 10px;
+}
+
+.st-label{
+  font-size: 12px;
+  margin-top: 20px;
+  margin-left: 10px;
+}

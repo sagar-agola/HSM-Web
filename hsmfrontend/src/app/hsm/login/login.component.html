@@ -1,0 +1,30 @@
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+  
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="./../../../assets/images/Holistic Strategy Management.png" id="icon" alt="User Icon" height="160px" style="align-items: center; margin-left: 80px;" />
+      </div>
+      <h6>Login to Holistic Strategy Management</h6>
+      <!-- Login Form -->
+      <form [formGroup]="form" (ngSubmit)="onLogin()" class="wrap-form">
+        <div class="alert alert-danger" role="alert" *ngIf="invalid">
+          <span class="small-notify"> {{ error }}</span>
+        </div>
+        <input type="text" id="login" class="fadeIn second" [(ngModel)]="username" formControlName="username" required="required" name="login" placeholder="login"><br>
+        <input type="password" id="password" class="fadeIn third" [(ngModel)]="password" formControlName="password" required="required" name="password" placeholder="password">
+        <input type="hidden" [(ngModel)]="type" formControlName="type">
+        <div *ngIf="isInvalid"><span style="color: red;">Incorrect username or password</span></div>
+        <button class="btn btn-primary fadeIn fourth" id="submit" (click)="onLogin()" [disabled]="loading"><spinner color="white" size="xs" *ngIf="loading"></spinner>Log In</button>
+      </form>
+  
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="underlineHover" href="#">Can't Log in?</a>
+      </div>
+  
+    </div>
+</div>
+<!-- <div style="position: absolute; bottom: 0; right: 0; width: 100px; text-align:right;"><p style="font-size: smaller; color: #898888;">Version2.0.1</p></div> -->

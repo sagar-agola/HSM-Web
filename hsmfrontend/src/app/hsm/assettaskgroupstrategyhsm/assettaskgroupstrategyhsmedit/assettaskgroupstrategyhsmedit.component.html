@@ -1,0 +1,416 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;"><a routerLink="/main/hsm-task-group-strategy">HSM Task Group Strategies</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Edit HSM Task Group Strategy</li>
+      </ol>
+    </nav>
+    <mat-tab-group animationDuration="0ms" #tabGroup style="padding-top: 10px;" [selectedIndex]="selectedIndex">
+        <mat-tab label="Edit HSM Task Group Strategy" [(activeId)]="activeId" >
+            <br>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div style="margin-left: 10px;">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Review Status</h6>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="st-label">Task Group Strategy No.</label>
+                                                    <input type="text" class="form-control"
+                                                        [(ngModel)]="this.taskGpStrategyId"
+                                                        disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="st-label">Status</label>
+                                                <select class="form-control" id="systemStatus" [(ngModel)]="this.systemStatus"
+                                                    [ngModelOptions]="{standalone: true}" (change)="statusOnSelect($event)"
+                                                    style="font-size: 12px;">
+                                                    <option value=""></option>
+                                                    <option *ngFor="let sc of systemStatusList" [value]="sc.id">{{
+                                                        sc.statusName }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h6 class="card-title">Work Instruction Title Generation</h6>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="st-label">Asset Class<span style="color: red;">*</span></label>
+                                                    <select class="form-control" id="assetClassId"
+                                                        [(ngModel)]="this.assetClassId"
+                                                        [ngModelOptions]="{standalone: true}" (change)="assetClassOnSelect($event)"
+                                                        style="font-size: 12px;" required>
+                                                        <option value=""></option>
+                                                        <option *ngFor="let tk of assetClassList" [value]="tk.id">{{
+                                                            tk.categoryName }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="st-label">Maintainable Unit</label>
+                                                    <select class="form-control" id="componentSubClassId" [(ngModel)]="this.maintUnitId"
+                                                        [ngModelOptions]="{standalone: true}" (change)="maintUnitOnSelect($event)"
+                                                        style="font-size: 12px;">
+                                                        <option value=""></option>
+                                                        <option *ngFor="let sc of maintUnitList" [value]="sc.id">{{
+                                                            sc.componentTaskName }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="st-label">Maintainable Item</label>
+                                                    <select class="form-control" id="componentSubClassId" [(ngModel)]="this.componentClass"
+                                                        [ngModelOptions]="{standalone: true}" (change)="componentClassOnSelect($event)"
+                                                        style="font-size: 12px;" [disabled]="!isMaintUnitSelect">
+                                                        <option value=""></option>
+                                                        <option *ngFor="let sc of componentClassTaxonomyList" [value]="sc.id">{{
+                                                            sc.componentClass }}</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="st-label">Task Group Description</label>
+                                                    <input type="text" class="form-control" 
+                                                        [value]="mapFreqData(this.frequencyId)?.frequencyName + ' ' + mapTradeTypeData(this.tradeTypeId)?.tradeTypeName + ' ' + mapAssetClassData(this.assetClassId)?.categoryName + ' ' + mapTaskTypeData(this.taskTypeId)?.taskTypeName + ' ' + mapOperationModeData(this.operationalModeId)?.operationalModeName"
+                                                        disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="st-label">Work Instruction Task Type<span style="color: red;">*</span></label>
+                                                    <select class="form-control" id="taskType" [(ngModel)]="this.taskTypeId"
+                                                        [ngModelOptions]="{standalone: true}" (change)="taskTypeOnSelect($event)"
+                                                        style="font-size: 12px;">
+                                                        <option value=""></option>
+                                                        <option *ngFor="let tk of taskTypeList" [value]="tk.id">{{
+                                                            tk.taskTypeName }}</option>
+                                                    </select>
+                                                    <div *ngIf="isInvalid"><span style="color: red;">Please fill required field</span></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="st-label">Operational Mode<span style="color: red;">*</span></label>
+                                                    <select class="form-control" id="operationalModeId"
+                                                        [(ngModel)]="this.operationalModeId" [ngModelOptions]="{standalone: true}"
+                                                        (change)="operationalModeOnSelect($event)" style="font-size: 12px;" required>
+                                                        <option value=""></option>
+                                                        <option *ngFor="let tk of operationModeList" [value]="tk.id">{{
+                                                            tk.operationalModeName }}</option>
+                                                    </select>
+                                                    <div *ngIf="isInvalid"><span style="color: red;">Please fill required field</span></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="st-label">Frequency<span style="color: red;">*</span></label>
+                                                    <select class="form-control" id="frequencyId" [(ngModel)]="this.frequencyId"
+                                                        [ngModelOptions]="{standalone: true}" (change)="frequencyOnSelect($event)"
+                                                        style="font-size: 12px;" required>
+                                                        <option value=""></option>
+                                                        <option *ngFor="let tk of frequencyList" [value]="tk.id">{{
+                                                            tk.frequencyName }}</option>
+                                                    </select>
+                                                    <div *ngIf="isInvalid"><span style="color: red;">Please fill required field</span></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="st-label">Trade Type<span style="color: red;">*</span></label>
+                                                    <select class="form-control" id="tradeTypeId" [(ngModel)]="this.tradeTypeId"
+                                                        [ngModelOptions]="{standalone: true}" (change)="tradeTypeOnSelect($event)"
+                                                        style="font-size: 12px;" required>
+                                                        <option value=""></option>
+                                                        <option *ngFor="let tk of tradeTypeList" [value]="tk.id">{{
+                                                            tk.tradeTypeName }}</option>
+                                                    </select>
+                                                    <div *ngIf="isInvalid"><span style="color: red;">Please fill required field</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                         <div class="row">
+                            <div class="col">
+                               <div class="card">
+                                   <div class="card-body">
+                                     <h6 class="card-title">Asset Meta Data</h6>
+                                      <div class="row">
+                                          <div class="col-4">
+                                               <div class="form-group">
+                                                   <label class="st-label">Industry</label>
+                                                   <select class="form-control" id="assetIndustryId"
+                                                       [(ngModel)]="this.assetIndustryId" [ngModelOptions]="{standalone: true}"
+                                                       (change)="industryOnSelect($event)" style="font-size: 12px;">
+                                                       <option value=""></option>
+                                                       <option *ngFor="let tk of industryTaxonomyList" [value]="tk.id">{{
+                                                           tk.industryName }}</option>
+                                                   </select>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label class="st-label">Asset Class</label>
+                                                   <select class="form-control" id="assetClassId"
+                                                       [(ngModel)]="this.assetClassId"
+                                                       [ngModelOptions]="{standalone: true}" (change)="assetClassOnSelect($event)"
+                                                       style="font-size: 12px;">
+                                                       <option value=""></option>
+                                                       <option *ngFor="let tk of assetClassList" [value]="tk.id">{{
+                                                           tk.categoryName }}</option>
+                                                   </select>
+                                               </div>
+                                          </div>
+                                          <div class="col-4">
+                                               <div class="form-group">
+                                                   <label class="st-label">Business Type</label>
+                                                   <select class="form-control" id="assetBusinessTypeId"
+                                                       [(ngModel)]="this.assetBusinessTypeId" [ngModelOptions]="{standalone: true}"
+                                                       (change)="businessTypeOnSelect($event)" style="font-size: 12px;">
+                                                       <option value=""></option>
+                                                       <option *ngFor="let tk of businessTypeTaxonomyList" [value]="tk.id">{{
+                                                           tk.businessType }}</option>
+                                                   </select>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label class="st-label">Model / Specification</label>
+                                                   <select class="form-control" id="assetSpecTaxonomyId"
+                                                       [(ngModel)]="this.assetSpecTaxonomyId" [ngModelOptions]="{standalone: true}"
+                                                       (change)="assetSpecOnSelect($event)" style="font-size: 12px;">
+                                                       <option value=""></option>
+                                                       <option *ngFor="let tk of assetSpecTaxonomyList" [value]="tk.id">{{
+                                                           tk.specification }}</option>
+                                                   </select>
+                                               </div>
+                                          </div>
+                                          <div class="col-4">
+                                               <div class="form-group">
+                                                   <label class="st-label">Process Function</label>
+                                                   <select class="form-control" id="assetProcessFunctionId"
+                                                       [(ngModel)]="this.assetProcessFunctionId"
+                                                       [ngModelOptions]="{standalone: true}"
+                                                       (change)="processFunctionOnSelect($event)" style="font-size: 12px;">
+                                                       <option value=""></option>
+                                                       <option *ngFor="let tk of processFunctionTaxonomyList" [value]="tk.id">{{
+                                                           tk.processFunction }}</option>
+                                                   </select>
+                                               </div>
+                                               <div class="form-group">
+                                                   <label class="st-label">Asset Manufacturer</label>
+                                                   <select class="form-control" id="assetManufacturerId"
+                                                       [(ngModel)]="this.assetManufacturerId" [ngModelOptions]="{standalone: true}"
+                                                       (change)="assetManufacturerOnSelect($event)" style="font-size: 12px;">
+                                                       <option value=""></option>
+                                                       <option *ngFor="let tk of assetManufacturerTaxonomyList" [value]="tk.id">{{
+                                                           tk.assetManufacturer }}</option>
+                                                   </select>
+                                               </div>
+                                          </div>
+                                      </div>
+                                   </div>
+                               </div>
+                            </div>
+                        </div>
+                        <div style="float: right; margin-top: 10px; margin-bottom: 10px; margin-right: 10px;">
+                            <button type="button" class="btn btn-primary"
+                            (click)="saveNext()" style="font-size: 12px;">Next</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Construct Task Group Strategy" [(activeId)]="activeId">
+            <br>
+            <div id="parent">
+                <div class="LeftCol">
+                    <h6 style="font-size: 14px; text-align: center;">HSM Task Group Strategy Details</h6>
+                    <hr>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Task Strategy Group Id:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{ taskGpStrategyId }}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Task Group Description:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{ mapFreqData(this.frequencyId)?.frequencyName + ' ' + mapTradeTypeData(this.tradeTypeId)?.tradeTypeName + ' ' + mapAssetClassData(this.assetClassId)?.categoryName + ' ' + mapTaskTypeData(this.taskTypeId)?.taskTypeName + ' ' + mapOperationModeData(operationalModeId)?.operationalModeName }}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Maintainable Unit:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapMaintUnitData(maintUnitId)?.componentTaskName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Maintainable Item:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapMaintItemData(componentClass)?.componentClass}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Trade Type:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapTradeTypeData(tradeTypeId)?.tradeTypeName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Operational Mode:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapOperationModeData(operationalModeId)?.operationalModeName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Interval:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapFreqData(frequencyId)?.frequencyName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Work Instruction Type:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapTaskTypeData(taskTypeId)?.taskTypeName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Asset Class:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapAssetClassData(assetClassId)?.categoryName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Industry:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapIndustryData(assetIndustryId)?.industryName}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Business Type:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapBusinessTypeData(assetBusinessTypeId)?.businessType}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Process Function:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapProcessFuncData(assetProcessFunctionId)?.processFunction}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Asset Specification:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapSpecData(assetSpecTaxonomyId)?.specification}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Asset Manufacturer:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapManufacturerData(assetManufacturerId)?.assetManufacturer}}</span></h6>
+                    </div>
+                    <div class="form-group">
+                        <h6 style="font-size: 12px;">Status:<span class="text-gray-500 text-small" style="padding-left: 10px; font-size: 11px;">{{mapStatusData(systemStatus)?.statusName}}</span></h6>
+                    </div>
+                </div>
+                <div class="RightCol">
+                    <div class="rightBody">
+                        <div class="form-group" style="float: right; padding: 10px;">
+                            <button type="button" class="btn btn-primary active" style="font-size: 11px; border-color: #e9ecef; z-index: -1;" [disabled]="isSave" (click)="SaveAll()">Update Changes</button> &nbsp;
+                            <button type="button" class="btn btn-light" style="font-size: 11px; border-color: #e9ecef; z-index: -1;" [disabled]="isApproved" (click)="openAttachTask(null, this.assetClassHierarchy)" [disabled]="isSave">Assign Task to HSM TGS</button>
+                        </div>
+                        <div>
+                            <h6 style="font-size: 14px; padding: 10px;">Task Assignment</h6>
+                        </div>
+                    </div>
+                    <div id="content" *ngIf="!isApproved">
+                        <div>
+                            <div id="contentInside" *ngFor="let containertask of this.taskList">
+                                <div class="card">
+                                    <div class="card-header" style="height: 20px;" >
+                                        <!-- <div class="form-group" style="float:right; position: relative;">
+                                            <button type="button" style="font-size: 10px; margin-top: -20px; background:transparent; border: none;" [disabled]="isSave" (click)="deleteTaskSaved(containertask.AssemblyHierarchyId)"><mat-icon style="color: red; outline-color: black; font-size: 20px;">delete</mat-icon></button>
+                                        </div> -->
+                                        <p style="margin-top: -7px; font-weight: 700;">{{ containertask.CategoryName}}</p>
+                                    </div>
+                                </div>
+                                <div cdkDropListGroup>
+                                    <div class="example-container">
+                                      <div
+                                        cdkDropList
+                                        [cdkDropListData]="result"
+                                        class="example-list"
+                                        (cdkDropListDropped)="drop($event)">
+                                        <div class="example-box" *ngFor="let containers of containertask.Material;  let i = index;" cdkDrag>
+                                            
+                                            <div class="col-4">
+                                                <p class="p-class"><b>{{ containers.ComponentTaskName }} <span *ngIf="containers.ComponentClass"> - </span>{{containers.ComponentClass}} <span *ngIf="containers.SubClass"> - </span> {{containers.SubClass}}</b></p>
+                                                <p class="p-class"><b>Task Description</b></p>
+                                                <p class="p-class">{{ containers.TaskDescription }}</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="p-class"><b>Acceptable Limits</b></p>
+                                                <p class="p-class">{{ containers.AcceptableLimits }}</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="p-class"><b>Corrective Actions</b></p>
+                                                <p class="p-class">{{ containers.CorrectiveActions }}</p>
+                                            </div>
+                                            <div class="col-1">
+                                                <button type="button" style="font-size: 10px; margin-top: -20px; background:transparent; border: none;" [disabled]="isSave" (click)="deleteTaskSaved(containers.Id)"><mat-icon style="color: red; outline-color: black; font-size: 16px;">delete</mat-icon></button>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content" *ngIf="containerTask !== null || containerTask !== undefined && !isApproved">
+                        <div id="contentInside" *ngFor="let item of result">
+                            <div class="card">
+                                <div class="card-header" style="height: 20px;" >
+                                    <!-- <div class="form-group" style="float:right; position: relative;">
+                                        <button type="button" style="font-size: 10px; margin-top: -20px; background:transparent; border: none;" [disabled]="isSave" (click)="deleteTask(item.categoryName)"><mat-icon style="color: red; outline-color: black; font-size: 20px;">delete</mat-icon></button>
+                                    </div> -->
+                                    <p style="margin-top: -7px; font-weight: 700;">{{ item.categoryName}}</p>
+                                </div>
+                            </div>
+                            <div cdkDropListGroup>
+                                <div class="example-container">
+                                  <div
+                                    cdkDropList
+                                    [cdkDropListData]="result"
+                                    class="example-list"
+                                    (cdkDropListDropped)="drop($event)">
+                                    <div class="example-box" *ngFor="let containers2 of item.values;  let i = index;" cdkDrag>
+                                        <div class="col-4">
+                                            <p class="p-class"><b>{{ mapMaintUnitData(containers2.maintUnitId).componentTaskName }} <span *ngIf="containers2.maintItemId !== 0"> - </span>{{mapMaintItemData(containers2.maintItemId)?.componentClass}} <span *ngIf="containers.maintSubItem !== 0"> - </span> {{mapMaintSubItemData(containers2.maintSubItem)?.subClass}} </b></p>
+                                            <p class="p-class"><b>Task Description</b></p>
+                                            <p class="p-class">{{ containers2.taskDescription }}</p>
+                                        </div>
+                                        <div class="col-4">
+                                            <p class="p-class"><b>Acceptable Limits</b></p>
+                                            <p class="p-class">{{ containers2.acceptableLimits }}</p>
+                                        </div>
+                                        <div class="col-3">
+                                            <p class="p-class"><b>Corrective Actions</b></p>
+                                            <p class="p-class">{{ containers2.correctiveActions }}</p>
+                                        </div>
+                                        <div class="col-1">
+                                            <button type="button" style="font-size: 10px; margin-top: -20px; background:transparent; border: none;" [disabled]="isSave" (click)="deleteTask(containers2.fmeaid)"><mat-icon style="color: red; outline-color: black; font-size: 16px;">delete</mat-icon></button>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                 </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="content" *ngIf="isApproved">
+                        <div>
+                            <div id="contentInside" *ngFor="let containertask of this.taskList">
+                                <div class="card">
+                                    <div class="card-header" style="height: 20px;" >
+                                        <!-- <div class="form-group" style="float:right; position: relative;">
+                                            <button type="button" style="font-size: 10px; margin-top: -20px; background:transparent; border: none;" [disabled]="isSave" (click)="deleteTaskSaved(containertask.AssemblyHierarchyId)"><mat-icon style="color: red; outline-color: black; font-size: 20px;">delete</mat-icon></button>
+                                        </div> -->
+                                        <p style="margin-top: -7px; font-weight: 700;">{{ containertask.CategoryName}}</p>
+                                    </div>
+                                </div>
+                                <div >
+                                    <div class="example-container">
+                                      <div>
+                                        <div class="example-box" *ngFor="let containers of containertask.Material;  let i = index;">
+                                            <div class="col-4">
+                                                <p class="p-class"><b>{{ containers.ComponentTaskName }} <span *ngIf="containers.ComponentClass"> - </span>{{containers.ComponentClass}} <span *ngIf="containers.SubClass"> - </span> {{containers.SubClass}}</b></p>
+                                                <p class="p-class"><b>Task Description</b></p>
+                                                <p class="p-class">{{ containers.TaskDescription }}</p>
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="p-class"><b>Acceptable Limits</b></p>
+                                                <p class="p-class">{{ containers.AcceptableLimits }}</p>
+                                            </div>
+                                            <div class="col-3">
+                                                <p class="p-class"><b>Corrective Actions</b></p>
+                                                <p class="p-class">{{ containers.CorrectiveActions }}</p>
+                                            </div>
+                                            <div class="col-1">
+                                                <button type="button" style="font-size: 10px; margin-top: -20px; background:transparent; border: none;" [disabled]="isSave"><mat-icon style="color: red; outline-color: black; font-size: 16px;">delete</mat-icon></button>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

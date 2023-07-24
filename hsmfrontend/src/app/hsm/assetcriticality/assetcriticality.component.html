@@ -1,0 +1,341 @@
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Asset Criticality</li>
+    </ol>
+  </nav>
+  <div class="card">
+    <div class="card-body">
+      <nav ngbNav #nav="ngbNav" [(activeId)]="activeId" class="navtab">
+        <ng-container [ngbNavItem]="1">
+          <a ngbNavLink class="st-tab">Assessment</a>
+          <ng-template ngbNavContent>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-2"><label class="st-label">Undefined</label><h3 class="lblundefined">74</h3></div>
+                  <div class="col-2"><label class="st-label">Low</label><h3 class="lbllow">80</h3></div>
+                  <div class="col-2"><label class="st-label">Medium</label><h3 class="lblmedium">47</h3></div>
+                  <div class="col-2"><label class="st-label">High</label><h3 class="lblhigh">28</h3></div>
+                  <div class="col-2"><label class="st-label">Very High</label><h3 class="lblveryhigh">5</h3></div>
+                  <div class="col-2"></div>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive" style="padding-top: 20px;">
+              <table class="table table-striped">
+                  <tr>
+                    <th>Asset</th>
+                    <th>Other Analysis</th>
+                    <th>Component Group Description</th>
+                    <th>Comp GP Risk Score</th>
+                    <th>Asset Criticality</th>
+                    <th>Asset Criticality Score</th>
+                  </tr>
+                  <tr>
+                    <td>MRD-ROA-REFN-RF097-ZL0003-097-FUEL GAS TO NORTH</td>
+                    <td>FMEA Analysis</td>
+                    <td>MRD-ROA-REFN-RF097-ZL0003-097-FUEL GAS TO NORTH</td>
+                    <td>550</td>
+                    <td>High​</td>
+                    <td>550</td>
+                  </tr>
+              </table>
+          </div>
+          </ng-template>
+        </ng-container>
+        <ng-container [ngbNavItem]="2">
+          <a ngbNavLink class="st-tab"> Criticality Assessment</a>
+          <ng-template ngbNavContent>
+              <div class="panel panel-default">
+                <div class="panel-body" id="criticalityInfo">
+                  <h6 class="align-items-center justify-content-center">Perform asset criticality assessment</h6>
+                  <div class="row">
+                    <div class="col-6">
+                      <h6 style="font-size: smaller; color: #3f3f3d;">Asset Name:</h6><span style="font-size: smaller; color:#005493;"><b>MRD-ROA-REFN-RF097</b></span>
+                    </div>
+                    <div class="col-6">
+                      <h6 style="font-size: smaller; color: #3f3f3d;">Asset Criticality Score:</h6><span style="font-size: smaller; color:#005493;"><b>240</b></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <mat-tab-group mat-align-tabs="start">
+                    <mat-tab label="Health and Safety">
+                      <div class="scores">
+                        <div>
+                          <a><div id="square" class="square"></div></a>
+                          <a><div id="square1" class="square">1</div></a>
+                          <a><div id="square2" class="square">2</div></a>
+                          <a><div id="square3" class="square">3</div></a>
+                          <a><div id="square4" class="square">4</div></a>
+                          <a><div id="square5" class="square">5</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">6</div></a>
+                          <a><div id="square1" class="square_orange">5</div></a>
+                          <a><div id="square2" class="square_orange">6</div></a>
+                          <a><div id="square3" class="square_orange">12</div></a>
+                          <a><div id="square4" class="square_orange">36</div></a>
+                          <a><div id="square5" class="square_red">144</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">5</div></a>
+                          <a><div id="square1" class="square_red">600</div></a>
+                          <a><div id="square2" class="square_orange">4</div></a>
+                          <a><div id="square3" class="square_green">5</div></a>
+                          <a><div id="square4" class="square_orange">10</div></a>
+                          <a><div id="square5" class="square_yellow">30</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">4</div></a>
+                          <a><div id="square1" class="square_red">30</div></a>
+                          <a><div id="square2" class="square_red">480</div></a>
+                          <a><div id="square3" class="square_green">3</div></a>
+                          <a><div id="square4" class="square_green">4</div></a>
+                          <a><div id="square5" class="square_orange">8</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">3</div></a>
+                          <a><div id="square1" class="square_yellow">18</div></a>
+                          <a><div id="square2" class="square_orange">96</div></a>
+                          <a><div id="square3" class="square_orange">72</div></a>
+                          <a><div id="square4" class="square_green">2</div></a>
+                          <a><div id="square5" class="square_green">2</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">2</div></a>
+                          <a><div id="square1" class="square_green">12</div></a>
+                          <a><div id="square2" class="square_yellow">8</div></a>
+                          <a><div id="square3" class="square_yellow">48</div></a>
+                          <a><div id="square4" class="square_orange">240</div></a>
+                          <a><div id="square5" class="square_orange">1</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">1</div></a>
+                          <a><div id="square1" class="square_green">2</div></a>
+                          <a><div id="square2" class="square_green">6</div></a>
+                          <a><div id="square3" class="square_green">8</div></a>
+                          <a><div id="square4" class="square_yellow">24</div></a>
+                          <a><div id="square5" class="square_orange">120</div></a>
+                        </div>
+                      </div>
+                      <h6 class="likelihood">Likelihood</h6>
+                    </mat-tab>
+                    <mat-tab label="Environment">
+                      <div class="scores">
+                        <div>
+                          <a><div id="square" class="square"></div></a>
+                          <a><div id="square1" class="square">1</div></a>
+                          <a><div id="square2" class="square">2</div></a>
+                          <a><div id="square3" class="square">3</div></a>
+                          <a><div id="square4" class="square">4</div></a>
+                          <a><div id="square5" class="square">5</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">6</div></a>
+                          <a><div id="square1" class="square_orange">5</div></a>
+                          <a><div id="square2" class="square_orange">6</div></a>
+                          <a><div id="square3" class="square_orange">12</div></a>
+                          <a><div id="square4" class="square_orange">36</div></a>
+                          <a><div id="square5" class="square_red">144</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">5</div></a>
+                          <a><div id="square1" class="square_red">600</div></a>
+                          <a><div id="square2" class="square_orange">4</div></a>
+                          <a><div id="square3" class="square_green">5</div></a>
+                          <a><div id="square4" class="square_orange">10</div></a>
+                          <a><div id="square5" class="square_yellow">30</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">4</div></a>
+                          <a><div id="square1" class="square_red">30</div></a>
+                          <a><div id="square2" class="square_red">480</div></a>
+                          <a><div id="square3" class="square_green">3</div></a>
+                          <a><div id="square4" class="square_green">4</div></a>
+                          <a><div id="square5" class="square_orange">8</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">3</div></a>
+                          <a><div id="square1" class="square_yellow">18</div></a>
+                          <a><div id="square2" class="square_orange">96</div></a>
+                          <a><div id="square3" class="square_orange">72</div></a>
+                          <a><div id="square4" class="square_green">2</div></a>
+                          <a><div id="square5" class="square_green">2</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">2</div></a>
+                          <a><div id="square1" class="square_green">12</div></a>
+                          <a><div id="square2" class="square_yellow">8</div></a>
+                          <a><div id="square3" class="square_yellow">48</div></a>
+                          <a><div id="square4" class="square_orange">240</div></a>
+                          <a><div id="square5" class="square_orange">1</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">1</div></a>
+                          <a><div id="square1" class="square_green">2</div></a>
+                          <a><div id="square2" class="square_green">6</div></a>
+                          <a><div id="square3" class="square_green">8</div></a>
+                          <a><div id="square4" class="square_yellow">24</div></a>
+                          <a><div id="square5" class="square_orange">120</div></a>
+                        </div>
+                      </div>
+                      <h6 class="likelihood">Likelihood</h6>
+                    </mat-tab>
+                    <mat-tab label="Production">
+                      <div class="scores">
+                        <div>
+                          <a><div id="square" class="square"></div></a>
+                          <a><div id="square1" class="square">1</div></a>
+                          <a><div id="square2" class="square">2</div></a>
+                          <a><div id="square3" class="square">3</div></a>
+                          <a><div id="square4" class="square">4</div></a>
+                          <a><div id="square5" class="square">5</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">6</div></a>
+                          <a><div id="square1" class="square_orange">5</div></a>
+                          <a><div id="square2" class="square_orange">6</div></a>
+                          <a><div id="square3" class="square_orange">12</div></a>
+                          <a><div id="square4" class="square_orange">36</div></a>
+                          <a><div id="square5" class="square_red">144</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">5</div></a>
+                          <a><div id="square1" class="square_red">600</div></a>
+                          <a><div id="square2" class="square_orange">4</div></a>
+                          <a><div id="square3" class="square_green">5</div></a>
+                          <a><div id="square4" class="square_orange">10</div></a>
+                          <a><div id="square5" class="square_yellow">30</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">4</div></a>
+                          <a><div id="square1" class="square_red">30</div></a>
+                          <a><div id="square2" class="square_red">480</div></a>
+                          <a><div id="square3" class="square_green">3</div></a>
+                          <a><div id="square4" class="square_green">4</div></a>
+                          <a><div id="square5" class="square_orange">8</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">3</div></a>
+                          <a><div id="square1" class="square_yellow">18</div></a>
+                          <a><div id="square2" class="square_orange">96</div></a>
+                          <a><div id="square3" class="square_orange">72</div></a>
+                          <a><div id="square4" class="square_green">2</div></a>
+                          <a><div id="square5" class="square_green">2</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">2</div></a>
+                          <a><div id="square1" class="square_green">12</div></a>
+                          <a><div id="square2" class="square_yellow">8</div></a>
+                          <a><div id="square3" class="square_yellow">48</div></a>
+                          <a><div id="square4" class="square_orange">240</div></a>
+                          <a><div id="square5" class="square_orange">1</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">1</div></a>
+                          <a><div id="square1" class="square_green">2</div></a>
+                          <a><div id="square2" class="square_green">6</div></a>
+                          <a><div id="square3" class="square_green">8</div></a>
+                          <a><div id="square4" class="square_yellow">24</div></a>
+                          <a><div id="square5" class="square_orange">120</div></a>
+                        </div>
+                      </div>
+                      <h6 class="likelihood">Likelihood</h6>
+                    </mat-tab>
+                    <mat-tab label="Cost">
+                      <div class="scores">
+                        <div>
+                          <a><div id="square" class="square"></div></a>
+                          <a><div id="square1" class="square">1</div></a>
+                          <a><div id="square2" class="square">2</div></a>
+                          <a><div id="square3" class="square">3</div></a>
+                          <a><div id="square4" class="square">4</div></a>
+                          <a><div id="square5" class="square">5</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">6</div></a>
+                          <a><div id="square1" class="square_orange">5</div></a>
+                          <a><div id="square2" class="square_orange">6</div></a>
+                          <a><div id="square3" class="square_orange">12</div></a>
+                          <a><div id="square4" class="square_orange">36</div></a>
+                          <a><div id="square5" class="square_red">144</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">5</div></a>
+                          <a><div id="square1" class="square_red">600</div></a>
+                          <a><div id="square2" class="square_orange">4</div></a>
+                          <a><div id="square3" class="square_green">5</div></a>
+                          <a><div id="square4" class="square_orange">10</div></a>
+                          <a><div id="square5" class="square_yellow">30</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">4</div></a>
+                          <a><div id="square1" class="square_red">30</div></a>
+                          <a><div id="square2" class="square_red">480</div></a>
+                          <a><div id="square3" class="square_green">3</div></a>
+                          <a><div id="square4" class="square_green">4</div></a>
+                          <a><div id="square5" class="square_orange">8</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">3</div></a>
+                          <a><div id="square1" class="square_yellow">18</div></a>
+                          <a><div id="square2" class="square_orange">96</div></a>
+                          <a><div id="square3" class="square_orange">72</div></a>
+                          <a><div id="square4" class="square_green">2</div></a>
+                          <a><div id="square5" class="square_green">2</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">2</div></a>
+                          <a><div id="square1" class="square_green">12</div></a>
+                          <a><div id="square2" class="square_yellow">8</div></a>
+                          <a><div id="square3" class="square_yellow">48</div></a>
+                          <a><div id="square4" class="square_orange">240</div></a>
+                          <a><div id="square5" class="square_orange">1</div></a>
+                        </div>
+                        <div>
+                          <a><div id="square" class="square">1</div></a>
+                          <a><div id="square1" class="square_green">2</div></a>
+                          <a><div id="square2" class="square_green">6</div></a>
+                          <a><div id="square3" class="square_green">8</div></a>
+                          <a><div id="square4" class="square_yellow">24</div></a>
+                          <a><div id="square5" class="square_orange">120</div></a>
+                        </div>
+                      </div>
+                      <h6 class="likelihood">Likelihood</h6>
+                    </mat-tab>
+                  </mat-tab-group>
+                </div>
+                <div class="col-4">
+                  <h6 style="margin-top: 20px;">Definition Analysis</h6>
+                    <div class="criticalityLegend">
+                      <h6 style="font-size: small;">Consequences</h6>
+                      <p>1. Minor Injury or minor reversible health effects of no concern
+                        <br>2. Medical treatment case - or reversible health effect of concern, no disability
+                        <br>3. Medical treatment case - or reversible health effect of concern, no disability
+                        <br>4. Medical treatment case - or reversible health effect of concern, no disability
+                        <br>5. Medical treatment case - or reversible health effect of concern, no disability
+                      </p>
+                      <h6 style="font-size: small;">Likelihood</h6>
+                      <p>1. Very Rare - Lorem Ipsum
+                        <br>2. Rare - Lorem Ipsum
+                        <br>3. Unlikely - Lorem Ipsum
+                        <br>4. Possible - Lorem Ipsum
+                        <br>5. Likely - Lorem Ipsum
+                        <br>6. Certain - Lorem Ipsum
+                      </p>
+                    </div>
+                </div>
+              </div>
+          </ng-template>
+        </ng-container>
+      </nav>
+      
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <p style="color: black;"> Select Location Code and Description which the  work instruction is to assigned</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <div class="table-responsive" style="overflow: hidden;">
+            <!-- <span class="text-gray-500 text-small">Asset FLOC List</span> -->
+            <div class="form-group" style="float: right;">
+                <button type="button" class="btn btn-primary active" style="font-size: 12px;" (click)="next()" [disabled]="isChecked">Next</button> &nbsp;
+                <button type="button" class="btn btn-light active" style="font-size: 12px;" (click)="cancel()">Cancel</button>
+            </div> 
+            <input type="text" class="form-control" placeholder="Search" (keyup)="applyFilter($event)" style="font-size: 12px;">
+                    <mat-icon style="display:block; float: right; margin-top: -30px;">search</mat-icon>
+            <!-- <input class="form-control" (keyup)="applyFilter($event)" placeholder="Ex. Floc num" #input> -->
+            <table mat-table class="table table-sm" [dataSource]="dataSource" matSort style="background-color: #fff; overflow-y: scroll;">
+                <ng-container matColumnDef="isAdd">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <td mat-cell *matCellDef="let element"> 
+                    <!-- <span>
+                        <input type="checkbox" [checked]="element.isAdd" (change)="addThis($event, element.code + ' ' + element.flocDescription)">
+                    </span> -->
+                    <span><input type="checkbox" [checked]="element.isAdd" (change)="addThis($event, element.id, element)" style="margin-top: 10px;"></span>
+                    <!-- <span><input type="radio" [checked]="element.isAdd" (change)="addThis($event, element.id)" style="margin-top: 10px;"></span> -->
+                    </td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="code">
+                      <th mat-header-cell *matHeaderCellDef> FLOC </th>
+                      <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.code}}</button></td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="flocDescription">
+                    <th mat-header-cell *matHeaderCellDef> Description </th>
+                    <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.flocDescription}}</button></td>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="noRecord">
+                    <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=2>
+          
+                      <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                      <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default">
+                      <br>
+                      <span class="text-gray-500 text-base" *ngIf="default">Please search function loc or description to display record.</span>
+                      <span class="text-gray-500 text-base" *ngIf="!default">No records found</span>
+          
+                    </td>
+                  </ng-container>
+        
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                  <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </mat-dialog-content>
+</div>

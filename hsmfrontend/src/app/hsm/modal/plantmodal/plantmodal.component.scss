@@ -1,0 +1,29 @@
+button{
+    margin-left: 10px;
+    float: right;
+}
+
+h6{
+    text-align: center;
+}
+
+::ng-deep .mat-dialog-container{
+  padding:0 !important;
+  overflow: hidden !important;
+}
+
+.modal-body{
+    padding:10px;
+  }
+
+  .modal-footer {
+    border-top: none;
+    justify-content: right !important;
+  }
+
+  .modal-header{
+    height: 60px;
+    background-color: #005493;
+    margin:none  !important;
+    border-bottom: none !important;
+}

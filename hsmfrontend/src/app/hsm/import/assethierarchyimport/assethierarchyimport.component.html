@@ -1,0 +1,54 @@
+<h4 style="font-size: medium; margin: 10px;">Import Asset Hierarchy</h4>
+<div class="panel-body" style="float: left; padding: 10px;">
+    <div class="row">
+        <div class="col-lg-8">
+            <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" />
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)">
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload
+            </button>
+        </div>
+    </div>
+
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <div style="padding-top: 20px;">
+        <button type="button" class="btn btn-light" (click)="exportToExcel()" style="font-size: 14px;">
+            <spinner color="white" size="xs" *ngIf="loading"></spinner><img src="./../../../../assets/images/excel.png"
+                height="30" width="30" />Download Import Hierarchy Template
+        </button>
+    </div>
+
+    <!-- <p> {{ message }} </p> -->
+    <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import File">cloud_upload</button></mat-icon> -->
+</div>
+<!-- <div style="float: right;"><button type="button" class="btn btn-outline-primary" (click)="goToCreateAssetHierarchy()">Add New Asset Hierarchy</button></div> -->
+<div class="table-responsive" #table hidden>
+    <table id="import-table">
+        <tbody>
+            <tr>
+                <td style="background-color: #FFFF99;">Functional Loc.</td>
+                <td style="background-color: #FFFF99;">Description</td>
+                <td style="background-color: #FFFF99;">ConstType</td>
+                <td style="background-color: #FFFF99;">Main WorkCtr</td>
+                <td style="background-color: #FFFF99;">Planner group</td>
+                <td style="background-color: #FFFF99;">Planning plant</td>
+                <td style="background-color: #FFFF99;">MaintPlant</td>
+                <td style="background-color: #FFFF99;">Cost Center</td>
+                <td style="background-color: #FFFF99;">Sort field</td>
+                <td style="background-color: #FFFF99;">SupFunctLoc.</td>
+                <td style="background-color: #FFFF99;">Object type</td>
+                <td style="background-color: #FFFF99;">System status</td>
+                <td style="background-color: #FFFF99;">Created On</td>
+                <td style="background-color: #FFFF99;">ABC indic.</td>
+                <td style="background-color: #FFFF99;">ABC ind. orig.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

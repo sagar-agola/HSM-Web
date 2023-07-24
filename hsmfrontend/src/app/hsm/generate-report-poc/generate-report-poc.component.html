@@ -1,0 +1,25 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="main-grid">
+  <div id="fields-div" class="fields-container">
+    <h5>Availabe Fields</h5>
+    <div class="list-container">
+      <ejs-listview id='listview' [dataSource]='listData' (select)="onFieldSelect($event)" allowDragAndDrop='true' [fields]="fields"></ejs-listview>
+      <div class="mt-2 text-muted text-right">
+        <small>* Drag or click the field to insert.</small>
+      </div>
+    </div>
+    <div class="merge-command">
+      <button ejs-button cssClass="e-info" (click)="mailMergeDocument()">Mail Merge Document</button>
+    </div>
+    <div class="merge-command">
+      <button ejs-button cssClass="e-success" (click)="download()">Download</button>
+    </div>
+  </div>
+  <div class="document-container">
+    <ejs-documenteditorcontainer
+      #documenteditor_ref
+      [serviceUrl]='serviceLink'
+      (created)="onCreate()"
+    ></ejs-documenteditorcontainer>
+  </div>
+</div>

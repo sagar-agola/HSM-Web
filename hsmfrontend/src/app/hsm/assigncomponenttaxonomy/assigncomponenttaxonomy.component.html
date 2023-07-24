@@ -1,0 +1,83 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="bg-gray-200 min-vh-150" id="ui-container">
+    <div class="border-bottom view-header"></div>
+    <div class="panel panel-default">
+        <div class="panel-body" id="criticalityInfo">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/main/dashboard">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Assign Component Taxonomy</li>
+                </ol>
+            </nav>
+        </div>
+        <div id="parent">
+            <div class="LeftCol" [ngClass]="status ? 'sidebar' : 'sibeBarCollapse'">
+                <!-- <input type="text" class="form-control" placeholder="Search"> -->
+                <!-- <mat-icon style="display:block; float: right; margin-top: -30px;">search</mat-icon> -->
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;" (click)="clickEvent()" *ngIf="!status" placement="right" ngbTooltip="Minimize display">
+                    <fa-icon [icon]="['fas', 'caret-square-left']" style="color: #000000;"></fa-icon>
+                </button>
+                <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;" (click)="clickEvent()" *ngIf="status" placement="right" ngbTooltip="Maximize display">
+                    <fa-icon [icon]="['fas', 'caret-square-right']" style="color: #000000;"></fa-icon>
+                </button>
+                <div class="hierarchyClass" [ngClass]="status ? 'tableHide' : 'tableShow'">
+                    <h6 class="st-label">Component Hierarchy</h6>
+                    <button mat-icon-button (click)="addLevel1()" style="font-size:18px;"><mat-icon inline="true">add</mat-icon></button>
+                    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                        <!-- This is the tree node template for leaf nodes -->
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                          <!-- use a disabled button to provide padding for tree leaf -->
+                          <button mat-icon-button disabled></button>
+                          <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node.name)">{{node.name}}</button>
+                          <button mat-icon-button (click)="addNewItem(node.name)" style="font-size:18px;"><mat-icon inline="true">add</mat-icon></button>
+                        </mat-tree-node>
+                        <!-- This is the tree node template for expandable nodes -->
+                        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                          <button mat-icon-button matTreeNodeToggle
+                                  [attr.aria-label]="'Toggle ' + node.name">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                          </button>
+                          <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node.name)">{{node.name}}</button>
+                          <button mat-icon-button (click)="addNewItem(node.name)" style="font-size:18px;"><mat-icon inline="true">add</mat-icon></button>
+                        </mat-tree-node>
+                    </mat-tree>
+                </div>
+            </div>
+            <div class="RightCol">
+                <div class="form-group">
+                    <label class="st-label">Component Name:</label>
+                    <input type="text" class="form-control" [(ngModel)]="hierarchyName">
+                </div>
+                <div class="form-group">
+                    <label for="taxclass">Taxonomy Category</label>
+                    <select class="form-control" id="taxcategory" [(ngModel)]="categoryId" (change)="categoryOnselect($event)" style="font-size: small;">
+                        <option value=""></option>
+                        <option *ngFor="let ct of taxonomyCategoryList" [value]="ct.id">{{ ct.categoryName }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taxclass">Taxonomy Class</label>
+                    <select class="form-control" id="taxclass" [(ngModel)]="classId" (change)="classOnselect($event)" style="font-size: small;">
+                        <option value=""></option>
+                        <option *ngFor="let cl of taxonomyClassList" [value]="cl.id">{{ cl.className }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="taxclass">Taxonomy Type</label>
+                    <select class="form-control" id="taxtype" [(ngModel)]="typeId" (change)="typeOnselect($event)" style="font-size: small;">
+                        <option value=""></option>
+                        <option *ngFor="let tp of taxonomyTypeList" [value]="tp.id">{{ tp.typeName }}</option>
+                    </select>
+                </div>
+                <div class="form-group" style="float: right;">
+                    <button class="btn btn-primary lg active" (click)="assignChanges()"> Assign Taxonomy</button>
+                    <!-- <button class="btn btn-primary lg active"> Update </button> -->
+                    <!-- <button class="btn btn-link">Cancel</button> -->
+                </div>
+            </div>
+            <div class="lastCol"></div>
+        </div>
+    </div>
+</div>

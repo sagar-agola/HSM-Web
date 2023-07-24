@@ -1,0 +1,343 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">EAM Maintenance Plan List</li>
+      </ol>
+    </nav>
+    <div class="card">
+        <div class="card-body">
+            <div>
+                <button type="button" class="btn btn-primary active" style="font-size: 11px; font-weight: 700; border: 2px solid #e9ecef; margin-bottom: 5px;" (click)="routeCreate()">Assign TGS to EAM Maintenance Plan</button>
+            </div>
+            <div class="panel-body4">
+                <mat-icon style="margin-right: 30px;"><button placement="left" ngbTooltip="Multi Filter" (click)="toggleFilter()" #multiFilter>filter_list</button>
+                </mat-icon>
+                <div class="position-absolute card shadow" style=" right:20px; width:650px; z-index: 1; padding: 10px;"
+                    fadeInOut [hidden]="!this.displayMultiFilter">
+                    <span style="font-size: small; font-weight: bold;">Search Filter</span>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <span class="st-label">Floc Name</span>
+                                <input type="text" class="form-control" id="floc" [(ngModel)]="floc" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">Planning Plant</span>
+                                <input type="text" class="form-control" id="planningPlants" [(ngModel)]="planningPlants" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">MaintItem Desc</span>
+                                <input type="text" class="form-control" id="maintItemDesc" [(ngModel)]="maintItemDesc" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">Task Strategy</span>
+                                <input type="text" class="form-control" id="tasklistStrategy" [(ngModel)]="tasklistStrategy" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">WorkCenter</span>
+                                <input type="text" class="form-control" id="workCenterFilter" [(ngModel)]="workCenterFilter" [ngModelOptions]="{standalone: true}">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <span class="st-label">Floc Description</span>
+                                <input type="text" class="form-control" id="flocDesc" [(ngModel)]="flocDesc" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">Plant</span>
+                                <input type="text" class="form-control" id="plant" [(ngModel)]="plant" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">MaintPlan desc</span>
+                                <input type="text" class="form-control" id="maintPlanDescription" [(ngModel)]="maintPlanDescription" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">Planner GP</span>
+                                <input type="text" class="form-control" id="plannerGp" [(ngModel)]="plannerGp" [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="form-group">
+                                <span class="st-label">System Status</span>
+                                <br>
+                                <div class="row" style="margin-top: 5px;">
+                                    <div class="col-3">
+                                        <input type="checkbox" [(ngModel)]="crtd" (change)="crtdCheck($event)">&nbsp; CRTD
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="checkbox" [(ngModel)]="blankStatus" (change)="blankCheck($event)">&nbsp; Blank
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="checkbox" [(ngModel)]="crtdInac" (change)="crtdInacCheck($event)">&nbsp; CRTD INAC
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group"><button class="btn btn-primary lg active" (click)="filter()" style="float: right;"> Filter </button></div>
+                </div>
+                <mat-icon style="margin-right: 20px;"><button placement="left"
+                        ngbTooltip="Custom Table Display" (click)="toggleColumn()" #tableColumn>settings</button></mat-icon>
+                <div class="position-absolute card shadow" style=" right:20px; width:408px; z-index: 1; padding: 10px;"
+                    fadeInOut [hidden]="!this.displayTableColumn">
+                    <!-- <div class="form-group">
+                        <input type="checkbox" [(ngModel)]="tgsAttached" (change)="addColumnTgs()">&nbsp; TGS Attached
+                    </div> -->
+                    <span style="font-size: small; font-weight: bold;">Table Columns</span>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="fLOC" (change)="addColumnCode()">&nbsp; FLOC
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="flocDescription" (change)="addColumnFlocDesc()">&nbsp; FLOC Description
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="pmDescription" (change)="addColumnPMDesc()">&nbsp; Maint Item Desc
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="maintItem" (change)="addColumnMaintItem()">&nbsp; MaintItem
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="maintPlan" (change)="addColumnMaintPlanName()">&nbsp; MaintPlan
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="maintTask" (change)="addColumntaskId()">&nbsp; MaintTask
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="mainWorkCtr" (change)="addColumnMainWorkCtr()">&nbsp; MainWorkCtr
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="planningPlant" (change)="addColumnPlanningPlant()">&nbsp; Planning Plant
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="maintPlanDesc" (change)="addColumnMaintPlanDesc()">&nbsp; MaintPlan Desc
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="maintPlanStrategy" (change)="addColumnMaintPlanStrategy()">&nbsp;MaintPlan Strategy
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="systemStatus" (change)="addColumnSystemStatus()">&nbsp; System Status
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="schedPeriod" (change)="addColumnSchedPeriod()">&nbsp; SchedPeriod
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="schedIntUnit" (change)="addColumnSchedIntUnit()">&nbsp; SchedIntUnit
+                            </div>
+                            <!-- <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="taskList">&nbsp; TaskList
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="taskListDesc" (change)="addColumnTaskListDesc()">&nbsp; TaskList Desc
+                            </div> -->
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="strategy" (change)="addColumnMaintenanceStrategy()">&nbsp; Task Strategy
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="plannergroup" (change)="addColumnPlannerGroup()">&nbsp; Planner group
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="plantCol" (change)="addColumnPlant()">&nbsp; Plant
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="workCenter" (change)="addColumnWorkCenter()">&nbsp; Work Center
+                            </div>
+                            <!-- <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="assembly" (change)="addColumnAssembly()">&nbsp; Assembly
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <input type="checkbox" [(ngModel)]="deletionFlag" (change)="addColumnDeletionFlag()">&nbsp; Deletion flag
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" style="padding-top: 10px;">
+                <div class="export-icon">
+                    <button type="button" class="btn btn-link" (click)="exportExcel()" placement="bottom" ngbTooltip="Export">
+                        <fa-icon [icon]="['fas', 'download']" style="color: #898888; position:absolute; top: 0; right: 0;">
+                        </fa-icon>
+                    </button>
+                </div>
+                <div>
+                    <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons
+                        style="background-color: #e9ecef;"></mat-paginator>
+                </div>
+                <table id="excel-table" mat-table [dataSource]="dataSource" matSort>
+        
+                    <ng-container matColumnDef="taskPackage">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> TGS </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                            <button type="button" class="btn btn-link" (click)="goToEAMDetails(element.id)"
+                                *ngIf="element.taskPackage === 1">
+                                <fa-icon [icon]="['fas', 'square']" style="color: #5ea012;"></fa-icon>
+                            </button>
+                            <button type="button" class="btn btn-link" *ngIf="element.taskPackage === 0">
+                                <fa-icon [icon]="['fas', 'square']" style="color: #898888;"></fa-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="code">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> FLOC </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.code}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="flocDesc">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> FLOC Description </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">{{element.flocDesc}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="maintItemText">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> Maint Item Desc </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.maintItemText}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="maintItem">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> MaintItem </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.maintItem}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="planningPlant">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> Planning Plant </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.planningPlant}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="maintenancePlanName">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> MaintPlan </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.maintenancePlanName}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="taskId">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> MaintTask </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.taskId}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="mainWorkCtr">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> MainWorkCtr </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol"> {{element.mainWorkCtr}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="attachUrl">
+                        <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                        [index]="i"> Attachment </th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                            <button type="button" class="btn btn-link"
+                                *ngIf="element.attachUrl === 1" (click)="openDialogUploadDetails(element.maintItem)">
+                                <fa-icon [icon]="['fas', 'share-alt-square']" style="color: #15aabf;"></fa-icon>
+                            </button>
+                            <button type="button" class="btn btn-link" *ngIf="element.attachUrl === 0" (click)="openDialogUpload(element.maintItem)">
+                                <fa-icon [icon]="['fas', 'share-alt-square']" style="color: #898888;"></fa-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="maintPlanText" *ngIf="maintPlanDesc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> MaintPlan Text</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.maintPlanText}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="maintPlanStrategy" *ngIf="maintPlanStrategy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> Strategy</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.maintPlanStrategy}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="systemStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> Status</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.systemStatus}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="schedPeriod" *ngIf="schedPeriod">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> SchedPeriod</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.schedPeriod}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="schedIntUnit" *ngIf="schedIntUnit">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> SchedIntUnit</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.schedIntUnit}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="taskListDescription" *ngIf="taskListDesc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> TaskList Desc</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.taskListDescription}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="maintenanceStrategy" *ngIf="strategy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> Tasklist Strategy</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.maintenanceStrategy}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="plannerGroup" *ngIf="plannergroup">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> Planner GP</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.plannerGroup}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="plant" *ngIf="plantCol">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> Plant</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.plant}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="workCenter" *ngIf="workCenter">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header [resizeColumn]="true"
+                        [index]="i"> WorkCenter</th>
+                        <td mat-cell *matCellDef="let element" class="widthCol">
+                          {{element.workCenter}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="noRecord">
+                        <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=12>
+        
+                            <!-- <img src="./../../../../../../assets/images/search-for-records.png"
+                                alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                            <img src="./../../../../../../assets/images/no-records-found.png" alt="Folder with no results"
+                                class="mb-2 mt-4" *ngIf="!default"> -->
+                            <br>
+                            <span class="text-gray-500 text-base" *ngIf="default">No record to display.</span>
+                            <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the Asset FLOC or
+                                Description.</span>
+        
+                            <!-- You have no referrals assigned to you or your referral group. -->
+                        </td>
+                    </ng-container>
+        
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-footer-row *matFooterRowDef="['noRecord']"
+                        [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" class="table-row"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

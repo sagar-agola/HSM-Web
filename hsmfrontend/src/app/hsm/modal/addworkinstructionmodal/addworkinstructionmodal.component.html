@@ -1,0 +1,235 @@
+<mat-dialog-content>
+    <div id="parent">
+        <div id="LeftCol" *ngIf="isMaxFloc">
+            <div class="filtergroup" style="height: 70px;">
+                <h6 style="color: #ffff; align-items: flex-start;">Asset FLOC List</h6>
+                <button type="button" class="btn btn-link" style="float: right; margin-left: -5px; margin-top: -30px;" (click)="toggleMinFloc()" placement="right" ngbTooltip="Minimize display">
+                    <fa-icon [icon]="['fas', 'caret-square-left']" style="color: #ffff;"></fa-icon>
+                </button>
+                <input type="text" class="form-control" placeholder="Search" (keyup)="applyFilter($event)" style="font-size: 12px; margin-left: -5px;">
+                            <mat-icon style="display:block; float: right; margin-top: -30px; margin-right: 5px;">search</mat-icon>
+            </div>
+            <div class="table-responsive" id="div-table-content-floc">
+                <table mat-table class="table table-sm" [dataSource]="dataSource" matSort style="background-color: #fff;">
+                    <ng-container matColumnDef="isAdd">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element"> 
+                        <!-- <span>
+                            <input type="checkbox" [checked]="element.isAdd" (change)="addThis($event, element.code + ' ' + element.flocDescription)">
+                        </span> -->
+                        <span><input type="checkbox" [checked]="element.isAdd" (change)="addThis($event, element.id, element)" style="margin-top: 10px;"></span>
+                        <!-- <span><input type="radio" [checked]="element.isAdd" (change)="addThis($event, element.id)" style="margin-top: 10px;"></span> -->
+                        </td>
+                      </ng-container>
+        
+                      <ng-container matColumnDef="code">
+                          <th mat-header-cell *matHeaderCellDef> FLOC </th>
+                          <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.code}}</button></td>
+                      </ng-container>
+    
+                      <ng-container matColumnDef="isAddDesc">
+                        <th mat-header-cell *matHeaderCellDef> </th>
+                        <td mat-cell *matCellDef="let element"><span><input type="checkbox" [checked]="element.isAddDesc" [(ngModel)]="element.isAddDesc" (change)="addThisDesc($event, element.id)" style="margin-top: 10px;"></span></td>
+                      </ng-container>
+    
+                      <ng-container matColumnDef="flocDescription">
+                        <th mat-header-cell *matHeaderCellDef> Description </th>
+                        <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.flocDescription}}</button></td>
+                      </ng-container>
+    
+                      <ng-container matColumnDef="noRecord">
+                        <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=2>
+              
+                          <img src="./../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                          <img src="./../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default">
+                          <br>
+                          <span class="text-gray-500 text-base" *ngIf="default">Please search function loc or description to display record.</span>
+                          <span class="text-gray-500 text-base" *ngIf="!default">No records found</span>
+              
+                        </td>
+                      </ng-container>
+    
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+                      <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+        <div id="LeftCol2" *ngIf="isMinFloc">
+            <button type="button" class="btn btn-link" style="margin-left: -5px; margin-bottom: 10px;" (click)="toggleMaxFloc()" placement="right" ngbTooltip="Maximize display">
+              <fa-icon [icon]="['fas', 'caret-square-right']" style="color: #000000;"></fa-icon>
+            </button>
+        </div>
+        <div id="RightCol">
+            <div class="row">
+                <div class="task2">
+                    <div class="filtergroup" style="height: 35px;"><h6 style="color: #ffff; align-items: flex-start;">Component Taxonomy</h6></div>
+                    <div style="margin-top:15px !important; margin-left: 10px; margin-right: 10px;">
+                        <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedIndex" >
+                            <mat-tab label="Component Family" [(activeId)]="activeId" [disabled]="disabledTab1">
+                                <br>
+                                <table mat-table [dataSource]="dataSource3" matSort style="background-color: #fff;">
+                                    <ng-container matColumnDef="isAddFam">
+                                        <th mat-header-cell *matHeaderCellDef> </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <span *ngIf="!isMulti"><input type="checkbox" (change)="addThisFam($event, element.familyTaxonomyId)"></span>
+                                            <span *ngIf="isMulti"><input type="radio" (change)="addThisFam($event, element.familyTaxonomyId)" name="famtask"></span>
+                                        </td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="familyComponent">
+                                        <th mat-header-cell *matHeaderCellDef>Component Family </th>
+                                        <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.familyComponent}}</button></td>
+                                    </ng-container>
+        
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns4; sticky:true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
+                                </table>
+                            </mat-tab>
+                            <mat-tab label="Component Class" [(activeId)]="activeId" [disabled]="disabledTab2">
+                                <br>
+                                <table mat-table [dataSource]="dataSource3" matSort style="background-color: #fff;">
+                                    <ng-container matColumnDef="isAddClass">
+                                        <th mat-header-cell *matHeaderCellDef> </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <span *ngIf="!isMulti"><input type="checkbox" (change)="addThisClass($event, element.classTaxonomyId)"></span>
+                                            <span *ngIf="isMulti"><input type="radio" (change)="addThisClass($event, element.classTaxonomyId)" name="classtax"></span>
+                                        </td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="componentClass">
+                                        <th mat-header-cell *matHeaderCellDef>Component Class </th>
+                                        <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.componentClass}}</button></td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns5; sticky:true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns5;"></tr>
+
+                                </table>
+                            </mat-tab>
+                            <mat-tab label="Component Sub Class" [(activeId)]="activeId" [disabled]="disabledTab3">
+                                <br>
+                                <table mat-table [dataSource]="dataSource3" matSort style="background-color: #fff;">
+                                    <ng-container matColumnDef="isAddSub">
+                                        <th mat-header-cell *matHeaderCellDef> </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <span *ngIf="!isMulti"><input type="checkbox" (change)="addThisSubClass($event, element.subClassTaxonomyId)"></span>
+                                            <span *ngIf="isMulti"><input type="radio" (change)="addThisSubClass($event, element.subClassTaxonomyId)" name="subclass"></span>
+                                        </td>
+                                    </ng-container>
+                                    
+                                    <ng-container matColumnDef="subClass">
+                                        <th mat-header-cell *matHeaderCellDef>Component Sub Class </th>
+                                        <td mat-cell *matCellDef="let element"><button type="button" class="btn btn-link" style="font-size: 11px;">{{element.subClass}}</button></td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns6; sticky:true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns6;"></tr>
+
+                                </table>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="task1">
+                    <div class="filtergroup" style="height: 35px;">
+                        <h6 style="color: #ffff; align-items: flex-start;">Selected FMEA Tasks</h6>
+                    </div>
+                    <table mat-table [dataSource]="dataSource3" matSort style="background-color: #fff;">
+                        <ng-container matColumnDef="isAddTask">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <input type="checkbox" (change)="$event ? masterToggle() : null"
+                                              [checked]="selection.hasValue() && isAllSelected()"
+                                              [indeterminate]="selection.hasValue() && !isAllSelected()" *ngIf="!isMulti">
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span *ngIf="!isMulti"><input type="checkbox"
+                                (change)="$event ? selection.toggle(element) : null; addThisTasks($event, element.id)"
+                                [checked]="selection.isSelected(element)"
+                                (click)="$event.stopPropagation()"></span>
+                                <span *ngIf="isMulti"><input type="radio" (change)="addThisTasks($event, element.id)" value="element.id" name="task"></span>
+                            </td>
+                        </ng-container>
+                  
+                        <ng-container matColumnDef="taskIdentificationNo">
+                            <th mat-header-cell *matHeaderCellDef> Task ID </th>
+                            <td mat-cell *matCellDef="let element">
+                                <a class="btn btn-link" [routerLink]="['/main/fmea-edit/', element.id]" target="_blank" style="font-size: 11px;">{{element.taskIdentificationNo}}</a>
+                                <!-- <button type="button" class="btn btn-link" style="font-size: 11px;">{{element.taskIdentificationNo}}</button> -->
+                            </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="familyComponent">
+                          <th mat-header-cell *matHeaderCellDef> Family </th>
+                          <td mat-cell *matCellDef="let element"> {{element.familyComponent}} </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="componentClass">
+                          <th mat-header-cell *matHeaderCellDef> Class </th>
+                          <td mat-cell *matCellDef="let element"> {{element.componentClass}} </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="subClass">
+                          <th mat-header-cell *matHeaderCellDef> Sub Class </th>
+                          <td mat-cell *matCellDef="let element"> {{element.subClass}} </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="buildSpec">
+                          <th mat-header-cell *matHeaderCellDef> BuildSpec </th>
+                          <td mat-cell *matCellDef="let element"> {{element.buildSpec}} </td>
+                        </ng-container>
+  
+                        <ng-container matColumnDef="componentManufacturer">
+                          <th mat-header-cell *matHeaderCellDef> Manufacturer </th>
+                          <td mat-cell *matCellDef="let element"> {{element.componentManufacturer}} </td>
+                        </ng-container>
+          
+                        <ng-container matColumnDef="failureMode">
+                          <th mat-header-cell *matHeaderCellDef> Failure Mode </th>
+                          <td mat-cell *matCellDef="let element">{{element.failureMode}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="taskDescription">
+                            <th mat-header-cell *matHeaderCellDef> Task Description </th>
+                            <td mat-cell *matCellDef="let element"> {{element.taskDescription}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="failureRiskTotalScore">
+                            <th mat-header-cell *matHeaderCellDef> Failure Risk Score </th>
+                            <td mat-cell *matCellDef="let element"> {{element.failureRiskTotalScore}} </td>
+                        </ng-container>
+                
+                        <ng-container matColumnDef="acceptableLimits">
+                            <th mat-header-cell *matHeaderCellDef> Acceptable Limits </th>
+                            <td mat-cell *matCellDef="let element"> {{element.acceptableLimits}} </td>
+                        </ng-container>
+          
+                        <ng-container matColumnDef="correctiveActions">
+                          <th mat-header-cell *matHeaderCellDef> Corrective Action </th>
+                          <td mat-cell *matCellDef="let element"> {{element.correctiveActions}} </td>
+                        </ng-container>
+      
+                        <ng-container matColumnDef="taskTypeName">
+                          <th mat-header-cell *matHeaderCellDef> Task Type </th>
+                          <td mat-cell *matCellDef="let element"> {{element.taskTypeName}} </td>
+                        </ng-container>
+      
+                        <ng-container matColumnDef="frequencyName">
+                          <th mat-header-cell *matHeaderCellDef> Interval </th>
+                          <td mat-cell *matCellDef="let element"> {{element.frequencyName}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky:true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button class="btn btn-primary active" mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="save()">Assign</button>
+    <button mat-button mat-dialog-close>Exit</button>
+</mat-dialog-actions>

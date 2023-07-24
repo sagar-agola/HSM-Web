@@ -1,0 +1,72 @@
+<body>
+    <div *loadingIndicator="isLoading"></div>
+    <div id="content">
+        <div class="wrapper">
+            <div style="padding-top:10px; background-color: #fff; margin: 0 -10px 0 -10px; height: 75px;">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a routerLink="/main/dashboard" style="font-size: 14px;">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">User Profile</li>
+                    </ol>
+                </nav>
+            </div>
+            <!-- <hr style="margin-top: -5px;"> -->
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">My Profile</h6>
+                            <div class="row">
+                                <div class="col-4" style="border-right: solid 1px #eee;">
+                                    <img src="./../../../assets/images/user.png" width="200" height="200">
+                                    
+                                    <div style="margin-top:20px;">
+                                        <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" style="display:none;">
+                                        <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label class="st-label">First Name</label>
+                                                <input type="text" class="form-control" [(ngModel)]="firstName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="st-label">User Name</label>
+                                                <input type="text" class="form-control" [(ngModel)]="userName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="st-label">Email Address</label>
+                                                <input type="text" class="form-control" [(ngModel)]="emailAddress">
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label class="st-label">Last Name</label>
+                                                <input type="text" class="form-control" [(ngModel)]="lastName">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="st-label">Password</label>
+                                                <input type="password" class="form-control" [(ngModel)]="password" readonly>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="st-label">Phone Number</label>
+                                                <input type="text" class="form-control" [(ngModel)]="phoneNo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="float: right; margin-top:10px;">
+                        <button type="button" class="btn btn-primary active">Save</button>&nbsp;
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+    </div>            
+</body>

@@ -1,0 +1,48 @@
+<div class="min-vh-100" id="ui-container"
+  style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Asset Classification Master Data
+      </li>
+    </ol>
+  </nav>
+  <div style="margin-top:20px;">
+    <div class="card">
+      <div class="card-body">
+         <mat-tab-group animationDuration="0ms" id="tab-group">
+            <mat-tab label="Industry" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <asset-industry></asset-industry>
+             </div>
+            </mat-tab>
+            <mat-tab label="Business Type" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <asset-businesstype></asset-businesstype>
+             </div>
+            </mat-tab>
+            <mat-tab label="Process Function" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <asset-processfunction></asset-processfunction>
+             </div>
+            </mat-tab>
+            <!-- <mat-tab label="Asset Class" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <asset-class></asset-class>
+             </div>
+            </mat-tab> -->
+            <mat-tab label="Asset Specification" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <asset-spec></asset-spec>
+             </div>
+            </mat-tab>
+            <mat-tab label="Asset Manufacturer" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <asset-manufacturer></asset-manufacturer>
+             </div>
+            </mat-tab>
+         </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>

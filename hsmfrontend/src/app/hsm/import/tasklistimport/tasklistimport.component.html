@@ -1,0 +1,46 @@
+<h4 style="font-size: medium; margin: 10px;">Task List Import</h4>
+<div class="panel-body" style="float: left; padding: 10px;">
+    <div class="row">  
+        <div class="col-lg-8">  
+            <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" />  
+        </div>  
+        <div class="col-lg-4">  
+            <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)" >
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload</button>
+        </div>  
+    </div>
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <div style="padding-top: 20px;">
+        <button type="button" class="btn btn-light" (click)="exportToExcel()" style="font-size: 14px;"><spinner color="white" size="xs" *ngIf="loading"></spinner><img src="./../../../../assets/images/excel.png" height="30" width="30"/>Download Import TaskList Template</button>
+    </div>
+    <!-- <p> {{ message }} </p> -->
+    <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import File">cloud_upload</button></mat-icon> -->
+</div>
+
+<div class="table-responsive" #table hidden>
+    <table id="import-table">
+        <tbody>
+            <tr>
+                <td>Group</td>
+                <td>Group Counter</td>
+                <td>Short Text</td>
+                <td>Strategy</td>
+                <td>Planner group</td>
+                <td>Plant</td>
+                <td>Work Center</td>
+                <td>Assembly</td>
+                <td>Deletion flag</td>
+                <td>Created on</td>
+                <td>Created by</td>
+                <td>Changed On</td>
+                <td>Changed by</td>
+                <td>Task List Type</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

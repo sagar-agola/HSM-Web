@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <p style="color: black;">Work Instruction Document</p>
+      <hr>
+</div>
+<div class="modal-body">
+    <mat-dialog-content>
+        <div class="form-group row">
+            <div class="form-check" style="margin-left: 10px;">
+                <input class="form-check-input" type="radio" name="newattach" [(ngModel)]="attachNew" (change)="checkRadio1($event)" [checked]="attachNew" />
+                <label class="form-check-label">
+                  Attach New Work Instruction File
+                </label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 st-label">Document*</label>
+            <div class="col-sm-10">
+                <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" [disabled]="attachNewDisabled" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 st-label">Comment</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" placeholder="comment (optional)" id="exampleFormControlTextarea1" rows="2" [(ngModel)]="comment" [disabled]="attachNewDisabled"></textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="form-check" style="margin-left: 10px;">
+                <input class="form-check-input" type="radio" name="existattch" [(ngModel)]="attachExisting" (change)="checkRadio2($event)">
+                <label class="form-check-label">
+                  Attach Existing Work Instructions
+                </label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 st-label">Maint Item</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" placeholder="Enter Work Instruction Maint Item Number" [(ngModel)]="maintItemSearch" [disabled]="attachExistingDisabled" />  
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="icon-btn" style="margin-top: -5px;" [disabled]="attachExistingDisabled" (click)="searchMaintItem(maintItemSearch)"><fa-icon [icon]="['fas', 'search']" style="color: #898888;" ></fa-icon></button>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 st-label">File URL</label>
+            <div class="col-sm-9">
+                <input class="form-control" type="text" placeholder="Auto populate when maint item searched" [(ngModel)]="fileURL" [disabled]="attachExistingDisabled" [disabled]="attachExistingDisabled" />
+            </div>
+            <div class="col-sm-1">
+                <button type="button" class="icon-btn" style="margin-top: -5px;" *ngIf="this.fileURL === ''" [disabled]="attachExistingDisabled"><fa-icon [icon]="['fas', 'file-alt']" style="color: #898888;"></fa-icon></button>
+                <button type="button" class="icon-btn" style="margin-top: -5px;" *ngIf="this.fileURL !== ''" (click)="goToURL()"><fa-icon [icon]="['fas', 'file-alt']" style="color: #15aabf;"></fa-icon></button>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-secondary" (click)="close()">Cancel</button>
+            <button class="btn btn-primary" (click)="saveData()" [disabled]="processDisabled" *ngIf="!attachNew">
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Process</button>
+            <button class="btn btn-primary" (click)="uploadFile(fileInput.files)" [disabled]="processDisabled" *ngIf="attachNew">
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Process</button>
+        </div>
+    </mat-dialog-content>
+</div>

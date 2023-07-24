@@ -1,0 +1,18 @@
+@import './st-base/all';
+@import './st-components/all';
+@import './st-utilities/all';
+
+.btn-a-link {
+    padding:0;
+    color:$blue-500;
+}
+
+.btn-a-link:hover {
+    color:$blue-600;
+}
+
+td {
+    border-bottom: $gray-400;
+}
+
+.custom-today-class{ background-color: $gray-400 }

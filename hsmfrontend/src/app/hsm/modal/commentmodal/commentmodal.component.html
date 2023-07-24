@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <p style="color: black;"> {{modalTitle}}</p>
+    <hr>
+  </div>
+  <div class="modal-body">
+    <mat-dialog-content>
+      <div class="panel-body">
+        <div class="row" *ngIf="isSiteTGS && isHSMUser">
+          <div class="col">
+            <div class="form-group">
+              <label class="st-label">Customer</label>
+              <select class="form-control" id="customerId" [(ngModel)]="customerId" (change)="customerOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;">
+                <option value="0" disabled selected>Select your Customers</option>
+                <option value="0">All</option>
+                <option *ngFor="let cm of customerList" [value]="cm.id">{{ cm.customerName }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="st-label">Site</label>
+              <select class="form-control" id="siteId" [(ngModel)]="siteId" (change)="siteOnSelect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 11px;" [disabled]="isCustomerSelect">
+                <option value="0" disabled selected>Select your Sites</option>
+                <option value="0">All</option>
+                <option *ngFor="let sl of siteList" [value]="sl.id">{{ sl.siteName }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="st-label">Comments</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="comment" style="font-size:12px;"></textarea>
+        </div>
+      </div>
+    </mat-dialog-content>
+  </div>
+  
+  <div class="modal-footer">
+    <hr>
+    <div class="form-group" style="float: right;">
+      <button class="btn btn-outline-primary" (click)="cancel()">Cancel</button>
+      <button class="btn btn-primary lg active" (click)="updateChanges()" *ngIf="isEdit"> Submit </button>
+      <button class="btn btn-primary lg active"(click)="saveChanges()" *ngIf="isFmea"> Submit </button>
+      <button class="btn btn-primary lg active" (click)="updateFmeaAssemblyChanges()" *ngIf="isAssemblyEdit"> Submit </button>
+      <button class="btn btn-primary lg active"(click)="saveChangesSiteFmea()" *ngIf="isSiteFmea"> Submit </button>
+      <button class="btn btn-primary lg active" (click)="updateChangesFmeaSite()" *ngIf="isFmeaEdit"> Submit </button>
+      <button class="btn btn-primary lg active"(click)="commentCloseHSM()" *ngIf="isHsmTGS"> Submit </button>
+      <button class="btn btn-primary lg active"(click)="commentClose()" *ngIf="isSiteTGS"> Submit </button>
+    </div>
+  </div>

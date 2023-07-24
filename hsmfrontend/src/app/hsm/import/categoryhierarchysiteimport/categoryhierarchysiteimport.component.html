@@ -1,0 +1,52 @@
+<h4 style="font-size: medium; margin: 10px;">Import Site Asset Class</h4>
+<div class="panel-body" style="float: left; padding: 10px;">
+    <div class="row">  
+        <div class="col-lg-8">  
+            <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" />  
+        </div>  
+        <div class="col-lg-4">  
+            <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)" >
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload
+            </button>
+        </div>  
+    </div>
+
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <div style="padding-top: 20px;">
+        <button type="button" class="btn btn-light" (click)="exportToExcel()" style="font-size: 14px;">
+            <spinner color="white" size="xs" *ngIf="loading"></spinner><img src="./../../../../assets/images/excel.png"
+                height="30" width="30" />Download Site Asset Class Hierarchy Template
+        </button>
+    </div>
+    <div class="table-responsive" #table hidden>
+        <table id="import-table">
+            <tbody>
+                <tr>
+                    <td style="background-color: #FFFF99;">Hierarchy Code</td>
+                    <td style="background-color: #FFFF99;">Category Name</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Old Asset Class -->
+    <div class="table-responsive" hidden>
+        <table id="import-oldcategory">
+            <tbody>
+                <tr>
+                    <td>Hierarchy Code</td>
+                    <td>Category Name</td>
+                </tr>
+                <tr *ngFor="let mu of categoryHierarchyList">
+                    <td>{{mu.categoryCode}}</td>
+                    <td>{{mu.categoryName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,147 @@
+<mat-dialog-content>
+    <div class="form-group">
+      <h6>Filtering Criteria</h6>
+      <hr>
+    </div>       
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="taskId" class="st-label">Task Id</label>
+                <select class="form-control" id="taskId">
+                  <option></option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="taskType" class="st-label">Ref Task Type</label>
+                <select class="form-control" id="taskType">
+                    <option></option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="refTask" class="st-label">Ref Task</label>
+                <select class="form-control" id="taskId">
+                  <option></option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="failureMode" class="st-label">Failure Mode</label>
+                <select class="form-control" id="failureMode">
+                  <option></option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <div class="form-group">
+                <label for="trade" class="st-label">Trade</label>
+                <select class="form-control" id="tradetype" [(ngModel)]="tradeTypeObject && tradeTypeObject.id">
+                    <option value=""></option>
+                    <option *ngFor="let tt of tradeTypeList" [value]="tt.id">{{ tt.tradeTypeName }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="frequency" class="st-label">Frequency</label>
+                <select class="form-control" id="frequency" [(ngModel)]="frequencyObject && frequencyObject.id">
+                    <option value=""></option>
+                    <option *ngFor="let fl of frequencyList" [value]="fl.id">{{ fl.frequencyName }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group">
+                <label for="duration" class="st-label">Duration</label>
+                <select class="form-control" id="duration" [(ngModel)]="durationObject && durationObject.id">
+                    <option value=""></option>
+                    <option *ngFor="let dr of durationList" [value]="dr.id">{{ dr.durationName }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="form-group">
+        <label for="taxcategory" class="st-label">Taxonomy Category</label>
+        <select class="form-control" id="category">
+            <option></option>
+            <option>Grinding</option>
+            <option>Crushing</option>
+            <option>Dozer</option>
+            <option>Haul Truck</option>
+            <option>Articlated Truck</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="taxclass" class="st-label">Taxonomy Class</label>
+        <select class="form-control" id="class">
+            <option></option>
+            <option>Ball Mill</option>
+            <option>SAG Mill</option>
+            <option>Cone</option>
+            <option>Jaw </option>
+            <option>Gyratory</option>
+            <option>Caterpillar</option>
+            <option>Komatsu</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="taxType" class="st-label">Taxonomy Type</label>
+        <select class="form-control" id="type">
+            <option></option>
+            <option><100TPH</option>
+            <option>>100TPH</option>
+            <option>D11</option>
+            <option>D10T</option>
+            <option>D9T</option>
+            <option>D8T</option>
+            <option>D65EX</option>
+            <option>D85EX</option>
+            <option>D365A</option>
+            <option>D275AX</option>
+            <option>D155AX</option>
+            <option>D475A</option>
+            <option>798AC</option>
+            <option>979F</option>
+            <option>796AC</option>
+            <option>794AC</option>
+            <option>793F</option>
+            <option>793D</option>
+            <option>789D</option>
+            <option>785D</option>
+            <option>HD465</option>
+            <option>HD605</option>
+            <option>HD785</option>
+            <option>HD1500</option>
+            <option>HM300</option>
+            <option>HM400</option>
+        </select>
+    </div> -->
+    <div class="form-group">
+      <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+      <button class="btn btn-primary lg active"> Filter </button>
+    </div>
+</mat-dialog-content>

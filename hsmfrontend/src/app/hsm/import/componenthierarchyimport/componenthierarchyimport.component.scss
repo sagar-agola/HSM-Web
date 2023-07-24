@@ -1,0 +1,66 @@
+table {
+    width: 100%;
+  }
+  
+  th{
+    font-size: 14px;
+    font-weight: normal;
+    color:#414244 ;
+  }
+  
+  td{
+    font-size: 12px;
+    color:#6c757d ;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #e9ecef;
+  }
+  
+  .upload{
+    color: rgb(6, 112, 6);
+  }
+
+  #parent{
+    display: flex;
+    // border: 0.25px solid rgb(182, 182, 182);
+    height: 100vh;
+    width: 100%;
+  }
+  .LeftCol{
+    flex-grow: 1;
+    width: 700px;
+    resize: both;
+    overflow: auto;
+    padding: 12px;
+    margin-left: 10px;
+    border: 0.25px solid rgb(182, 182, 182);
+    height: 85vh;
+    // min-width: 10px;
+  }
+  
+  .RightCol{
+    // border: 0.25px solid rgb(182, 182, 182);
+    width: 50%;
+    flex-grow: 3;
+    padding: 5px;
+  }
+
+  .lastCol{
+    width: 20%;
+  }
+
+  .sidebar{
+    width: 20px !important;
+    transition: .40s !important;
+  }
+
+  .sibeBarCollapse{
+    width: 50% !important;
+    transition: .40s !important;
+  }
+  
+  // button{
+  //   border: none;
+  //   background-color: transparent;
+  // }

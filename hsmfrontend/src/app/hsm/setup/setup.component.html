@@ -1,0 +1,68 @@
+<div class="min-vh-100" id="ui-container"
+  style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Setup Maintainable Unit / Item /
+        Master Data</li>
+    </ol>
+  </nav>
+  <div style="margin-top: 20px;">
+    <div class="card">
+      <div class="card-body">
+         <mat-tab-group animationDuration="0ms" id="tab-group">
+            <mat-tab label="Maintainable Unit" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <component-task></component-task>
+              </div>
+            </mat-tab>
+            <mat-tab label="Maintainable Item" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <component-class></component-class>
+              </div>
+            </mat-tab>
+            <mat-tab label="Maintainable Sub Item" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <component-subclass></component-subclass>
+              </div>
+            </mat-tab>
+            <mat-tab label="Build Spec" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <component-buildspec></component-buildspec>
+              </div>
+            </mat-tab>
+            <mat-tab label="Manufacturer" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <component-manufacturer></component-manufacturer>
+              </div>
+            </mat-tab>
+            <mat-tab label="Duration" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <duration-table></duration-table>
+              </div>
+            </mat-tab>
+            <mat-tab label="Frequency" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <frequency-table></frequency-table>
+              </div>
+            </mat-tab>
+            <mat-tab label="TradeType" [(activeId)]="activeId">
+              <div style="margin-top: 10px; align-items: center;">
+                <tradetype-table></tradetype-table>
+              </div>
+            </mat-tab>
+            <!-- <mat-tab label="Work Instruction Task Type" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <wintasktype-table></wintasktype-table>
+              </div>
+            </mat-tab> -->
+            <mat-tab label="Task Type" [(activeId)]="activeId">
+              <div style="margin-top: 30px; align-items: center;">
+                <tasktype-table></tasktype-table>
+              </div>
+            </mat-tab>
+         </mat-tab-group>
+      </div>
+    </div>
+  </div>
+</div>

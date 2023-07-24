@@ -1,0 +1,90 @@
+<div *loadingIndicator="isLoading"></div>
+<h4 style="font-size: medium; margin: 10px;">Import HsM Asset Class</h4>
+<div class="panel-body" style="float: left; padding: 10px;">
+    <div class="row">  
+        <div class="col-lg-8">  
+            <input class="form-control" type="file" #fileInput [(ngModel)]="fileName" />  
+        </div>  
+        <div class="col-lg-4">  
+            <button type="button" class="btn btn-info" (click)="uploadFile(fileInput.files)" >
+                <spinner color="white" size="xs" *ngIf="loading"></spinner>Upload
+            </button>
+        </div>  
+    </div>
+
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <div style="padding-top: 20px;">
+        <button type="button" class="btn btn-light" (click)="exportToExcel()" style="font-size: 14px;">
+            <spinner color="white" size="xs" *ngIf="loading"></spinner><img src="./../../../../assets/images/excel.png"
+                height="30" width="30" />Download HsM Asset Class Hierarchy Template
+        </button>
+    </div>
+    <div class="table-responsive" #table hidden>
+        <table id="import-table">
+            <tbody>
+                <tr>
+                    <td style="background-color: #FFFF99;">Hierarchy Code</td>
+                    <td style="background-color: #FFFF99;">Category Name</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Old Asset Class -->
+    <div class="table-responsive" hidden>
+        <table id="import-oldcategory">
+            <tbody>
+                <tr>
+                    <td>Hierarchy Code</td>
+                    <td>Category Name</td>
+                </tr>
+                <tr *ngFor="let mu of categoryHierarchyList">
+                    <td>{{mu.categoryCode}}</td>
+                    <td>{{mu.categoryName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+        <!-- <div class="LeftCol">
+            <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;" (click)="clickEvent()" placement="right" ngbTooltip="Delete Component" *ngIf="isAdd">
+                <fa-icon [icon]="['fas', 'minus-circle']" style="color: #000000;"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-link" style="float:right; margin-top: -10px; margin-bottom: 10px;" (click)="clickAdd()" placement="right" ngbTooltip="Add Component" *ngIf="isDelete">
+                <fa-icon [icon]="['fas', 'plus-circle']" style="color: #000000;"></fa-icon>
+            </button>
+            <div class="hierarchyClass" [ngClass]="status ? 'tableHide' : 'tableShow'">
+                <h6 class="st-label">Assembly Hierarchy</h6>
+                <button mat-icon-button (click)="addLevel1()" style="font-size:18px;"><mat-icon inline="true">add</mat-icon></button>
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                        
+                      <button mat-icon-button disabled></button>
+                      <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node)">{{node.name}}</button>
+                      <button mat-icon-button (click)="addNewItem(node)" style="font-size:18px;" *ngIf="isAdd"><mat-icon inline="true">add</mat-icon></button>
+                      <button type="button" class="btn btn-link" (click)="deleteComponent(node.id, node.name)" style="font-size: 12px;" *ngIf="isDelete"><fa-icon [icon]="['fas', 'minus']" style="color: #000000;"></fa-icon></button>
+                    </mat-tree-node>
+                    
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                      <button mat-icon-button matTreeNodeToggle
+                              [attr.aria-label]="'Toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror">
+                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                      </button>
+                      <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node)">{{node.name}}</button>
+                      <button mat-icon-button (click)="addNewItem(node)" style="font-size:18px;" *ngIf="isAdd"><mat-icon inline="true">add</mat-icon></button>
+                      <button type="button" class="btn btn-link" (click)="deleteComponent(node.id, node.name)" style="font-size: 12px;" *ngIf="isDelete"><fa-icon [icon]="['fas', 'minus']" style="color: #000000;"></fa-icon></button>
+                    </mat-tree-node>
+                </mat-tree>
+        </div> -->
+    
+    <!-- <mat-icon style="margin-right: 30px;"><button (click)="openDialogUpload()" placement="left" ngbTooltip="Import File">cloud_upload</button></mat-icon> -->
+</div>
+<!-- <div style="float: right;"><button type="button" class="btn btn-outline-primary" (click)="openDialogComponent()">Add New Component Hierarchy</button></div> -->

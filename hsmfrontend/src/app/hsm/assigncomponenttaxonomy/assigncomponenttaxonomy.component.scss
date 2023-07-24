@@ -1,0 +1,227 @@
+#ui-container{
+    background-color: #ffff;
+    overflow-x: hidden;
+    height: 100vh;
+  }
+  #criticalityInfo{
+    padding: 10px;
+    height: auto;
+    background-color: #ffff;
+  }
+  
+  
+  table {
+      width: 100%;
+    }
+  
+  .st-tab.active {
+    color: #2d2c2b;
+    border-bottom: 3px solid #007bff;
+  }
+  
+  .st-tab{
+    padding-right: 100px;
+    font-weight:500;
+    font-size: small;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: black !important;
+  }
+  form{
+    height: 40px;
+  }
+  .panel-body{
+    height: 40px;
+    padding-left: 10px;
+  }
+  
+  .panel-body3{
+    height: 40px;
+    padding: 10px;
+    // margin-top: -20px;
+  }
+  
+  .panel-body2{
+    height: 40px;
+    padding: 5px;
+  }
+  
+  .panel-body2 span{
+    padding-top: 10px;
+    padding-left: 10px;
+  }
+  
+  .panel-body4{
+    height: 25px;
+    margin-top: 10px;
+    float: right;
+    // position: relative;
+  }
+  
+  .eam-table{
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+  
+  .panel-default{
+    margin-bottom: -20px;
+  }
+  
+  #taxonomylbl{
+    font-size: 14px;
+  }
+  
+  th{
+    font-size: 12px;
+    font-weight: normal;
+    text-align: center;
+    color:#414244 ;
+  }
+  
+  td{
+    font-size: 12px;
+    // color:#6c757d ;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #e9ecef;
+  }
+  
+  button{
+    border: none;
+    background-color: transparent;
+  }
+  
+  .count{
+    margin-top: 10px;
+    margin-right: 20px;
+    float: right;
+  }
+  
+  input[type="text"]
+  {
+      font-size:12px;
+  }
+
+  input[type="checkbox"]
+  {
+      font-size: 30px;
+      text-align: center;
+      line-height: 18px;
+      height: 18px;
+      width: 18px;
+  }
+
+  .checkbox label:before {
+    border-radius: 3px;
+    }
+  
+  .export-icon{
+    float: right;
+    right: 195px;
+    margin-top: 15px;
+    position: relative;
+  }
+  
+  optgroup { font-size:12px; }
+  
+  .form-group{ font-size: small;}
+
+  .mat-table th{
+    text-align: justify;
+    font-weight: 500;
+  }
+  
+  .mat-column-taskPackage{
+    width: 5% !important;
+  }
+  
+  .mat-column-attach{
+    width: 7% !important;
+  }
+
+
+  .mat-column-assign{
+    width: 5% !important;
+  }
+
+  #parent{
+    display: flex;
+    // border: 0.25px solid rgb(182, 182, 182);
+    height: 100vh;
+    width: 100%;
+  }
+  .LeftCol{
+    flex-grow: 1;
+    width: 30%;
+    resize: both;
+    overflow: auto;
+    padding: 12px;
+    margin-left: 10px;
+    border: 0.25px solid rgb(182, 182, 182);
+    height: 85vh;
+    // min-width: 10px;
+  }
+  
+  .RightCol{
+    // border: 0.25px solid rgb(182, 182, 182);
+    width: 50%;
+    flex-grow: 3;
+    padding: 5px;
+  }
+
+  .lastCol{
+    width: 20%;
+  }
+
+  .sidebar{
+    width: 20px !important;
+    transition: .40s !important;
+  }
+
+  .sibeBarCollapse{
+    width: 30% !important;
+    transition: .40s !important;
+  }
+
+  .tableHide{
+    display: none;
+    visibility: hidden;
+    transition: .40s;
+    padding: 0;
+    margin: 0;
+    min-width: 10px;
+  }
+
+  .tableShow{
+    display: block;
+    visibility: visible;
+    transition: .40s;
+  }
+
+  .hierarchyClass{
+    display: block;
+  }
+
+  .example-tree-invisible {
+    display: none;
+  }
+  
+  .example-tree ul,
+  .example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
+  }
+  
+  :host{
+    ::ng-deep {
+      .mat-select-panel {
+        font-size:12px;
+      }
+
+      .mat-input{
+        border-color: #2d2c2b;
+      }
+    }
+  }
+  

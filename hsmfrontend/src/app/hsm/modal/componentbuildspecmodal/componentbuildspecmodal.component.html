@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <p style="color: black;"> Component Build Spec</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <div class="form-group">
+            <label for="taxcategory">Component Build Spec Name</label>
+            <input type="text" class="form-control" placeholder="Enter Component Build Spec Name" [(ngModel)]="buildSpec">
+        </div>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+            <button class="btn btn-primary lg active" (click)="saveChanges()" *ngIf="!isEdit"> Save </button>
+            <button class="btn btn-primary lg active" (click)="updateChanges()" *ngIf="isEdit"> Update </button>
+        </div>
+    </mat-dialog-content>
+</div>

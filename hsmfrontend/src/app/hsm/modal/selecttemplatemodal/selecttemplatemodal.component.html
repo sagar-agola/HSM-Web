@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <p style="color: black;"> Select PRT Template</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <div class="d-flex">
+            <label class="st-custom-radio position-relative mr-2" placement="bottom" ngbTooltip="Select this template to generate Work Instruction for BHP.">
+                <input type="radio" name="test" value="1" id="recurrenceOnce" [value]="1" [(ngModel)]="templateId" (change)="templateOnclick($event)" disabled>
+                <div class="text-center">
+                  <img src="./../../../../assets/images/bhp.png" alt="Create a one-time exception." style="width:128px; height:101px;" class="radio-image img-fluid">
+                  <div class="text-small font-semi-bold mt-2">BHP</div>
+                </div>
+                <fa-icon [icon]="['fas', 'check']" class="text-large position-absolute p-2" style="top:0; right:0;"></fa-icon>
+              </label>
+
+              <label class="st-custom-radio position-relative mr-2" placement="bottom" ngbTooltip="No template.">
+                <input type="radio" name="test" value="2" id="recurrenceOnce" [value]="2" [(ngModel)]="templateId" (change)="templateOnclick($event)">
+                <div class="text-center">
+                  <img src="./../../../../assets/images/Small Icon HsM Logo.png" alt="Create a one-time exception." style="width:120px; height:100px;" class="radio-image img-fluid">
+                  <div class="text-small font-semi-bold mt-2">HolisticAM</div>
+                </div>
+                <fa-icon [icon]="['fas', 'check']" class="text-large position-absolute p-2" style="top:0; right:0;"></fa-icon>
+              </label>
+
+              <label class="st-custom-radio position-relative mr-2" placement="bottom" ngbTooltip="No template.">
+                <input type="radio" name="test" value="3" id="recurrenceOnce" [value]="3" [(ngModel)]="templateId" (change)="templateOnclick($event)">
+                <div class="text-center">
+                  <img src="./../../../../assets/images/default-no-image.jpg" alt="Create a one-time exception." style="width:128px; height:101px;" class="radio-image img-fluid">
+                  <div class="text-small font-semi-bold mt-2">Other Template</div>
+                </div>
+                <fa-icon [icon]="['fas', 'check']" class="text-large position-absolute p-2" style="top:0; right:0;"></fa-icon>
+              </label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-outline-primary" (click)="close()">Cancel</button>
+            <button class="btn btn-primary lg active" (click)="selectTemplateBtn()" [disabled]="loading"><spinner color="white" size="xs" *ngIf="loading"></spinner> Select </button>
+        </div>
+    </mat-dialog-content>
+</div>

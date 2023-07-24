@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <p style="color: black;">{{ mode }} Customer</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <div class="form-group">
+            <label class="st-label">Customer Name</label>
+            <input type="text" class="form-control" placeholder="Enter Customer Name" [(ngModel)]="customerName">
+        </div>
+        <div class="form-group">
+            <label class="st-label">Email Address</label>
+            <input type="text" class="form-control" placeholder="Enter Customer Email Address" [(ngModel)]="emailAddress">
+        </div>
+        <div class="form-group">
+            <label class="st-label">Contact Number</label>
+            <input type="text" class="form-control" placeholder="Enter Customer Contact Number" [(ngModel)]="contactNumber">
+        </div>
+        <div class="form-group">
+            <label class="st-label">Location</label>
+            <input type="text" class="form-control" placeholder="Enter Customer Location" [(ngModel)]="location">
+        </div>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-outline-primary" (click)="close()" style="font-size:12px;">Cancel</button>
+            <button class="btn btn-primary lg active" (click)="saveChanges()" *ngIf="!isEdit" style="font-size:12px;"> Save </button>
+            <button class="btn btn-primary lg active" (click)="updateChanges()" *ngIf="isEdit" style="font-size:12px;"> Update </button>
+        </div>
+    </mat-dialog-content>
+</div>

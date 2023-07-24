@@ -1,0 +1,459 @@
+
+<mat-dialog-content>
+    <div class="modal-header" mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
+        <h6 style="color: #ffff; margin-top: -10px;">Assign Task to HSM Task Group Strategy</h6>
+    </div>
+    <div id="parent">
+        <div id="LeftCol" *ngIf="isMax">
+            <button type="button" class="btn btn-link" style="float: right; margin-left: -5px; margin-top: 10px;" (click)="toggleMin()" placement="right" ngbTooltip="Minimize display">
+                <fa-icon [icon]="['fas', 'caret-square-left']" style="color: #000000;"></fa-icon>
+            </button>
+            <h6 style="color: #000000; padding: 10px 10px 10px 10px;">HSM Asset Class Tasks</h6>
+            <!-- <ul class="list-group list-group-flush" *ngFor="let list of componentTaskList">
+                <li class="list-group-item list-group-item-action"><button type="button" style="border: none;" (click)="fmDataClick(list.id, list.componentTaskName)">{{ list.componentTaskName }}</button></li>
+            </ul> -->
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                  <button mat-icon-button disabled></button>
+                  <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node)">{{node.name}}</button>
+                </mat-tree-node>
+                <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                  <button mat-icon-button matTreeNodeToggle
+                          [attr.aria-label]="'Toggle ' + node.name">
+                    <mat-icon class="mat-icon-rtl-mirror">
+                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                  </button>
+                  <button type="button" class="btn btn-link" style=" color: black; font-size: 12px;" (click)="nodeClick(node)">{{node.name}}</button>
+                </mat-tree-node>
+            </mat-tree>
+        </div>
+        <div id="LeftCol2" *ngIf="isMin">
+            <button type="button" class="btn btn-link" style="margin-left: -5px; margin-bottom: 10px;" (click)="toggleMax()" placement="right" ngbTooltip="Maximize display">
+              <fa-icon [icon]="['fas', 'caret-square-right']" style="color: #000000;"></fa-icon>
+            </button>
+        </div>
+        <div id="RightCol">
+            <div class="row">
+                <div class="task1">
+                    <div class="filtergroup">
+                        <h6 style="color: #ffff;">HSM Asset Class Tasks Filter</h6>
+                        <div class="row" style="margin-right:5px ;">
+                            <div class="col-2">
+                                <!-- <div class="form-group">
+                                    <label class="st-label">Maintainable Unit</label>
+                                    <input type="text" class="form-control" [(ngModel)]="componentName" readonly>
+                                </div> -->
+                                <label class="st-label">Maintainable Unit</label>
+                                <select class="form-control" id="taxclass" [(ngModel)]="familyId" [ngModelOptions]="{standalone: true}" (change)="maintUnitOnselect($event)" style="font-size: 12px;">
+                                    <option value="0"></option>
+                                    <option value="0" *ngIf="this.maintUnitList.length === 0">No data result</option>
+                                    <option *ngFor="let tc of maintUnitList" [value]="tc.id">{{ tc.dropName }}</option>
+                                </select>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="st-label">Maintainable Item</label>
+                                    <select class="form-control" id="taxclass" [(ngModel)]="classId" [ngModelOptions]="{standalone: true}" (change)="classOnselect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.taxonomyClassList.length === 0">No data result</option>
+                                        <option *ngFor="let tc of taxonomyClassList" [value]="tc.id">{{ tc.dropName }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label class="st-label">Sub Maintainable Item</label>
+                                    <select class="form-control" id="taxtype" [(ngModel)]="subClassId" [ngModelOptions]="{standalone: true}" (change)="subclassOnselect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.taxonomySubClassList.length === 0">No data result</option>
+                                        <option *ngFor="let tp of taxonomySubClassList" [value]="tp.id">{{ tp.dropName }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="st-label">Build Specification</label>
+                                    <select class="form-control" id="taxtype" [(ngModel)]="buildSpecId" [ngModelOptions]="{standalone: true}" (change)="buildSpecOnselect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.taxonomyBuildSpecList.length === 0">No data result</option>
+                                        <option *ngFor="let tp of taxonomyBuildSpecList" [value]="tp.id">{{ tp.dropName }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label class="st-label">Manufacturer</label>
+                                    <select class="form-control" id="taxtype" [(ngModel)]="manufacturerId" [ngModelOptions]="{standalone: true}" (change)="manufacturerOnselect($event)" style="font-size: 12px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.taxonomyManufacturerList.length === 0">No data result</option>
+                                        <option *ngFor="let tp of taxonomyManufacturerList" [value]="tp.id">{{ tp.dropName }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" style="padding-top: 10px; margin-top: -10px; background-color: #fff; overflow-x: hidden; height: 370px !important;">
+                        <div>
+                            <span style="padding-left: 10px; color: #007bff;">{{componentHierarchyCode}}</span>
+                            <span style="padding-right: 10px; float: right;"><mat-icon style="margin-right: 20px; font-size: 20px;"><button placement="left" ngbTooltip="Multi Filter" (click)="toggleFilter()" #multiFilter>filter_list</button></mat-icon></span>
+                            <span style="padding-right: 10px; float: right"><mat-icon style="margin-right: 10px; font-size: 20px;"><button placement="left" ngbTooltip="Custom Table Display" (click)="toggleColumn()" #tableColumn>settings</button></mat-icon></span>
+                            <!-- <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator> -->
+                        </div>
+                        <div class="position-absolute card shadow" style=" right:100px; width:450px; z-index: 4; padding: 10px; margin-top: -10px;"
+                            fadeInOut [hidden]="!this.displayMultiFilter">
+                            <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleFilter()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                            <span style="font-size: small; font-weight: bold;">Search Filter</span>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label2">Task Id</span>
+                                        <input class="form-control" type="text" [(ngModel)]="taskid"
+                                        [ngModelOptions]="{standalone: true}" (keyup)="onKeyupTask(taskid)" [matAutocomplete]="auto">
+                                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                            <mat-option *ngFor="let emp of taskIdList" [value]="emp.dropName" style="font-size: 11px;">
+                                            {{emp.dropName}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label2">Failure Mode</span>
+                                        <input class="form-control" type="text" [(ngModel)]="failuremode"
+                                            [ngModelOptions]="{standalone: true}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label2">Task Type</span>
+                                        <select class="form-control" id="tasktypeId" [(ngModel)]="tasktypeId" [ngModelOptions]="{standalone: true}"
+                                        (change)="taskTypeOnSelect($event)" style="font-size: 11px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.taskTypeList.length === 0">No data result</option>
+                                        <option *ngFor="let tt of taskTypeList" [value]="tt.id">{{ tt.dropName }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label2">Trade Type</span>
+                                        <select class="form-control" id="tradetypeId" [(ngModel)]="tradetypeId" [ngModelOptions]="{standalone: true}"
+                                        (change)="tradeTypeOnSelect($event)" style="font-size: 11px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.tradeTypeList.length === 0">No data result</option>
+                                        <option *ngFor="let tt of tradeTypeList" [value]="tt.id">{{ tt.dropName }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label2">Frequency</span>
+                                        <select class="form-control" id="frequencyId" [(ngModel)]="frequencyId" [ngModelOptions]="{standalone: true}"
+                                        (change)="frequencyOnSelect($event)" style="font-size: 11px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.frequencyList.length === 0">No data result</option>
+                                        <option *ngFor="let tt of frequencyList" [value]="tt.id">{{ tt.dropName }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <span class="st-label2">Duration</span>
+                                        <select class="form-control" id="durationid" [(ngModel)]="durationid" [ngModelOptions]="{standalone: true}"
+                                        (change)="durationOnSelect($event)" style="font-size: 11px;">
+                                        <option value="0"></option>
+                                        <option value="0" *ngIf="this.durationList.length === 0">No data result</option>
+                                        <option *ngFor="let tt of durationList" [value]="tt.id">{{ tt.dropName }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group"><button class="btn btn-primary lg active" style="float: right; font-size: 12px;" (click)="searchFilter()"> Filter </button></div>
+                        </div>
+                        <div class="position-absolute card shadow" style=" right:80px; width:378px; z-index: 4; padding: 10px; margin-top: -10px;"
+                            fadeInOut [hidden]="!this.displayTableColumn">
+                            <div ><button type="button" style="float: right; position: relative; border:none; background: transparent;" (click)="untoggleColumn()"><fa-icon [icon]="['fas', 'times']"></fa-icon></button></div>
+                            <span style="font-size: small; font-weight: bold;">Table Columns</span>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableTaskId" (change)="addColumnTaskId()">&nbsp; Task Id
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableParent" (change)="addColumnParent()">&nbsp; Parent
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableFamily" (change)="addColumnFamily()">&nbsp; Maint Unit
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableClass" (change)="addColumnClass()">&nbsp; Maint Item
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableSubClass" (change)="addColumnSubClass()">&nbsp; Sub Maint Item
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableBuildSpec" (change)="addColumnBuildSpec()">&nbsp; Build Spec
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableManufacturer" (change)="addColumnManufacturer()">&nbsp; Manufacturer
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableFailureMode" (change)="addColumnFailureMode()">&nbsp; Failure Mode
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableTaskDesc" (change)="addColumnTaskDesc()">&nbsp; Task Description
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableFailureRiskScore" (change)="addColumnFailureRiskScore()">&nbsp; Risk Score
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableAcceptableLimits" (change)="addColumnAcceptableLimits()">&nbsp; Acceptable Limits
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableCorrective" (change)="addColumnCorrectiveActions()">&nbsp; Corrective Action
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableTaskType" (change)="addColumnTaskType()">&nbsp; Task Type
+                                    </div>
+                                    <div class="form-group check-column" style="font-size: 12px;">
+                                    <input type="checkbox" [(ngModel)]="hsmAtmtableInterval" (change)="addColumnFrequency()">&nbsp; Frequency
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <table mat-table [dataSource]="dataSource2" matSort>
+                            
+                            <ng-container matColumnDef="isAdd">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i">
+                                    <input type="checkbox" (change)="$event ? masterToggle() : null"
+                                                  [checked]="selection.hasValue() && isAllSelected()"
+                                                  [indeterminate]="selection.hasValue() && !isAllSelected()" *ngIf="!isMulti">
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> 
+                                <input type="checkbox" [checked]="selection.isSelected(element)" (change)="$event ? selection.toggle(element) : null; addFMEATask($event.target.checked, element)">
+                                </td>
+                            </ng-container>
+                
+                            <ng-container  matColumnDef="taskIdentificationNo">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task ID </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth">
+                                    <a class="btn btn-link" [routerLink]="['/main/fmea-edit/', element.id]" target="_blank" style="font-size: 11px;">{{element.taskIdentificationNo}}</a>
+                                </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="parentCode">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Parent </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.parentCode}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="familyComponent">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Maintainable Unit </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapMaintUnit(element.componentHierarchyId)?.dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="componentClass">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Maint Item </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapMaintItem(element.classTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="subClass">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Sub Maint Item </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapSubMaintItem(element.subClassTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="buildSpec">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> BuildSpec </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapBuildSpec(element.buildSpecTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="componentManufacturer">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Manufacturer </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapManufacturer(element.manufacturerTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="failureMode">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Failure Mode </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth">{{element.failureMode}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="taskDescription">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Description </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.taskDescription}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="failureRiskTotalScore">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Failure Risk Score </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.failureRiskTotalScore}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="acceptableLimits">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Acceptable Limits </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.acceptableLimits}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="correctiveActions">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Corrective Action </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.correctiveActions}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="taskTypeName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Type </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapTaskType(element.taskTypeId)?.dropName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="frequencyName">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Frequency </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapFrequency(element.intervalId)?.dropName}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="noRecord">
+                                <td class="border-none text-center mx-auto" mat-footer-row *matFooterCellDef colspan=15 style="background-color: #e2e2e2;">
+                    
+                                <!-- <img src="./../../../../../../assets/images/search-for-records.png" alt="Folder with magnifying glass" class="mb-2 mt-4" *ngIf="default">
+                                <img src="./../../../../../../assets/images/no-records-found.png" alt="Folder with no results" class="mb-2 mt-4" *ngIf="!default"> -->
+                                <br>
+                                <span class="text-gray-500 text-base" *ngIf="default">Please select on the asset class tree to display record.</span>
+                                <span class="text-gray-500 text-base" *ngIf="!default">No records found that match the Filter or component selected.</span>
+                    
+                                </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['noRecord']" [ngClass]="{'hide':!(ELEMENT_DATA!=null && ELEMENT_DATA.length==0 && !loading)}"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index" class="table-row"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="task2">
+                    <div class="filtergroup" style="height: 35px;">
+                        <h6 style="color: #ffff; align-items: flex-start;">Selected Tasks</h6>
+                    </div>
+                    <div class="table-responsive" style="padding-top: 10px; margin-top: -10px; height: 350px !important; background-color: #fff; overflow-x: hidden; overflow-y: auto;">
+                        <!-- <div style="margin: 10px;"><mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" showFirstLastButtons style="background-color: #e9ecef;"></mat-paginator></div> -->
+                        <table mat-table [dataSource]="dataSource3" #tableOneSort>
+                
+                            <ng-container  matColumnDef="taskIdentificationNo">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task ID </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth">
+                                    <a class="btn btn-link" [routerLink]="['/main/fmea-edit/', element.id]" target="_blank" style="font-size: 11px;">{{element.taskIdentificationNo}}</a>
+                                </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="parentCode">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Parent </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.parentCode}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="familyTaxonomyId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Maintainable Unit </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{ mapMaintUnit(element.componentHierarchyId).dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="classTaxonomyId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Maint Item </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{ mapMaintItem(element.classTaxonomyId)?.dropName }} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="subClassTaxonomyId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Sub Maint Item </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{ mapSubMaintItem(element.subClassTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="buildSpecTaxonomyId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> BuildSpec </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{mapBuildSpec(element.buildSpecTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="manufacturerTaxonomyId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Manufacturer </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{ mapManufacturer(element.manufacturerTaxonomyId)?.dropName}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="failureMode">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Failure Mode </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth">{{element.failureMode}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="taskDescription">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Description </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.taskDescription}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="failureRiskTotalScore">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Failure Risk Score </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.failureRiskTotalScore}} </td>
+                            </ng-container>
+                    
+                            <ng-container matColumnDef="acceptableLimits">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Acceptable Limits </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.acceptableLimits}} </td>
+                            </ng-container>
+                
+                            <ng-container matColumnDef="correctiveActions">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Corrective Action </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{element.correctiveActions}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="taskTypeId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Task Type </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{ mapTaskType(element.taskTypeId)?.dropName}} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="intervalId">
+                                <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
+                                [index]="i"> Frequency </th>
+                                <td mat-cell *matCellDef="let element" class="fixWidth"> {{ mapFrequency(element.intervalId)?.dropName}} </td>
+                            </ng-container>
+                    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2; let i = index" class="table-row"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button class="btn btn-primary active" mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="AssignTask()">Assign</button>
+    <button class="btn btn-link" (click)="close()">Exit</button>
+</mat-dialog-actions>

@@ -1,0 +1,13 @@
+@import '../st-base/st-variables';
+
+.st-tooltip-link {
+    color: $gray-500;
+    cursor: help;
+    font-size: $text-base;
+    text-align:middle;
+    margin-left:8px;
+
+    &:hover {
+        color: $blue-500;
+    }
+}

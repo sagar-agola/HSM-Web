@@ -1,0 +1,43 @@
+<div *loadingIndicator="isLoading"></div>
+<div class="min-vh-100" id="ui-container" style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/main/dashboard" style="font-size: 14px;">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;"><a routerLink="/main/users-list">Users List</a></li>
+            <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">User Permissions</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="col">
+            <h6 style="margin-top: 5px; margin-left: 20px;" class="card-subtitle mb-2 text-muted"> <fa-icon [icon]="['fas', 'user-lock']" style="color: #898888;"></fa-icon> User Permissions for {{groupName}} Group</h6>
+        </div>
+    </div>
+    <div id="parent">
+        <div id="LeftCol">
+            <h6>Modules / Pages</h6>
+            <mat-selection-list #role [multiple]="false">
+                <mat-list-option *ngFor="let option of customRoleFeature, let i = index" [selected]="option && i == 0" [value]="i" style="font-size: 14px;">
+                    {{ option?.category }}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+        <div id="RightCol">
+            <div class="card">
+                <div class="card-body">
+                    <h6>Role Actions</h6>
+                    <div *ngIf="customRoleFeature" style="margin-top:20px;">
+                        <div class="row" *ngFor="let i of customRoleFeature[role.selectedOptions?.selected[0]?.value]?.items">
+                            <div class="col">
+                                <p style="font-size: 14px;"><mat-checkbox color="primary" (change)="updateRoleFeature(i.id)" [checked]="isIncludedOnCurrentItem(i.id)">{{ i.roleName }}</mat-checkbox></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group float-right align-text-bottom">
+                <button type="button" class="btn btn-primary active" style="font-size:12px; margin-top: 5px;" (click)="updatePermissions()">Save</button> &nbsp;
+                <button type="button" class="btn btn-outline-primary" style="font-size:12px; margin-top: 5px;" (click)="close()">Exit</button>
+            </div>
+        </div>
+    </div>
+</div>

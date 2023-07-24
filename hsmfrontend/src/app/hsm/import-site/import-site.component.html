@@ -1,0 +1,55 @@
+<div class="min-vh-100" id="ui-container"
+   style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+   <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+         <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Site Bulk Load Master Data</li>
+      </ol>
+   </nav>
+   <div style="margin-top: 20px;">
+      <div class="card">
+         <div class="card-body">
+            <mat-tab-group animationDuration="0ms" id="tab-group">
+               <mat-tab label="Maintainable Unit/ Item / Sub Item Data" [(activeId)]="activeId">
+                  <div class="row" style="margin-bottom: 20px;">
+                     <div class="col-4"></div>
+                     <div class="col-4" style="align-items: center; text-align: center; margin-top: 20px;">
+                       <!-- <h6>Select Source and Destination to Import</h6> -->
+                       <h6>Maintainable Unit/ Item / Sub Item Data</h6>
+                       <button type="button" class="btn btn-outline-info" style="width: 300px;"><img
+                            src="./../../../assets/images/excel-csv-import.3d49e4cc86d028d5.png">Excel & CSV</button>
+                            <br>
+                       
+                            <!-- <div class="form-group" style="text-align-last: center; padding: 0 50px 0 50px;">
+                              <label for="exampleFormControlSelect1" style="margin-top: 10px;">Destination</label>
+                              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="destinationId" (change)="destinationOnSelect($event)">
+                                <option value="0"></option>
+                                <option value="1">FMEA</option>
+                              </select>
+                            </div> -->
+                            <br>
+                       <button class="btn btn-primary" (click)="openDialogMaintainable('MaintUnit')">Import from CSV/Excel File</button>
+                     </div>
+                     <div class="col-4"></div>
+                  </div>
+               </mat-tab>
+               <mat-tab label="FMEA" [(activeId)]="activeId">
+                  <div class="row" style="margin-bottom: 20px;">
+                     <div class="col-4"></div>
+                     <div class="col-4" style="align-items: center; text-align: center; margin-top: 20px;">
+                       <!-- <h6>Select Source and Destination to Import</h6> -->
+                       <h6>FMEA</h6>
+                       <button type="button" class="btn btn-outline-info" style="width: 300px;"><img
+                            src="./../../../assets/images/excel-csv-import.3d49e4cc86d028d5.png">Excel & CSV</button>
+                            <br>
+                            <br>
+                       <button class="btn btn-primary" (click)="openDialogFMEA()">Import from CSV/Excel File</button>
+                     </div>
+                     <div class="col-4"></div>
+                  </div>
+               </mat-tab>
+            </mat-tab-group>
+         </div>
+       </div>
+    </div>
+</div>

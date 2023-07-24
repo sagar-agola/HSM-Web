@@ -1,0 +1,239 @@
+<h4 style="font-size: medium; margin: 10px;">FMEA Import</h4>
+<div class="panel-body" style="float: left; padding: 10px;">
+    <div class="row">  
+        <div class="col-lg-8">
+            <input class="form-control" type="file" (change)="onFileSelect($event)" #fileInput [(ngModel)]="fileName" />
+        </div>
+        <div class="col-lg-4">
+            <button type="button" class="btn btn-info" (click)="uploadFile(file)" [disabled]="isEmpty || loading">
+                <spinner color="white" size="xs" *ngIf="loading "></spinner>Upload
+            </button>
+        </div> 
+    </div>
+
+    <span class="upload" *ngIf="progress > 0">
+        {{progress}}%
+    </span>
+    <span class="upload" *ngIf="message">
+        {{message}}
+    </span>
+    <div style="padding-top: 20px;">
+        <button type="button" class="btn btn-light" (click)="exportToExcel()" style="font-size: 14px;">
+            <spinner color="white" size="xs" *ngIf="loading"></spinner><img src="./../../../../assets/images/excel.png"
+                height="30" width="30" />Download FMEA Template
+        </button>
+    </div>
+
+    <div class="table-responsive" hidden>
+        <table id="import-table">
+            <tbody>
+                <tr>
+                    <td>MaintainableUnit</td>
+                    <td>MaintainableItem</td>
+                    <td>MaintainableSubItem</td>
+                    <td>TaskIdentificationNo</td>
+                    <td>ComponentTaskFunction</td>
+                    <td>FailureMode</td>
+                    <td>FailureEffect</td>
+                    <td>FailureCause</td>
+                    <td>TaskDescription</td>
+                    <td>AcceptableLimits</td>
+                    <td>CorrectiveActions</td>
+                    <td>TaskType</td>
+                    <td>OperationalMode</td>
+                    <td>FailureRiskTotalScore</td>
+                    <td>Frequency</td>
+                    <td>Duration</td>
+                    <td>ResourceQuantity</td>
+                    <td>TradeType</td>
+                    <td>BuildSpec</td>
+                    <td>Manufacturer</td>
+                    <td>Comment</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{taskIdentificationNo}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Maintainable Unit -->
+    <div class="table-responsive" hidden>
+        <table id="import-maintUnit">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Component Maintainable Unit Name</td>
+                </tr>
+                <tr *ngFor="let mu of maintUnitList">
+                    <td>{{mu.id}}</td>
+                    <td>{{mu.componentTaskName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Maintainable Item -->
+    <div class="table-responsive" hidden>
+        <table id="import-maintItem">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Maintainable Item</td>
+                </tr>
+                <tr *ngFor="let mi of maintItemList">
+                    <td>{{ mi.id }}</td>
+                    <td>{{ mi.componentClass }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Maintainable Sub Item -->
+    <div class="table-responsive" hidden>
+        <table id="import-maintSubItem">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Maintainable Sub Item</td>
+                </tr>
+                <tr *ngFor="let ms of maintSubItemList">
+                    <td>{{ ms.id }}</td>
+                    <td>{{ ms.subClass }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Task Type -->
+    <div class="table-responsive" hidden>
+        <table id="import-taskType">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Task Type</td>
+                </tr>
+                <tr *ngFor="let tt of taskTypeList">
+                    <td>{{ tt.id }}</td>
+                    <td>{{ tt.taskTypeName }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Operational Mode -->
+    <div class="table-responsive" hidden>
+        <table id="import-operationalmode">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Operational Mode</td>
+                </tr>
+                <tr *ngFor="let om of operationalModeList">
+                    <td>{{ om.id }}</td>
+                    <td>{{ om.operationalModeName }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Frequency -->
+    <div class="table-responsive" hidden>
+        <table id="import-frequency">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Frequency</td>
+                </tr>
+                <tr *ngFor="let fr of frequencyList">
+                    <td>{{ fr.id }}</td>
+                    <td>{{ fr.frequencyName }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Duration -->
+    <div class="table-responsive" hidden>
+        <table id="import-duration">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Duration</td>
+                </tr>
+                <tr *ngFor="let dr of durationList">
+                    <td>{{ dr.id }}</td>
+                    <td>{{ dr.durationName }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Trade Type -->
+    <div class="table-responsive" hidden>
+        <table id="import-tradetype">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Trade Type</td>
+                </tr>
+                <tr *ngFor="let ty of tradeTypeList">
+                    <td>{{ ty.id }}</td>
+                    <td>{{ ty.tradeTypeName }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Build Spec -->
+    <div class="table-responsive" hidden>
+        <table id="import-buildspec">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Build Spec</td>
+                </tr>
+                <tr *ngFor="let bs of buildSpecTaxonomyList">
+                    <td>{{ bs.id }}</td>
+                    <td>{{ bs.buildSpec }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--Manufacturer -->
+    <div class="table-responsive" hidden>
+        <table id="import-manufacturer">
+            <tbody>
+                <tr>
+                    <td>Id</td>
+                    <td>Manufacturer</td>
+                </tr>
+                <tr *ngFor="let mf of manufacturerTaxonomyList">
+                    <td>{{ mf.id }}</td>
+                    <td>{{ mf.componentManufacturer }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

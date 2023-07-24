@@ -1,0 +1,119 @@
+<div class="min-vh-100" id="ui-container"
+   style="padding-bottom: 10px; background-color: #e9ecef !important; overflow-x: hidden;">
+   <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a routerLink="/main/dashboard"><i class="material-icons">home</i></a></li>
+         <li class="breadcrumb-item active" aria-current="page" style="font-size: 14px;">Bulk Load Master Data</li>
+      </ol>
+   </nav>
+   <div style="margin-top: 20px;">
+      <div class="card">
+         <div class="card-body">
+            <mat-tab-group animationDuration="0ms" id="tab-group">
+               <mat-tab label="Maintainable Unit/ Item / Sub Item Data" [(activeId)]="activeId">
+                  <div class="row" style="margin-bottom: 20px;">
+                     <div class="col-4"></div>
+                     <div class="col-4" style="align-items: center; text-align: center; margin-top: 20px;">
+                       <!-- <h6>Select Source and Destination to Import</h6> -->
+                       <h6>Maintainable Unit/ Item / Sub Item Data</h6>
+                       <button type="button" class="btn btn-outline-info" style="width: 300px;"><img
+                            src="./../../../assets/images/excel-csv-import.3d49e4cc86d028d5.png">Excel & CSV</button>
+                            <br>
+                       
+                            <!-- <div class="form-group" style="text-align-last: center; padding: 0 50px 0 50px;">
+                              <label for="exampleFormControlSelect1" style="margin-top: 10px;">Destination</label>
+                              <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="destinationId" (change)="destinationOnSelect($event)">
+                                <option value="0"></option>
+                                <option value="1">FMEA</option>
+                              </select>
+                            </div> -->
+                            <br>
+                       <button class="btn btn-primary" (click)="openDialogMaintainable('MaintUnit')">Import from CSV/Excel File</button>
+                     </div>
+                     <div class="col-4"></div>
+                  </div>
+               </mat-tab>
+               <mat-tab label="FMEA" [(activeId)]="activeId">
+                  <div class="row" style="margin-bottom: 20px;">
+                     <div class="col-4"></div>
+                     <div class="col-4" style="align-items: center; text-align: center; margin-top: 20px;">
+                       <!-- <h6>Select Source and Destination to Import</h6> -->
+                       <h6>FMEA</h6>
+                       <button type="button" class="btn btn-outline-info" style="width: 300px;"><img
+                            src="./../../../assets/images/excel-csv-import.3d49e4cc86d028d5.png">Excel & CSV</button>
+                            <br>
+                            <br>
+                       <button class="btn btn-primary" (click)="openDialogFMEA()">Import from CSV/Excel File</button>
+                     </div>
+                     <div class="col-4"></div>
+                  </div>
+               </mat-tab>
+               <!-- <mat-tab label="Asset Hierarchy" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center;">
+                     <assethierarchy-import></assethierarchy-import>
+                  </div>
+               </mat-tab> -->
+               
+               <!-- <mat-tab label="Maintainable Item" [(activeId)]="activeId">
+                  <div class="row" style="margin-bottom: 20px;">
+                     <div class="col-4"></div>
+                     <div class="col-4" style="align-items: center; text-align: center; margin-top: 20px;">
+                       <h6>Maintainable Item</h6>
+                       <button type="button" class="btn btn-outline-info" style="width: 300px;"><img
+                            src="./../../../assets/images/excel-csv-import.3d49e4cc86d028d5.png">Excel & CSV</button>
+                            <br>
+                            <br>
+                       <button class="btn btn-primary" (click)="openDialogMaintainable('MaintItem')">Import from CSV/Excel File</button>
+                     </div>
+                     <div class="col-4"></div>
+                  </div>
+               </mat-tab>
+               <mat-tab label="Maintainable Sub Item" [(activeId)]="activeId">
+                  <div class="row" style="margin-bottom: 20px;">
+                     <div class="col-4"></div>
+                     <div class="col-4" style="align-items: center; text-align: center; margin-top: 20px;">
+                       <h6>Maintainable Sub Item</h6>
+                       <button type="button" class="btn btn-outline-info" style="width: 300px;"><img
+                            src="./../../../assets/images/excel-csv-import.3d49e4cc86d028d5.png">Excel & CSV</button>
+                            <br>
+                            <br>
+                       <button class="btn btn-primary" (click)="openDialogMaintainable('MaintSubItem')">Import from CSV/Excel File</button>
+                     </div>
+                     <div class="col-4"></div>
+                  </div>
+               </mat-tab> -->
+               <!-- <mat-tab label="Asset Class" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center;">
+                     <componenthierarchy-import></componenthierarchy-import>
+                  </div>
+               </mat-tab>
+               <mat-tab label="Site Asset Class" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center;">
+                     <categoryhierarchysite-import></categoryhierarchysite-import>
+                  </div>
+               </mat-tab> -->
+               <!-- <mat-tab label="EAM Plan" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center; margin-bottom: 20px;">
+                     <eamplan-import></eamplan-import>
+                  </div>
+               </mat-tab>
+               <mat-tab label="Maintenance Item" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center;">
+                     <maintitem-import></maintitem-import>
+                  </div>
+               </mat-tab>
+               <mat-tab label="Maintenance Plan" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center;">
+                     <maintplan-import></maintplan-import>
+                  </div>
+               </mat-tab>
+               <mat-tab label="Tasklist" [(activeId)]="activeId">
+                  <div style="margin-top: 30px; align-items: center;">
+                     <tasklist-import></tasklist-import>
+                  </div>
+               </mat-tab> -->
+            </mat-tab-group>
+         </div>
+      </div>
+   </div>
+</div>

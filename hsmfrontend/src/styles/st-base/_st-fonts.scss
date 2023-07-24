@@ -1,0 +1,16 @@
+﻿@import '../st-base/st-variables';
+
+.text-xs            { font-size: $text-xs;            }
+.text-small         { font-size: $text-small;         }
+.text-base          { font-size: $text-base;          }
+.text-large         { font-size: $text-large;         }
+.text-xl            { font-size: $text-xl;            }
+.text-2xl           { font-size: $text-2xl;           }
+.text-3xl           { font-size: $text-3xl;           }
+.text-4xl           { font-size: $text-4xl;           }
+.text-5xl           { font-size: $text-5xl;           }
+
+.font-light         { font-weight: $font-light;       }
+.font-regular       { font-weight: $font-regular;     }
+.font-semi-bold     { font-weight: $font-semi-bold;   }
+.font-bold          { font-weight: $font-bold;        }

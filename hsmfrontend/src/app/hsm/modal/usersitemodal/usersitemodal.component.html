@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <p style="color: black;"> {{mode}} Site</p>
+      <hr>
+</div>
+<div class="modal-body"> 
+    <mat-dialog-content>
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="st-label">Site Name</label>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Enter Site Name" [(ngModel)]="siteName">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="st-label">Customer Name</label>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="form-group">
+                    <select class="form-control" id="customerId" [(ngModel)]="customerId" (change)="customerOnselect($event)" [ngModelOptions]="{standalone: true}" style="font-size: 12px;">
+                        <option value=""></option>
+                        <option *ngFor="let ct of customerList" [value]="ct.id">{{ ct.customerName }}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-group">
+            <button class="btn btn-outline-primary" (click)="close()" style="font-size: 11px;">Cancel</button>
+            <button class="btn btn-primary lg active" (click)="saveChanges()" *ngIf="!isEdit" style="font-size: 11px;"> Save </button>
+            <button class="btn btn-primary lg active" (click)="updateChanges()" *ngIf="isEdit" style="font-size: 11px;"> Update </button>
+        </div>
+    </mat-dialog-content>
+</div>

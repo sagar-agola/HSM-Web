@@ -1,0 +1,24 @@
+@import '../st-base/st-variables';
+
+.alert-danger {     border-color:       $red-500;
+                    background-color:   $red-100;
+                    color:              $red-700; }
+
+.alert-warning {    border-color:       $yellow-500;
+                    background-color:   $yellow-100;
+                    color:              $yellow-800; }
+
+.alert-success {    border-color:       $green-500;
+                    background-color:   $green-100;
+                    color:              $green-800; }
+
+.alert-info {       border-color:       $blue-400;
+                    background-color:   $blue-100;
+                    color:              $blue-800;}
+
+.alert-purple {     border-color:       $purple-400;
+                    background-color:   $purple-100;
+                    color:              $purple-800; }
+
+.border-dotted-2 {  border-width:       2px;
+                    border-style:       dashed; }
