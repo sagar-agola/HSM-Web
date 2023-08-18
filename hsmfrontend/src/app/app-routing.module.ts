@@ -51,6 +51,7 @@ import { AssetTaskGroupStrategySiteFormComponent } from './hsm/assettaskgroupstr
 import { AssetTaskGroupSiteEditComponent } from './hsm/assettaskgroupstrategy/assettaskgroupstrategysiteedit/assettaskgroupstrategysiteedit.component';
 import { ImportSiteComponent } from './hsm/import-site/import-site.component';
 import { GenerateReportPocComponent } from './hsm/generate-report-poc/generate-report-poc.component';
+import { AssetTaskGroupStrategyHsmReportComponent } from './hsm/assettaskgroupstrategyhsm/assettaskgroupstrategyhsmreport/assettaskgroupstrategyhsmreport.component';
 
 // Authguards
 
@@ -82,6 +83,7 @@ const APP_ROUTES: Routes = [
           {path: 'site-task-group-edit/:id', component: AssetTaskGroupSiteEditComponent},
           {path: 'hsm-task-group-form', component: AssetTaskGroupStrategyHsmFormComponent},
           {path: 'hsm-task-group-edit/:id', component: AssetTaskGroupHsmEditComponent},
+          {path: 'hsm-task-group-report/:id/:hierarchyId', component: AssetTaskGroupStrategyHsmReportComponent},
           {path: 'asset-task-group-edit/:id', component: AssetTaskGroupEditComponent},
           {path: 'assign-asset-strategygroup', component: AssignAssetStrategyGroupComponent},
           {path: 'setup-page', component: SetupComponent},
@@ -104,8 +106,7 @@ const APP_ROUTES: Routes = [
           {path: 'user-profile/:id', component: UsersProfileComponent},
           {path: 'component-task-list', component: ComponentTaskListComponent},
           {path: 'site-component-task-list', component: ComponentTaskListSiteComponent},
-          {path: 'asset-class-setup', component: AssetClassSetupComponent},
-          {path: 'reports-poc', component: GenerateReportPocComponent}
+          {path: 'asset-class-setup', component: AssetClassSetupComponent}
       ]
     },
     {path: 'login', component: LoginFormComponent},

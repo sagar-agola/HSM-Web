@@ -1,0 +1,33 @@
+.min-vh-100 {
+  min-height: calc(100vh - 40px) !important;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 2fr 12fr;
+
+  .fields-container {
+    background-color: whitesmoke;
+    text-align: center;
+    padding: 24px 12px 12px 12px;
+
+    .list-container {
+      text-align: left;
+      margin-top: 12px;
+    }
+
+    .merge-command {
+      margin-top: 12px;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  .document-container {
+    ejs-documenteditorcontainer {
+      display: block;
+    }
+  }
+}

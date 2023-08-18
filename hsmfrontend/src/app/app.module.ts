@@ -156,6 +156,7 @@ import { AssignTaskModalComponent } from './hsm/modal/assigntaskmodal/assigntask
 import { AssetTaskGroupStrategyHsmComponent } from './hsm/assettaskgroupstrategyhsm/assettaskgroupstrategyhsm.component';
 import { AssetTaskGroupStrategyHsmFormComponent } from './hsm/assettaskgroupstrategyhsm/assettaskgroupstrategyhsmform/assettaskgroupstrategyhsmform.component';
 import { AssetTaskGroupStrategySiteFormComponent } from './hsm/assettaskgroupstrategy/assettaskgroupstrategysiteform/assettaskgroupstrategysiteform.component';
+import { AssetTaskGroupStrategyHsmReportComponent } from './hsm/assettaskgroupstrategyhsm/assettaskgroupstrategyhsmreport/assettaskgroupstrategyhsmreport.component';
 import { AttachTaskModalComponent } from './hsm/modal/attachtaskmodal/attachtaskmodal.component';
 import { AssetTaskGroupHsmEditComponent} from './hsm/assettaskgroupstrategyhsm/assettaskgroupstrategyhsmedit/assettaskgroupstrategyhsmedit.component';
 import { AssetTaskGroupSiteEditComponent } from './hsm/assettaskgroupstrategy/assettaskgroupstrategysiteedit/assettaskgroupstrategysiteedit.component';
@@ -401,6 +402,7 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
     AssetTaskGroupStrategyHsmComponent,
     AssetTaskGroupStrategyHsmFormComponent,
     AssetTaskGroupStrategySiteFormComponent,
+    AssetTaskGroupStrategyHsmReportComponent,
     AssetTaskGroupHsmEditComponent,
     AssetTaskGroupSiteEditComponent,
     FMEASiteComponent,

@@ -238,7 +238,10 @@
                                 <th mat-header-cell *matHeaderCellDef [resizeColumn]="true"
                                 [index]="i"> </th>
                                 <td mat-cell *matCellDef="let element" class="fixWidth">
-                                    <button (click)="downloadWorkIns(element.id, element.assetHierarchyId, element.taskGroupDescription)"><i class="fa fas fa-file-word-o" style="font-size: 16px; color: #2980b9;"></i></button>
+                                    <!-- <button (click)="downloadWorkIns(element.id, element.assetHierarchyId, element.taskGroupDescription)"><i class="fa fas fa-file-word-o" style="font-size: 16px; color: #2980b9;"></i></button> -->
+                                    <button [routerLink]="['/main/hsm-task-group-report/', element.id, element.assetHierarchyId ]" >
+                                        <i class="fa fas fa-file-word-o" style="font-size: 16px; color: #2980b9;"></i>
+                                    </button>
                                     <!-- <button><mat-icon style="color: green; font-size: 16px;" (click)="downloadWorkIns(element.id, element.taskGroupDescription)">cloud_upload</mat-icon></button> -->
                                 </td>
                             </ng-container>
