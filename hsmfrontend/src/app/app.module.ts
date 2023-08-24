@@ -311,6 +311,8 @@ import { GenerateReportPocComponent } from './hsm/generate-report-poc/generate-r
 import { DocumentEditorContainerAllModule } from '@syncfusion/ej2-angular-documenteditor';
 import { ListViewAllModule } from '@syncfusion/ej2-angular-lists';
 import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
+import { DialogModule } from '@syncfusion/ej2-angular-popups';
+import { UploaderModule } from '@syncfusion/ej2-angular-inputs';
 // import { ResizableModule } from './hsm/directives/resizeable/resizeable.module';
 
 //Font Awesome's Angular Package
@@ -543,6 +545,8 @@ import { ButtonModule } from '@syncfusion/ej2-angular-buttons';
     DocumentEditorContainerAllModule,
     ListViewAllModule,
     ButtonModule,
+    DialogModule,
+    UploaderModule
     // BsDatepickerModule.forRoot()
   ],  
   providers: [

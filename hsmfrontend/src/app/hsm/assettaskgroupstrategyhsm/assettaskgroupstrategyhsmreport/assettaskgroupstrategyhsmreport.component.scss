@@ -31,3 +31,22 @@
     }
   }
 }
+
+.text-strike-through {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #000;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+
+.text-strike-through span {
+  background: #fff;
+  font-weight: bold;
+  font-size: 1.05rem;
+  padding: 0 10px;
+}
+
+ejs-dialog {
+  top: 130px !important;
+}

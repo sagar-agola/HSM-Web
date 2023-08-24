@@ -1,18 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DocumentEditorContainerComponent } from '@syncfusion/ej2-angular-documenteditor';
+import { SelectedEventArgs, UploaderComponent } from '@syncfusion/ej2-angular-inputs';
+import { DialogComponent, PositionDataModel } from '@syncfusion/ej2-angular-popups';
+import { EmitType } from '@syncfusion/ej2-base';
 
 @Component({
   selector: 'app-assettaskgroupstrategyhsmreport',
   templateUrl: './assettaskgroupstrategyhsmreport.component.html',
   styleUrls: ['./assettaskgroupstrategyhsmreport.component.scss']
 })
-export class AssetTaskGroupStrategyHsmReportComponent implements OnInit {
+export class AssetTaskGroupStrategyHsmReportComponent implements OnInit, AfterViewInit {
 
   isLoading: boolean = false;
   @ViewChild('documenteditor_ref') container!: DocumentEditorContainerComponent;
-  
+  @ViewChild('defaultupload') uploadObj!: UploaderComponent;
+
+  @ViewChild('dialogTemplate') dialogTemplate: DialogComponent | any;
+  @ViewChild('dialogRootContainer', { read: ElementRef }) dialogRootContainer: ElementRef | any;
+  // The Dialog shows within the target element.
+  public dialogTargetElement?: HTMLElement;
+
   serviceLink: string = 'https://localhost:44372/api/WordEditor/';
 
   id: number = 0;
@@ -61,6 +70,19 @@ export class AssetTaskGroupStrategyHsmReportComponent implements OnInit {
     },
   ];
 
+  isTemplatesLoading: boolean = false;
+  templateFields: Object = { text: 'title', id: 'id' };
+  templates: any[] = [];
+
+  dialogPosition: PositionDataModel = {
+    X: "center",
+    Y: "top"
+  };
+
+  uploaderPaths = {
+    saveUrl: this.serviceLink + "UploadTemplate"
+  };
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient
@@ -70,7 +92,24 @@ export class AssetTaskGroupStrategyHsmReportComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params.id;
       this.hierarchyId = params.hierarchyId;
-    })
+    });
+
+    this.getWordTemplates();
+  }
+
+  ngAfterViewInit(): void {
+    this.dialogTargetElement = this.dialogRootContainer.nativeElement.parentElement;
+    this.uploadObj.on("onFileUpload", (event: any) => console.log(event));
+  }
+
+  onTemplateSelect(event: any): void {
+    this.container.documentEditor.open(event.data.content);
+    this.dialogTemplate.hide();
+  }
+
+  onFileUploading(args: any): EmitType<SelectedEventArgs> {
+    args.customFormData = [{ 'UserId': localStorage.getItem("loggUserId") }];
+    return args;
   }
 
   onCreate(): void {
@@ -103,6 +142,16 @@ export class AssetTaskGroupStrategyHsmReportComponent implements OnInit {
   onFieldSelect(args: any): void {
     let fieldName: any = args.item.textContent;
     this.insertField(fieldName);
+  }
+
+  getWordTemplates(): void {
+    this.isTemplatesLoading = true;
+    this.http.get<any[]>(`${this.serviceLink}GetTemplates/${localStorage.getItem("loggUserId")}`).subscribe({
+      next: (templates: any[]) => {
+        this.templates = templates;
+      },
+      complete: () => this.isTemplatesLoading = false
+    });
   }
 
   download(): void {
